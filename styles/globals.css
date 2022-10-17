@@ -1,26 +1,185 @@
-html,
-body {
-  padding: 0;
+html,body{
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 }
 
-a {
-  color: inherit;
+.loginPage{
+  position: absolute;
+  top: 0;
+  left: 0; 
+  right: 0;
+  bottom: 0;
+  height: 100%;
+  width: 100%;
+  background-color: #2c346b;
+  padding-right: 0;
+  padding-left: 0;
+
+}
+.titles{
+  /* margin-left: 20%; */
+  margin-top: 10%;
+  text-align: center;
+}
+.title{
+  color:#e1f16b;
+  font-size: 9vh;
+}
+.subTitle{
+  color:#e1f16b;
+  margin-top: 1%;
+
+}
+
+.img{
+  margin-top: 15%;
+  text-align: center;
+  padding: 0;
+  background-color: #2c346b;
+}
+.image{
+  /* max-width: 100%;
+  height: auto;
+  width: auto; ie8 */
+  height: 80%;
+}
+.signInButton{
+  margin-right: 2%;
+  font-weight: bold;
+}
+.signInButton:hover{
+  background-color: #e1f16b !important;
+}
+.signUpButton{
+  margin-left:2%;
+  font-weight: bold;
+}
+.signUpButton:hover{
+  background-color: #e1f16b !important;
+}
+.signInForm{
+  background-color: rgba(255, 255, 255, 0.779);
+  border: solid;
+  padding: 15px;
+  border-radius: 10px;
+  /* text-align: center; */
+  width: 50%;
+  height:60%;
+}
+
+.loginTitle{
+  color:#2c346b;
+  text-align: center;
+}
+
+.formSub{
+  color: #2c346b !important;
   text-decoration: none;
 }
-
-* {
-  box-sizing: border-box;
+.formsubTitles{
+  text-align: center;
+}
+.emailSubText{
+  text-decoration: none;
+  display: inline-block;
+  color: #2c346b !important;
+  text-align: center;
+}
+.emailSubText:hover{
+  color:#ff8c00 !important;
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
-  body {
-    color: white;
-    background: black;
-  }
+.signUpHere{
+  margin-right: 0.5rem;
+}
+.emailInput{
+  margin-bottom: 5%;
+  margin-top: 1%;
+  border: none !important;
+  border-bottom: solid #2c346b !important;
+  border-radius: 0 !important;
+  width: 100%;
+  padding-left:0 !important;
+  padding-right:0 !important;
+
+  background-color: transparent !important;
+  outline: none;
+}
+.emailInput:hover{
+  border: none !important;
+  border-bottom: solid #2c346b !important;
+  border-radius: 0 !important;
+}
+.emailInput:focus{
+  box-shadow: none !important;
+  border-bottom: solid black !important;
+  /* background-color: white !important; */
+}
+.submitButtonContainer{
+  text-align: center;
+}
+.submitButton{
+  color: black;
+}
+.submitButton:hover{
+  background-color: green;
+  color: white;
+}
+
+.myName{
+  margin-top: 1%;
+  font-style:italic;
+  color: aliceblue;
+  text-decoration: none;
+}
+.myName:hover{
+  color:#e1f16b;
+}
+.signup{
+  background-color: #b6ccd7;
+  height: 10vh;
+  margin-left: 10%;
+  margin-right: 10%;
+  border-radius: 15px;
+  margin-bottom: 7%;
+}
+
+.image{
+  max-height: 40vh;
+}
+.bgColor{
+  background-color: #2c346b;
+  height:100vh;
+}
+.signInPage{
+  display: flex;
+  /* justify-content: center; */
+  justify-content: space-around;
+  align-items: center;
+}
+.manage{
+  background-color: #f9b666;
+  height: 10vh;
+  margin-left: 10%;
+  margin-right: 10%;
+  border-radius: 15px;
+}
+.getMost{
+  background-color: antiquewhite;
+}
+.al{
+  text-align: center;
+  margin-right: 0;
+}
+.LinkButton{
+  border: none;
+  border-radius: 0.125rem;
+  padding:0.25rem;
+}
+.LinkButton a{
+  text-decoration: none;
+  color:#2c346b;
+}
+.LinkButton a:hover{
+  text-decoration: none;
+  color:#2c346b;
 }
