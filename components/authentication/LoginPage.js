@@ -1,91 +1,54 @@
-import { useState, useContext } from "react";
-import SignIn from "../SignIn/SignIn";
-import SignUp from "../SignUp/SignUp";
-import Reset from "../ResetPass/Reset";
-import classes from "./authentication.module.css";
-import context from "../store/context";
+import NavBar from "../Navbar/NavBar";
+import Container from "react-bootstrap/Container";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
+import Carousel from "react-bootstrap/Carousel";
 import Image from "next/image";
-import LinkButton from "../helpers/LinkButton";
-import Link from "next/link";
+import c1 from "../pictures/1.png";
+import c2 from "../pictures/2.png";
+import { LandingPageE1 } from "./LandingPageE1";
+import { LandingPageE2 } from "./LandingPageE2";
+import { LandingPageE3 } from "./LandingPageE3";
+// import { Footer } from "../Footer/Footer";
+
 export default function LogInPage() {
-  const [loggin, setLoggIn] = useState(false);
-  const [signup, setSignUp] = useState(false);
-  const [forgotPassword, setForgotPassword] = useState(false);
-  const authCtx = useContext(context);
-
-  function signInHandler() {
-    setLoggIn(true);
-  }
-  function signUpHandler() {
-    setSignUp(true);
-  }
-
-  function takeMeToSignUp() {
-    setForgotPassword(false);
-    setLoggIn(false);
-    setSignUp(true);
-  }
-
-  function takeMeToSignIn() {
-    setForgotPassword(false);
-    setLoggIn(true);
-    setSignUp(false);
-  }
-
-  function takeMeToResetPassword() {
-    setLoggIn(false);
-    setSignUp(false);
-    setForgotPassword(true);
-  }
   return (
-    <>
-      <div className={`container-fluid ${classes.loginPage}`}>
-        {authCtx.justSignedUp && (
-          <div class="alert alert-warning al" role="alert">
-            Please Verify Your Email To Login (Check Junk)!
-          </div>
-        )}
-        {authCtx.errorMessage && (
-          <div class="alert alert-warning al" role="alert">
-            {authCtx.errorMessage}
-          </div>
-        )}
-
-        <div class="row">
-          <div class="col-xl-10"></div>
-          <div class={`col-xl-2 text-center ${classes.myName}`}>
-            <a
-              href="https://www.linkedin.com/in/ramy-attalla/"
-              className={classes.myName}
-              target='_blank' rel="noreferrer"
-            >
-              Developed By Ramy Attalla
-            </a>
-          </div>
+    <Container classname="HomePage" fluid>
+      <Row>
+        <div className="carouselRow">
+          <Carousel controls={false} indicators={false} class="homeCarousel">
+            <Carousel.Item>
+              <Image
+                className="d-block w-100"
+                src={c1}
+                alt="First slide"
+                width="1000px"
+                height="600px"
+              />
+            </Carousel.Item>
+            <Carousel.Item>
+              <Image
+                className="d-block w-100"
+                src={c2}
+                alt="Second slide"
+                width="1000px"
+                height="600px"
+              />
+            </Carousel.Item>
+          </Carousel>
         </div>
-        <div class="row height">
-          <div class="col-xl-2"></div>
-          <div class="col-xl-8 height text-center">
-            <div className={classes.titles}>
-              <h1 className={classes.title}>Financier</h1>
-              {loggin == false && signup == false && forgotPassword == false && (
-                <>
-                  <h1 className={classes.subTitle}>Manage Your Finances Now!</h1>
-                  <LinkButton style={{backgroundColor: 'white',}} className="signInButton">
-                    <Link href="/signin">Sign-In!</Link>
-                  </LinkButton>
-                  <LinkButton style={{backgroundColor: '#e598d8'}}  className="signUpButton">
-                    <Link href="/signup">Sign-Up!</Link>
-                  </LinkButton>
-                </>
-              )}
-            </div>
-          </div>
-          <div class="col-xl-2"></div>
-        </div>
-        <br></br>
-            {/* Maybe New Logo Here! */}
-      </div>
-    </>
+      </Row>
+      <Row>
+        <Col md={4}>
+          <LandingPageE1 />
+        </Col>
+        <Col md={4}>
+          <LandingPageE2 />
+        </Col>
+        <Col md={4}>
+          <LandingPageE3 />
+        </Col>
+      </Row>
+    </Container>
   );
 }
