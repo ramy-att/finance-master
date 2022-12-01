@@ -9,9 +9,9 @@ export const LandingPageE2 = () => {
       <div className="LandingPageE1">
         <h1 className="landingETitle">Budget!</h1>
         <Image src={budget} alt="Budget" width="200" height="200" />
-        <div className="LandingElementsButton">
+        {/* <div className="LandingElementsButton">
           <Button class="LandingEBtn">Manage</Button>
-        </div>
+        </div> */}
       </div>
     </Link>
   );

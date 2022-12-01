@@ -9,8 +9,35 @@ const checkVerification = async (userInfo) => {
     }),
   });
   const result = await response.json();
-  result["users"][0].emailVerified;
-  return { userVerification: result["users"][0].emailVerified };
+  return result;
+};
+const getUserExpenses = async (localId, token) => {
+  const url =
+    "https://financier-2022-default-rtdb.firebaseio.com/users/" +
+    localId +
+    "/expenses.json?auth=" +
+    token;
+  const response = await fetch(url, {
+    method: "GET",
+    header: { "Content-Type": "application/json" },
+  });
+  const result = await response.json();
+  console.log(result);
+  return result;
+};
+const getUserIncomes = async (localId, token) => {
+  const url =
+    "https://financier-2022-default-rtdb.firebaseio.com/users/" +
+    localId +
+    "/incomes.json?auth=" +
+    token;
+  const response = await fetch(url, {
+    method: "GET",
+    header: { "Content-Type": "application/json" },
+  });
+  const result = await response.json();
+  console.log(result);
+  return result;
 };
 async function handler(req, res) {
   const signUpLink =
@@ -35,15 +62,32 @@ async function handler(req, res) {
 
     // Some error occured
     if (result && result.error && result.error.message) {
-      return res.status(200).json({ error: result.error.message });
+      return res
+        .status(200)
+        .json({
+          error:
+            result.error.message == "INVALID_PASSWORD" ||
+            result.error.message == "EMAIL_NOT_FOUND"
+              ? "Incorrect Credentials"
+              : result.error.message,
+        });
     } else {
       const resultVerified = await checkVerification(result);
-      console.log(resultVerified);
-      if (resultVerified.userVerification === true) {
+      const ver = resultVerified.users[0]["emailVerified"];
+      if (ver === true) {
+        // Fetch Actual User Info
+        const expenses = await getUserExpenses(result.localId, result.idToken);
+        const incomes = await getUserIncomes(result.localId, result.idToken);
+
         res.status(200).json({
-          idToken: result.idToken,
-          email: result.email,
-          localId: result.localId,
+          expenses: { ...expenses },
+          incomes: incomes === null ? {} : incomes,
+          // investments: investments,
+          userInfo: {
+            idToken: result.idToken,
+            email: result.email,
+            localId: result.localId,
+          },
         });
       } else {
         res.status(200).json({
@@ -55,3 +99,14 @@ async function handler(req, res) {
 }
 
 export default handler;
+// if (resultVerified.userVerification === true) {
+//   res.status(200).json({
+//     idToken: result.idToken,
+//     email: result.email,
+//     localId: result.localId,
+//   });
+// } else {
+//   res.status(200).json({
+//     error: "Email Not Verified",
+//   });
+// }

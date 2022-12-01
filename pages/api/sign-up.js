@@ -14,10 +14,10 @@ const createExp = async (local, token, id, title) => {
     }),
     header: { "Content/type": "application/json" },
   });
+  const x = await response.json();
 };
 
-const createStarterExpenses = async (local, token) => {
-  console.log("add expesnes");
+const createStarterExpenses = async (UID, token) => {
   const data = [
     [
       "Rent/Mortgage",
@@ -59,15 +59,17 @@ const createStarterExpenses = async (local, token) => {
     "Health Care",
     "Credit Cards",
   ].reverse();
-  const url = "https://financier-2022-default-rtdb.firebaseio.com/users/";
-  local + "/expenses.json?auth=" + token;
+  const url =
+    "https://financier-2022-default-rtdb.firebaseio.com/users/" +
+    UID +
+    "/expenses.json?auth=" +
+    token;
   for (let i = 0; i < categories.length; i++) {
     const response = await fetch(url, {
       method: "POST",
       body: JSON.stringify({
         title: categories[i],
         expenses: [],
-        categoryTotal: 0,
       }),
       header: { "Content/type": "application/json" },
     });
@@ -75,10 +77,11 @@ const createStarterExpenses = async (local, token) => {
     const id = x.name;
     const arr = data[i];
     for (let a = arr.length - 1; a >= 0; a--) {
-      createExp(local, token, id, arr[a]);
+      createExp(UID, token, id, arr[a]);
     }
   }
 };
+// Send Verification Email
 const verifyUser = async (userInfo) => {
   const verifyUrl =
     "https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=AIzaSyAOeJauXZyUAUKrlDjsPit1WghL8gP_Ipg";
@@ -91,7 +94,7 @@ const verifyUser = async (userInfo) => {
     }),
   });
   const result = await response.json();
-  return {userVerification:'sent'};
+  return { userVerification: "sent" };
 };
 const handler = async (req, res) => {
   const signUpLink =
@@ -118,7 +121,7 @@ const handler = async (req, res) => {
       return res.status(200).json({ error: result.error.message });
     } else {
       // Sign up successful
-      // createStarterExpenses(result.localId, result.idToken);
+      createStarterExpenses(result.localId, result.idToken);
       verifyUser(result);
       res.status(200).json({
         idToken: result.idToken,

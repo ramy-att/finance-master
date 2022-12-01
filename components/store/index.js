@@ -1,15 +1,21 @@
 import { createSlice, configureStore, combineReducers } from "@reduxjs/toolkit";
-import { persistStore, persistReducer,FLUSH,
+import {
+  persistStore,
+  persistReducer,
+  FLUSH,
   REHYDRATE,
   PAUSE,
   PERSIST,
   PURGE,
-  REGISTER, } from "redux-persist";
+  REGISTER,
+} from "redux-persist";
 import storage from "redux-persist/lib/storage"; // defaults to localStorage for web
 
 const initialState = {
   isAuthenticated: false,
-  userData: {},
+  userInfo: {},
+  userExpenses: {},
+  userIncomes: {},
 };
 
 const authenSlice = createSlice({
@@ -18,45 +24,45 @@ const authenSlice = createSlice({
   reducers: {
     login(state, action) {
       state.isAuthenticated = true;
-      state.userData = action.payload;
-      sessionStorage.setItem("userAuth", true);
-      sessionStorage.setItem("userInfo", action.payload);
+      state.userInfo = action.payload.userInfo;
+      state.userExpenses = action.payload.expenses;
+      state.userIncomes = action.payload.incomes;
     },
     logout(state) {
       state.isAuthenticated = false;
-      state.userData = {};
-      sessionStorage.removeItem("userAuth");
-      sessionStorage.removeItem("userInfo");
+      state.userInfo = {};
+      state.userExpenses = {};
+      state.userIncomes = {};
+    },
+    updateExpenses(state, action) {
+      state.userExpenses = action.payload;
+    },
+    updateIncomes(state, action) {
+      state.userIncomes = action.payload;
+    },
+    updateUserData(state, action) {
+      state.userExpenses = action.payload.expenses;
+      state.userIncomes = action.payload.incomes;
     },
   },
 });
 
-// const store = configureStore({
-//   reducer: { auth: authenSlice.reducer },
-// });
-// const persistConfig = {
-//   key: 'root',
-//   version: 1,
-//   storage,
-// }
 const persistConfig = {
   timeout: 1, //Set the timeout function to 2 seconds
-  key: 'root',
+  key: "root",
   storage,
-  };
-const persistedReducer = persistReducer(persistConfig, authenSlice.reducer)
+};
+const persistedReducer = persistReducer(persistConfig, authenSlice.reducer);
 
 const store = configureStore({
-    // reducer: { auth: authenSlice.reducer },
-    reducer: persistedReducer,
-    middleware: (getDefaultMiddleware) =>
+  reducer: persistedReducer,
+  middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
     }),
-  });
-
+});
 
 export const authActions = authenSlice.actions;
 export default store;

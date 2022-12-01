@@ -35,11 +35,11 @@ export const Footer = () => {
             <div className="footerCol">
               <h1>Navigation</h1>
               <div className="footerSection">
-                <a href="">Sign Up</a>
+                <a href="/about-us">About Us and Our Policies</a>
                 <br />
                 <a href="">Sign In</a>
                 <br />
-                <a href="">About Us</a>
+                <a href="">Sign Up</a>
               </div>
             </div>
           </Col>

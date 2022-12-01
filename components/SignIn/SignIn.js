@@ -6,13 +6,14 @@ import Row from "react-bootstrap/Row";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Link from "next/link";
+import { Alert } from "react-bootstrap";
 function SignIn() {
   const email = useRef();
   const password = useRef();
   const [error, setError] = useState("");
 
   // Redux dispatch
-  const dispatch= useDispatch();
+  const dispatch = useDispatch();
 
   const submitHandler = async (evt) => {
     evt.preventDefault();
@@ -33,10 +34,16 @@ function SignIn() {
     const result = await response.json();
     if (result && result.error) {
       const error = result.error;
-      console.log(error);
+      setError(error);
+      setTimeout(() => {
+        setError("");
+      }, "5000");
     } else {
       // Save user data - redux
-      dispatch(authActions.login(result))
+      // result is the payload
+      // result.userInfo is the user authen info, result.expenses is the user expenses
+      console.log(result)
+      dispatch(authActions.login(result)); 
     }
     email.current.value = "";
     password.current.value = "";
@@ -44,6 +51,11 @@ function SignIn() {
   return (
     <Container fluid>
       <Row>
+      {error && (
+          <Alert className="errorAlert" key="danger" variant="danger">
+            {error}
+          </Alert>
+        )}
         <div className="signInPage">
           <div className="signInContainer">
             <Form onSubmit={submitHandler}>

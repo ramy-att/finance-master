@@ -1,123 +1,171 @@
- :root {
-  --blue-gray: #627D98;
-  --light-gray: #F0F4F8;
-  --blue-gray-01: #D9E2EC;
-  --blue-gray-02: #BCCCDC;
-  --blue-gray-03: #9FB3C8;
-  --blue-gray-04: #829AB1;
-  --blue-gray-05: #627D98;
+:root {
+  --blue-gray: #627d98;
+  --light-gray: #f0f4f8;
+  --blue-gray-01: #d9e2ec;
+  --blue-gray-02: #bcccdc;
+  --blue-gray-03: #9fb3c8;
+  --blue-gray-04: #829ab1;
+  --blue-gray-05: #627d98;
   --blue-gray-06: #486581;
-  --blue-gray-07: #334E68;
-  --blue-gray-08: #243B53;
-  --blue-gray-09: #102A43;
+  --blue-gray-07: #334e68;
+  --blue-gray-08: #243b53;
+  --blue-gray-09: #102a43;
 }
-.navBar{
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+input {
+  box-shadow: none !important;
+}
+select {
+  box-shadow: none !important;
+}
+input:focus {
+  border-color: var(--blue-gray-07) !important;
+}
+select:focus {
+  border-color: var(--blue-gray-07) !important;
+}
+select:hover {
+  cursor: pointer;
+}
+option:hover {
+  cursor: pointer !important;
+  background-color: red !important;
+}
+.navBar {
   background-color: var(--blue-gray-07) !important;
 }
-.navBar a{
+.navBar a {
   color: white;
 }
-.navBar a:hover{
+.navBar a:hover {
   color: var(--blue-gray-02);
 }
-
-.HomePage{
+.navbar-toggler:focus{
+  box-shadow: none !important;
+}
+.HomePage {
   background-color: var(--blue-gray-09) !important;
 }
-.carouselRow{
+.carouselRow {
   display: flex;
   justify-content: center;
   margin-top: 2rem !important;
 }
-.signInPage{
+.signInPage {
   display: flex;
   justify-content: center;
   background-color: var(--blue-gray-09);
   height: calc(100vh - 78px);
 }
-.signInContainer{
+.signInContainer {
   display: flex;
   flex-direction: column;
   width: 60%;
   height: fit-content;
   overflow-y: auto;
   overflow-x: hidden;
-  margin-top: 3rem;
+  /* margin-top: 3rem; */
+  margin-top: 15vh;
   border-radius: 15px;
   padding: 1rem;
   background-color: var(--light-gray);
 }
-.signInHeader{
+.signInHeader {
   text-align: center;
   font-size: 2rem;
-  color: var(--blue-gray-09)
+  color: var(--blue-gray-09);
 }
-.buttonContainer{
+.buttonContainer {
   position: relative;
-  top:5px;
+  top: 5px;
   left: calc(50% - 37.8px);
 }
-.submitButton{
+.submitButton {
   background-color: var(--blue-gray-09) !important;
 }
-.submitButton:hover{
+.submitButton:hover {
   background-color: var(--blue-gray-07) !important;
 }
-.inputSignIn{
+.inputSignIn {
   border: none !important;
   padding-left: 0 !important;
   background-color: transparent !important;
   border-bottom: 2px solid var(--blue-gray-09) !important;
   border-radius: 0 !important;
 }
-.inputSignIn:hover{
+.inputSignIn:hover {
   border: none !important;
   border-bottom: 2px solid var(--blue-gray-09) !important;
   border-radius: 0 !important;
 }
-.inputSignIn:focus{
+.inputSignIn:focus {
   box-shadow: none !important;
   border-bottom: 2px solid var(--blue-gray-07) !important;
 }
-.forgotPasswordContainer{
+.forgotPasswordContainer {
   text-align: center;
   margin-bottom: 0.5rem;
 }
-.forgotPassword:hover{
+.forgotPassword:hover {
   color: var(--blue-gray-09) !important;
   cursor: pointer;
 }
-.LandingPageE1{
+.LandingPageElements {
+  margin-left: 5%;
+  margin-right: 5%;
+}
+.Accordion {
+  padding: 1rem 2rem 3rem 2rem !important;
+}
+.accordion-body a {
+  margin-left: 0.25rem !important;
+}
+.accordion-button {
+  background-color: var(--light-gray) !important;
+  color: var(--blue-gray-09) !important;
+}
+.accordion-button:focus {
+  border: none !important;
+  box-shadow: none !important;
+}
+.LandingPageE1 {
   height: 25rem;
   text-align: center;
-  background-color: #F0F4F8;
+  background-color: #f0f4f8;
   padding: 1rem;
   margin: 1rem;
   border-radius: 15px;
-  color:#102A43
+  color: #102a43;
 }
-.LandingPageE1:hover{
+.LandingPageE1:hover {
   cursor: pointer;
 }
-.LandingElementsButton{
+.LandingElementsButton {
   margin-top: 1rem;
   text-align: right;
 }
-.landingETitle{
+.landingETitle {
   color: var(--blue-gray-09);
   margin-bottom: 1rem;
 }
-.LandingEBtn{
+.LandingEBtn {
   font-size: 1rem !important;
   background-color: var(--blue-gray-09) !important;
   color: var(--light-gray);
   padding: 0.5rem;
   border-radius: 6px;
 }
-.LandingEBtn:hover{
+.LandingEBtn:hover {
   background-color: var(--blue-gray-07) !important;
 }
-.footer{
+.footer {
   text-align: center;
   padding-top: 2rem;
   padding-bottom: 2rem;
@@ -126,43 +174,180 @@
   background-color: var(--blue-gray-07);
   color: var(--light-gray);
 }
-.footer h1{
+.footer h1 {
   margin-top: -10px;
   text-decoration: underline;
   font-size: 3rem;
 }
-.footerSection{
+.footerSection {
   margin-top: 1rem;
 }
-.footerCol{
+.footerCol {
   margin: 0 1rem 2rem 1rem;
 }
-.footer a{
+.footer a {
   font-size: 1rem;
   color: var(--light-gray);
   text-decoration: none;
 }
-.footer a:hover{
+.footer a:hover {
   color: var(--blue-gray-02);
   text-decoration: none;
 }
-.slogan{
+.slogan {
   display: block;
-  color:gold;
+  color: gold;
 }
-.copyRight{
+.copyRight {
   display: block;
 }
-.footerLeft{
+.footerLeft {
   margin-top: 0.5rem;
 }
-.logo:hover{
+.logo:hover {
   cursor: pointer;
 }
-.errorAlert{
+.errorAlert {
   position: absolute;
   z-index: 100;
-  margin:0 !important;
+  margin: 0 !important;
   width: 100%;
   text-align: center;
+}
+.loadingScreen {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.tableAddMoreButton {
+  display: flex;
+  justify-content: right;
+}
+.addMoreBtn {
+  display: flex;
+  width: 3rem;
+  padding: 0.25rem !important;
+  background-color: transparent !important;
+  border: none !important;
+}
+.addMoreBtn:hover {
+  background-color: transparent !important;
+}
+.aboutUs {
+  height: 100vh;
+}
+.dropdown-menu {
+  background-color: var(--blue-gray-07) !important;
+  padding: 0 !important;
+}
+.dropdown-item {
+  padding: 0.5rem !important;
+}
+.dropdown-item:hover {
+  background-color: var(--blue-gray-08) !important;
+}
+.interestCalcPage{
+  min-height: 100vh;
+}
+.lineChartContainer{
+  margin-bottom: 1rem !important;
+}
+.interestDic {
+  padding: 1rem;
+}
+.titleContainer {
+  text-align: center;
+}
+.interestCalcForm {
+  background-color: var(--light-gray);
+  border-radius: 1rem;
+  padding: 1rem;
+  margin-top: 0;
+}
+.interestCalcFormG {
+  display: flex;
+  min-width: 0;
+  justify-content: space-around;
+}
+.interestCalcFormG * {
+  flex: 1 1 0px !important;
+}
+.interestCalcFormG select {
+  width: 100%;
+}
+.InterestCalcOptions {
+  display: flex;
+  justify-content: space-evenly;
+  padding-top: 0.5rem;
+  color: var(--blue-gray-09);
+}
+.InterestCalcOptions span:hover {
+  cursor: pointer;
+  color: var(--blue-gray-07);
+}
+.taxesInTable {
+  background-color: palevioletred;
+}
+.taxesInTable td {
+  color: white !important;
+  font-weight: bold;
+}
+.lostAmount {
+  background-color: red;
+}
+.lostAmount td {
+  color: white !important;
+  font-weight: bold;
+}
+.gainedAmount {
+  background-color: #008000;
+}
+.gainedAmount td {
+  color: white !important;
+  font-weight: bold;
+}
+.TypeNavBar {
+  margin-left: 2rem;
+}
+.TypeNavBar a {
+  color: var(--blue-gray-09) !important;
+}
+.TypeNavBar a:hover {
+  color: var(--blue-gray-07) !important;
+}
+.InterestCalcLeft {
+  border-radius: 1rem;
+  background-color: var(--light-gray);
+}
+.annualResults {
+  display: block;
+}
+.LoanPage {
+  min-height: 100vh;
+}
+.AddModalBody {
+  height: 20rem;
+  overflow-y: auto;
+}
+.addExpenseInModal {
+  display: flex;
+}
+.interestTable{
+  max-height:30rem;
+  overflow: auto;
+}
+.summaryContainer{
+  background-color: var(--blue-gray-08);
+  color: var(--light-gray);
+  border-radius: 1rem;
+  height: 10rem;
+  width: 100%;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+.summaryContainer div{
+  display: flex;
+  justify-content: space-between;
+  font-size: large;
 }
