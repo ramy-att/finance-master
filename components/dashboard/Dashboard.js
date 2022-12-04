@@ -22,7 +22,7 @@ const Dashboard = () => {
     <div>
       <Container fluid>
         <Row>
-          <h1>Your Dashboard</h1>
+          <h1>Your Dashbaord</h1>
         </Row>
         <Row className="text-center">
           <Col sm={4}>
@@ -55,7 +55,7 @@ const Dashboard = () => {
             />
           </Col>
         </Row>
-        <Row>
+        <Row clasName="dashboardRow">
           <h2>Monthly Incomes</h2>
           <UserTable
             type="incomes"

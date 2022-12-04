@@ -47,7 +47,9 @@ const AddIncomeModal = (props) => {
     };
     const response = await fetch(endpoint, options);
     const result = await response.json();
-    console.log(result);
+    // If result good return and ...
+    incomeAmount.current.value = "";
+    incomeSrc.current.value = "1";
   };
   return (
     <Modal
@@ -62,7 +64,7 @@ const AddIncomeModal = (props) => {
         </Modal.Title>
       </Modal.Header>
       <Modal.Body className="AddModalBody">
-        <Form onSubmit={addIncome}>
+        <Form>
           <div>
             <Form.Group className="mb-3" controlId="formBasicEmail">
               <Form.Label>Income Source</Form.Label>
@@ -80,14 +82,20 @@ const AddIncomeModal = (props) => {
               </Form.Select>
             </Form.Group>
             {investmentIncome && (
-              <Form.Group className="mb-3" controlId="formBasicEmail">
-                <Form.Label>Maturity Date</Form.Label>
-                <Form.Control type="date" required />
-                <Form.Label>Locked Amount</Form.Label>
-                <Form.Control type="number" step="0.001" required />
-                <Form.Label>Financial Inst Name</Form.Label>
-                <Form.Control type="text" required />
-              </Form.Group>
+              <>
+                <Form.Group className="mb-3" controlId="formBasicEmail">
+                  <Form.Label>Maturity Date</Form.Label>
+                  <Form.Control type="date" required />
+                </Form.Group>
+                <Form.Group>
+                  <Form.Label>Locked Amount</Form.Label>
+                  <Form.Control type="number" step="0.001" required />
+                </Form.Group>
+                <Form.Group>
+                  <Form.Label>Financial Inst Name</Form.Label>
+                  <Form.Control type="text" required />
+                </Form.Group>
+              </>
             )}
             {otherIncome && (
               <>
@@ -103,19 +111,26 @@ const AddIncomeModal = (props) => {
           <Form.Group className="mb-3" controlId="formBasicPassword">
             <Form.Label>Income Amount</Form.Label>
             <Form.Control
+              required
               type="number"
               step="0.001"
               ref={incomeAmount}
               placeholder="Amount"
             />
           </Form.Group>
-          <Button variant="primary" type="submit">
-            Submit
-          </Button>
+          <div className="modalSubmitCont text-center">
+            <Button
+              variant="primary"
+              type="submit"
+              className="submitButton modalSubmit"
+            >
+              Submit
+            </Button>
+          </div>
         </Form>
       </Modal.Body>
       <Modal.Footer>
-        <Button onClick={props.onHide}>Close</Button>
+      <Button onClick={props.onHide} variant="danger" >Cancel</Button>
       </Modal.Footer>
     </Modal>
   );

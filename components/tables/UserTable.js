@@ -24,30 +24,32 @@ const UserTable = (props) => {
   };
   return (
     <>
-      <Table striped>
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>Category</th>
-            <th>Amount</th>
-          </tr>
-        </thead>
-        <tbody>
-          {data &&
-            data.length > 0 &&
-            data.map((element) => {
-              return (
-                <tr>
-                  <td>1</td>
-                  <td>{element["Category"]}</td>
-                  <td>{element["Amount"]}</td>
-                </tr>
-              );
-            })}
-          {!data || (data.length === 0 ? addNew() : null)}
-          {/* doesn't work? */}
-        </tbody>
-      </Table>
+      <div className="userTable">
+        <Table striped="columns">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Category</th>
+              <th>Amount</th>
+            </tr>
+          </thead>
+          <tbody>
+            {data &&
+              data.length > 0 &&
+              data.map((element) => {
+                return (
+                  <tr>
+                    <td>1</td>
+                    <td>{element["Category"]}</td>
+                    <td>{element["Amount"]}</td>
+                  </tr>
+                );
+              })}
+            {!data || (data.length === 0 ? addNew() : null)}
+            {/* doesn't work? */}
+          </tbody>
+        </Table>
+      </div>
       <div className="tableAddMoreButton">
         <Button className="addMoreBtn" onClick={add}>
           <Image src={addMore} width="20" height="20" alt="Add More" />

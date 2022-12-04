@@ -1,14 +1,16 @@
 import Table from "react-bootstrap/Table";
 import { Line } from "react-chartjs-2";
 import Chart from "chart.js/auto";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
+import { read, utils, writeFileXLSX, XLSX$Utils } from "xlsx";
+import { Button } from "react-bootstrap";
 const LoanInfo = (props) => {
   const { data } = props;
   const [pays, setPayments] = useState([]);
   const [chartData, setChartData] = useState(null);
   const [options, setOptions] = useState(null);
   const [showChart, setShowChart] = useState(false);
-
+  const table = useRef(null);
   // useEffect(() => {
   //   if (data && data.payments.length!==0) {
   //     console.log(data.payments)
@@ -46,11 +48,19 @@ const LoanInfo = (props) => {
   //     setShowChart(true);
   //   }
   // }, [data]);
-
+  const downloadExcel = useCallback(() => {
+    const elt = table.current;
+    if (elt !== null) {
+      const wb = utils.table_to_book(elt);
+      writeFileXLSX(wb, "myLoan.xlsx");
+    } else {
+      alert("Enter your data first!");
+    }
+  }, [table]);
   return (
     <>
       <div className="interestTable">
-        <Table striped="columns">
+        <Table striped="columns" ref={table}>
           <thead>
             <tr>
               <th>Payment #</th>
@@ -98,7 +108,7 @@ const LoanInfo = (props) => {
           data={chartData}
         />
       )} */}
-      <div>
+      <div className="loanSummary">
         <div>
           Loan Amount: $
           {data.initialOwed.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
@@ -111,6 +121,9 @@ const LoanInfo = (props) => {
           Total Paid: $
           {data.totalPaid.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
         </div>
+        <Button onClick={downloadExcel} className="submitButton downloadExcel">
+          Download as Excel
+        </Button>
       </div>
     </>
   );

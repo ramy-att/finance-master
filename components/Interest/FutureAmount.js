@@ -160,6 +160,7 @@ const FutureAmount = (props) => {
         <Button variant="primary" type="submit" className="submitButton">
           Submit
         </Button>
+        
       </div>
     </Form>
   );

@@ -1,14 +1,14 @@
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
+import { Button } from "react-bootstrap";
 import Table from "react-bootstrap/Table";
-import TypeNavBar from "./TypeNavBar";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import FutureAmount from "./FutureAmount";
 import PresentAmount from "./PresentAmount";
 import YearsAmount from "./YearsAmount";
 import { Line } from "react-chartjs-2";
-import Chart from "chart.js/auto";
+import { read, utils, writeFileXLSX, XLSX$Utils } from "xlsx";
 
 const InterestCalculator = () => {
   const [formType, setFormType] = useState("future");
@@ -18,6 +18,9 @@ const InterestCalculator = () => {
   const [chartData, setChartData] = useState(null);
   const [options, setOptions] = useState(null);
   const [showChart, setShowChart] = useState(false);
+
+  const table = useRef(null);
+
   const resultsHandler = (x) => {
     setResults(x);
   };
@@ -38,8 +41,14 @@ const InterestCalculator = () => {
       setAnnualResults(annual);
       console.log(annual);
       const labels = [];
-      for (let i = 1; i <= annual.length; i++) {
-        labels.push(`Year ${i}`);
+      if (formType == "present") {
+        for (let i = 0; i < annual.length; i++) {
+          labels.push(`Year ${i}`);
+        }
+      } else {
+        for (let i = 1; i <= annual.length; i++) {
+          labels.push(`Year ${i}`);
+        }
       }
       setLabels(labels);
       const colors = results.investment > 0 ? "green" : "red";
@@ -70,6 +79,17 @@ const InterestCalculator = () => {
       setShowChart(true);
     }
   }, [results]);
+
+  const downloadExcel = useCallback(() => {
+    const elt = table.current;
+    if (elt !== null) {
+      const wb = utils.table_to_book(elt);
+      writeFileXLSX(wb, "myInterestInvst.xlsx");
+    }
+    else{
+      alert("Enter your data first!")
+    }
+  }, [table]);
 
   return (
     <Container fluid>
@@ -125,6 +145,9 @@ const InterestCalculator = () => {
                 contributions amounts only if a non-zero value is entered *
               </p>
             </div>
+            <div>
+              <Button className="submitButton downloadExcel" onClick={downloadExcel}>Download as Excel</Button>
+            </div>
           </Col>
           <Col>
             <div>
@@ -135,7 +158,7 @@ const InterestCalculator = () => {
                 <>
                   {" "}
                   <div className="interestTable">
-                    <Table striped="columns">
+                    <Table striped="columns" ref={table}>
                       <thead>
                         <tr>
                           <th>Year</th>
@@ -169,12 +192,19 @@ const InterestCalculator = () => {
                       </tbody>
                     </Table>
                   </div>
+                  {showChart && chartData !== null && (
+                    <Line
+                      className="lineChartContainer"
+                      options={options}
+                      data={chartData}
+                    />
+                  )}
                 </>
               )}
               {results && formType === "present" && (
                 <>
                   <div className="interestTable">
-                    <Table striped="columns">
+                    <Table striped="columns" ref={table}>
                       <thead>
                         <tr>
                           <th>Year</th>
@@ -186,31 +216,36 @@ const InterestCalculator = () => {
                           annualResults.map((x, idx) => {
                             return (
                               <tr>
-                                <td>Year {idx + 1}</td>
+                                <td>Year {idx}</td>
                                 <td>${x}</td>
                               </tr>
                             );
                           })}
-                        <tr>
+                        <tr className="taxesInTable">
                           <td>Taxes</td>
                           <td>${results.taxes.toFixed(2)}</td>
                         </tr>
-                        <tr>
+                        <tr
+                          className={
+                            results.investment > 0
+                              ? "gainedAmount"
+                              : "lostAmount"
+                          }
+                        >
                           <td>Gain/Loss</td>
                           <td>${results.investment.toFixed(2)}</td>
                         </tr>
                       </tbody>
                     </Table>
                   </div>
+                  {showChart && chartData !== null && (
+                    <Line
+                      className="lineChartContainer"
+                      options={options}
+                      data={chartData}
+                    />
+                  )}
                 </>
-              )}
-              {console.log(chartData)}
-              {showChart && chartData !== null && (
-                <Line
-                  className="lineChartContainer"
-                  options={options}
-                  data={chartData}
-                />
               )}
               {results && formType == "years" && (
                 <p>

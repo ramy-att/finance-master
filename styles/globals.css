@@ -11,6 +11,13 @@
   --blue-gray-08: #243b53;
   --blue-gray-09: #102a43;
 }
+/* Global Edits */
+* {
+  font-family: serif;
+}
+.form-label {
+  font-size: 1.25rem !important;
+}
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;
@@ -38,16 +45,20 @@ option:hover {
   cursor: pointer !important;
   background-color: red !important;
 }
+
+/* Specific Edits */
+
 .navBar {
   background-color: var(--blue-gray-07) !important;
 }
 .navBar a {
   color: white;
+  font-weight: 0;
 }
 .navBar a:hover {
   color: var(--blue-gray-02);
 }
-.navbar-toggler:focus{
+.navbar-toggler:focus {
   box-shadow: none !important;
 }
 .HomePage {
@@ -92,6 +103,9 @@ option:hover {
 }
 .submitButton:hover {
   background-color: var(--blue-gray-07) !important;
+}
+.downloadExcel {
+  margin: 1rem 0 1rem 0;
 }
 .inputSignIn {
   border: none !important;
@@ -247,17 +261,21 @@ option:hover {
 .dropdown-item:hover {
   background-color: var(--blue-gray-08) !important;
 }
-.interestCalcPage{
+.interestCalcPage {
   min-height: 100vh;
 }
-.lineChartContainer{
+.lineChartContainer {
   margin-bottom: 1rem !important;
 }
 .interestDic {
-  padding: 1rem;
+  text-align: center;
 }
 .titleContainer {
   text-align: center;
+  margin: 0.5rem 0 1rem 0;
+}
+.titleContainer h1 {
+  font-size: 3rem;
 }
 .interestCalcForm {
   background-color: var(--light-gray);
@@ -307,37 +325,42 @@ option:hover {
   color: white !important;
   font-weight: bold;
 }
-.TypeNavBar {
-  margin-left: 2rem;
-}
-.TypeNavBar a {
-  color: var(--blue-gray-09) !important;
-}
-.TypeNavBar a:hover {
-  color: var(--blue-gray-07) !important;
-}
 .InterestCalcLeft {
   border-radius: 1rem;
   background-color: var(--light-gray);
+  height: 33rem;
 }
 .annualResults {
   display: block;
 }
 .LoanPage {
   min-height: 100vh;
+  height: 100%;
+}
+.loanSummary div {
+  margin-top: 0.5rem;
+  font-size: 1.25rem;
+}
+.modal-content {
+  background-color: var(--light-gray) !important;
 }
 .AddModalBody {
-  height: 20rem;
+  max-height: 20rem;
+  height: fit-content;
   overflow-y: auto;
 }
 .addExpenseInModal {
   display: flex;
 }
-.interestTable{
-  max-height:30rem;
+.interestTable {
+  min-height: 33rem;
+  max-height: 35rem;
   overflow: auto;
 }
-.summaryContainer{
+.interestTable table {
+  height: 33rem;
+}
+.summaryContainer {
   background-color: var(--blue-gray-08);
   color: var(--light-gray);
   border-radius: 1rem;
@@ -346,8 +369,14 @@ option:hover {
   padding: 1rem;
   margin-bottom: 1rem;
 }
-.summaryContainer div{
+.summaryContainer div {
   display: flex;
   justify-content: space-between;
   font-size: large;
+}
+.modalSubmit {
+  margin-top: 0.5rem !important;
+}
+.userTable{
+  padding: 0 0.75rem 0 0.75rem !important;
 }

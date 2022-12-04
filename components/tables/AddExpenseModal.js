@@ -2,6 +2,7 @@ import Modal from "react-bootstrap/Modal";
 import { Button } from "react-bootstrap";
 import { Form } from "react-bootstrap";
 import { useRef, useState } from "react";
+
 const AddExpenseModal = (props) => {
   const incomeSrc = useRef(null);
   const [investmentIncome, setInvestmentIncome] = useState(false);
@@ -22,6 +23,7 @@ const AddExpenseModal = (props) => {
       }
     }
   };
+
 
   return (
     <Modal
@@ -44,22 +46,34 @@ const AddExpenseModal = (props) => {
             </Form.Group>
           </div>
           <div>
-            Add Expenses
+            <Form.Label>Add Expenses</Form.Label>
             {/* How to make it render new lines? */}
             <Form.Group className="mb-3" controlId="formBasicEmail">
               <div className="addExpenseInModal">
-                <Form.Control placeholder="Expense Name" type="text" />
-                <Form.Control placeholder="Amount" type="number" step="0.001" />
+                  <Form.Control placeholder="Expense Name" type="text" />
+                  <Form.Control
+                    placeholder="Amount"
+                    type="number"
+                    step="0.001"
+                  />
               </div>
             </Form.Group>
           </div>
-          <Button variant="primary" type="submit">
-            Submit
-          </Button>
+          <div className="modalSubmitCont text-center">
+            <Button
+              variant="primary"
+              type="submit"
+              className="submitButton modalSubmit"
+            >
+              Submit
+            </Button>
+          </div>
         </Form>
       </Modal.Body>
       <Modal.Footer>
-        <Button onClick={props.onHide}>Close</Button>
+        <Button onClick={props.onHide} variant="danger">
+          Cancel
+        </Button>
       </Modal.Footer>
     </Modal>
   );

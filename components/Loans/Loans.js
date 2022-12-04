@@ -112,6 +112,7 @@ const Loans = () => {
           </div>
           <Form className="interestCalcForm" onSubmit={calculator}>
             <div className="interestCalcFormG">
+            <Row>
               <Form.Group className="mb-3" controlId="formBasicEmail">
                 <Form.Label>Principal</Form.Label>
                 <Form.Control
@@ -131,8 +132,10 @@ const Loans = () => {
                   placeholder="$10000"
                 />
               </Form.Group>
+              </Row>
             </div>
             <div className="interestCalcFormG">
+            <Row>
               <Form.Group className="mb-3" controlId="formBasicEmail">
                 <Form.Label>Interest Rate</Form.Label>
                 <Form.Control
@@ -153,6 +156,7 @@ const Loans = () => {
                   placeholder="5 Years"
                 />
               </Form.Group>
+              </Row>
             </div>
             <Form.Group className="mb-3" controlId="formBasicEmail">
               <Form.Label>Payment Frequency</Form.Label>
