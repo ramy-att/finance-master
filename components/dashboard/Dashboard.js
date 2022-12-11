@@ -4,32 +4,39 @@ import { Col } from "react-bootstrap";
 import UserTable from "../tables/UserTable";
 import { useSelector } from "react-redux";
 import Summary from "./Summary";
-import { useEffect } from "react";
+import { useEffect, useState, useCallback } from "react";
 const Dashboard = () => {
   const expenses = useSelector((state) => state.userExpenses);
   const incomes = useSelector((state) => state.userIncomes);
 
-  useEffect(() => {
-    if (expenses) {
-      for (const category in expenses) {
-        console.log(expenses[category])
-        console.log(`category title: ${expenses[category].title}`);
-      }
-    }
-  }, [expenses]);
+  const [totalIncomes, setTotalIncomes] = useState(0);
+
+  // const callAPI = async ()=>{
+  //   // get: const key= 'https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol=SPX:INDEX&apikey=ROAPGSXI5YJ08S6W'
+  //   // search: const key= 'https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords=INDEX&apikey=ROAPGSXI5YJ08S6W'
+  //   const response = await fetch(key, {
+  //     method: "GET",
+  //     header: {
+  //       "Content/type": "application/json",
+  //     },
+  //   });
+  //   const result = await response.json();
+  //   console.log(result);
+  // }
+  // useEffect(()=>{
+  //   callAPI();
+  // },[])
 
   return (
-    <div>
+    <div className="dashboardPage">
       <Container fluid>
-        <Row>
-          <h1>Your Dashbaord</h1>
-        </Row>
+        <h1 className="dashboardTitle">Your Dashboard</h1>
         <Row className="text-center">
           <Col sm={4}>
             <Summary
               title="Monthly Budget"
               data={[
-                { title: "In", amount: "1000" },
+                { title: "In", amount: totalIncomes },
                 { title: "Out", amount: "1000" },
               ]}
             />
@@ -55,38 +62,18 @@ const Dashboard = () => {
             />
           </Col>
         </Row>
-        <Row clasName="dashboardRow">
-          <h2>Monthly Incomes</h2>
+        <Row>
+          <h2 className="dashboardTitles">Monthly Incomes</h2>
           <UserTable
             type="incomes"
-            data={[
-              { Category: "Job", Amount: 5000 },
-              { Category: "GIC", Amount: 100 },
-              { Category: "Dividents", Amount: 120 },
-            ]}
+            data={incomes}
           />
         </Row>
         <Row>
-          <h2>Monthly Expenses</h2>
+          <h2 className="dashboardTitles">Investments</h2>
           <UserTable
-            type="expenses"
-            data={[{ Category: "Home", Amount: 5000 }]}
-          />
-        </Row>
-        {/* Some balance in here somehow */}
-        <Row>
-          <h2>Investments</h2>
-          <UserTable type="investments" />
-        </Row>
-        <Row>
-          <h2>Loans</h2>
-          <UserTable type="loans" data={[{ Category: "Home", Amount: 5000 }]} />
-        </Row>
-        <Row>
-          <h2>Account Balances</h2>
-          <UserTable
-            type="accounts"
-            data={[{ Category: "Home", Amount: 5000 }]}
+            type="investments"
+            // data={expenses}
           />
         </Row>
       </Container>

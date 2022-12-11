@@ -15,27 +15,29 @@ const Loans = () => {
   const [payment, setPayment] = useState(0);
   const [data, setData] = useState(null);
 
-  const schedule = (owed, int, freq, payment) => {
+  const schedule = (owed, int, freq, payment, numberPayments) => {
     let balance = owed;
-    console.log(balance);
     let totalInterest = 0;
     const paymentAmt = payment;
     const payments = [];
     let paidTilNow = 0;
-    while (balance > 0) {
-      if (balance < 1) {
-        break;
-      }
-      const interestAmt =
-        freq == "monthly"
-          ? (int * balance) / 12
-          : freq == "semi-annual"
-          ? (int * balance) / 2
-          : freq == "quarterly"
-          ? (int * balance) / 4
-          : freq == "biweekly"
-          ? (int * balance) / 26
-          : int * balance;
+    const p = 0;
+    while (numberPayments > 0) {
+      // console.log(numberPayments)
+      // if (balance < 1) {
+      //   break;
+      // }
+      // const interestAmt =
+      //   freq == "monthly"
+      //     ? (int * balance) / 12
+      //     : freq == "semi-annual"
+      //     ? (int * balance) / 2
+      //     : freq == "quarterly"
+      //     ? (int * balance) / 4
+      //     : freq == "biweekly"
+      //     ? (int * balance) / 26
+      //     : int * balance;
+      const interestAmt = int * balance;
       totalInterest += parseFloat(interestAmt);
       payments.push({
         payment: parseFloat(paymentAmt).toFixed(3),
@@ -45,6 +47,8 @@ const Loans = () => {
       });
       paidTilNow += paymentAmt;
       balance -= paymentAmt - interestAmt;
+      numberPayments--;
+      p = parseFloat(p) + parseFloat((payment - interestAmt).toFixed(3));
     }
     // Total Interest Paid:
     const totalPaid = owed + totalInterest;
@@ -65,7 +69,7 @@ const Loans = () => {
     const ints = interest.current.valueAsNumber / 100;
     const years = duration.current.valueAsNumber;
     const frequeny = freq.current.value; // Annual, Semi, Quarterly, Monthly, Biweekly
-    console.log(frequeny);
+    // console.log(frequeny);
     //Find Number Of Periods
     let n;
     let f;
@@ -77,23 +81,27 @@ const Loans = () => {
       //semi
       n = years * 2;
       f = "semi-annual";
+      ints = ints / 2;
     } else if (frequeny == 3) {
       //quarter
+      ints = ints / 4;
       n = years * 4;
       f = "quarterly";
     } else if (frequeny == 4) {
       //month
-      console.log(years * 12);
+      ints = ints / 12;
       n = years * 12;
       f = "monthly";
     } else if (frequeny == 5) {
       //biweekly
+      ints = (ints * 12) / 26;
       f = "biweekly";
       n = (years * 12) / 26;
     }
-    const paymentAmt = (ints * princ) / (1 - Math.pow(1 + ints, -1 * n));
-    console.log(paymentAmt);
-    const d = schedule(princ, ints, f, paymentAmt);
+    // const paymentAmt = (ints * princ) / (1 - Math.pow(1 + ints, -1 * n));
+    const paymentAmt =
+      princ * ((ints * Math.pow(1 + ints, n)) / (Math.pow(ints + 1, n) - 1));
+    const d = schedule(princ, ints, f, paymentAmt, n);
     setData(d);
   };
   return (
@@ -112,50 +120,50 @@ const Loans = () => {
           </div>
           <Form className="interestCalcForm" onSubmit={calculator}>
             <div className="interestCalcFormG">
-            <Row>
-              <Form.Group className="mb-3" controlId="formBasicEmail">
-                <Form.Label>Principal</Form.Label>
-                <Form.Control
-                  ref={principal}
-                  required
-                  type="number"
-                  step=".001"
-                  placeholder="$100000"
-                />
-              </Form.Group>
-              <Form.Group className="mb-3" controlId="formBasicEmail">
-                <Form.Label>Down Payment</Form.Label>
-                <Form.Control
-                  ref={downPayment}
-                  type="number"
-                  step=".001"
-                  placeholder="$10000"
-                />
-              </Form.Group>
+              <Row>
+                <Form.Group className="mb-3" controlId="formBasicEmail">
+                  <Form.Label>Principal</Form.Label>
+                  <Form.Control
+                    ref={principal}
+                    required
+                    type="number"
+                    step=".001"
+                    placeholder="$100000"
+                  />
+                </Form.Group>
+                <Form.Group className="mb-3" controlId="formBasicEmail">
+                  <Form.Label>Down Payment</Form.Label>
+                  <Form.Control
+                    ref={downPayment}
+                    type="number"
+                    step=".001"
+                    placeholder="$10000"
+                  />
+                </Form.Group>
               </Row>
             </div>
             <div className="interestCalcFormG">
-            <Row>
-              <Form.Group className="mb-3" controlId="formBasicEmail">
-                <Form.Label>Interest Rate</Form.Label>
-                <Form.Control
-                  ref={interest}
-                  required
-                  type="number"
-                  min="0"
-                  step=".001"
-                  placeholder="5%"
-                />
-              </Form.Group>
-              <Form.Group className="mb-3" controlId="formBasicEmail">
-                <Form.Label>Loan Term</Form.Label>
-                <Form.Control
-                  ref={duration}
-                  required
-                  type="number"
-                  placeholder="5 Years"
-                />
-              </Form.Group>
+              <Row>
+                <Form.Group className="mb-3" controlId="formBasicEmail">
+                  <Form.Label>Interest Rate</Form.Label>
+                  <Form.Control
+                    ref={interest}
+                    required
+                    type="number"
+                    min="0"
+                    step=".001"
+                    placeholder="5%"
+                  />
+                </Form.Group>
+                <Form.Group className="mb-3" controlId="formBasicEmail">
+                  <Form.Label>Loan Term</Form.Label>
+                  <Form.Control
+                    ref={duration}
+                    required
+                    type="number"
+                    placeholder="5 Years"
+                  />
+                </Form.Group>
               </Row>
             </div>
             <Form.Group className="mb-3" controlId="formBasicEmail">

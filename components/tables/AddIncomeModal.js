@@ -3,16 +3,23 @@ import { Button } from "react-bootstrap";
 import { Form } from "react-bootstrap";
 import { useRef, useState } from "react";
 import { useSelector } from "react-redux";
+import { authActions } from "../store";
+import { useDispatch } from "react-redux";
 
 const AddIncomeModal = (props) => {
+  const { typeOfAction, incomeKey } = props;
   const incomeSrc = useRef(null);
   const otherIncomeSrc = useRef(null);
   const incomeAmount = useRef(null);
-
   const [investmentIncome, setInvestmentIncome] = useState(false);
   const [otherIncome, setOtherIncome] = useState(false);
+  const [editing, setEditing] = useState(typeOfAction == "edit");
 
   const userInfo = useSelector((state) => state.userInfo);
+  const incomes = useSelector((state) => state.userIncomes);
+
+  // Redux dispatch
+  const dispatch = useDispatch();
 
   const changeIncomeSrc = () => {
     if (incomeSrc.current !== null) {
@@ -32,6 +39,16 @@ const AddIncomeModal = (props) => {
 
   const addIncome = async (e) => {
     e.preventDefault();
+    let src;
+    incomeSrc.current.value == 1
+      ? (src = "Salary")
+      : incomeSrc.current.value == 2
+      ? (src = "Business Profit")
+      : incomeSrc.current.value == 3
+      ? (src = "GIC/CD")
+      : incomeSrc.current.value == 3
+      ? (src = "Fixed Income (Dividents)")
+      : incomeSrc.current.value;
     const endpoint = "/api/income";
     const options = {
       method: "POST",
@@ -41,16 +58,58 @@ const AddIncomeModal = (props) => {
       body: JSON.stringify({
         localId: userInfo.localId,
         token: userInfo.idToken,
-        source: incomeSrc.current.value,
+        source: src,
         amount: incomeAmount.current.value,
       }),
     };
     const response = await fetch(endpoint, options);
     const result = await response.json();
-    // If result good return and ...
-    incomeAmount.current.value = "";
-    incomeSrc.current.value = "1";
+    if (!result.error) {
+      dispatch(authActions.updateIncomes(result));
+      incomeAmount.current.value = "";
+      incomeSrc.current.value = "1";
+    }
   };
+
+  const editIncome = async (e) => {
+    e.preventDefault();
+    let src;
+    incomeSrc.current.value == 1
+      ? (src = "Salary")
+      : incomeSrc.current.value == 2
+      ? (src = "Business Profit")
+      : incomeSrc.current.value == 3
+      ? (src = "GIC/CD")
+      : incomeSrc.current.value == 3
+      ? (src = "Fixed Income (Dividents)")
+      : incomeSrc.current.value;
+    const endpoint = "/api/income";
+    const options = {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        oldName: incomeKey,
+        localId: userInfo.localId,
+        token: userInfo.idToken,
+        source: src,
+        amount: incomeAmount.current.value,
+      }),
+    };
+    const response = await fetch(endpoint, options);
+    const result = await response.json();
+    if (!result.error) {
+      dispatch(authActions.updateIncomes(result));
+      incomeAmount.current.value = "";
+      incomeSrc.current.value = "1";
+      console.log(result);
+    }
+  };
+  const modalTitle =
+    typeOfAction == "edit"
+      ? "Edit Your Income Source"
+      : "Add New Income Source";
   return (
     <Modal
       {...props}
@@ -60,11 +119,15 @@ const AddIncomeModal = (props) => {
     >
       <Modal.Header closeButton>
         <Modal.Title id="contained-modal-title-vcenter">
-          Add New Income Source
+          {modalTitle}
         </Modal.Title>
       </Modal.Header>
       <Modal.Body className="AddModalBody">
-        <Form>
+        <Form
+          onSubmit={(e) => {
+            editing ? editIncome(e) : addIncome(e);
+          }}
+        >
           <div>
             <Form.Group className="mb-3" controlId="formBasicEmail">
               <Form.Label>Income Source</Form.Label>
@@ -130,7 +193,9 @@ const AddIncomeModal = (props) => {
         </Form>
       </Modal.Body>
       <Modal.Footer>
-      <Button onClick={props.onHide} variant="danger" >Cancel</Button>
+        <Button onClick={props.onHide} variant="danger">
+          Cancel
+        </Button>
       </Modal.Footer>
     </Modal>
   );

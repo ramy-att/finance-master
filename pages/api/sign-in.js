@@ -22,7 +22,6 @@ const getUserExpenses = async (localId, token) => {
     header: { "Content-Type": "application/json" },
   });
   const result = await response.json();
-  console.log(result);
   return result;
 };
 const getUserIncomes = async (localId, token) => {

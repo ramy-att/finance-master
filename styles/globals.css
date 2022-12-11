@@ -238,16 +238,7 @@ option:hover {
   display: flex;
   justify-content: right;
 }
-.addMoreBtn {
-  display: flex;
-  width: 3rem;
-  padding: 0.25rem !important;
-  background-color: transparent !important;
-  border: none !important;
-}
-.addMoreBtn:hover {
-  background-color: transparent !important;
-}
+
 .aboutUs {
   height: 100vh;
 }
@@ -379,4 +370,29 @@ option:hover {
 }
 .userTable{
   padding: 0 0.75rem 0 0.75rem !important;
+  max-height: 20rem;
+  overflow-y: auto;
+}
+
+.dashboardTitle{
+  margin: 0.5rem 0 0.5rem 0;
+}
+.dashboardTitles{
+  color: var(--blue-gray-09);
+}
+.dashboardPage{
+  min-height: 100vh;
+  height: 100%;
+}
+.actionsTd{
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+.tableIcon:hover{
+  cursor: pointer;
+}
+.plusCircle{
+  margin-right: 1rem;
+  margin-top: 0.5rem;
 }

@@ -73,24 +73,24 @@ const LoanInfo = (props) => {
           <tbody>
             {data.payments.map((value, idx) => {
               return (
-                <tr>
-                  <td>{idx + 1}</td>
-                  <td>
+                <tr key={idx}>
+                  <td key={idx}>{idx + 1}</td>
+                  <td key={idx}>
                     {value.payment
                       .toString()
                       .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                   </td>
-                  <td>
+                  <td key={idx}>
                     {value.interest
                       .toString()
                       .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                   </td>
-                  <td>
+                  <td key={idx}>
                     {value.principal
                       .toString()
                       .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                   </td>
-                  <td>
+                  <td key={idx}>
                     {value.paidToDate
                       .toString()
                       .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}

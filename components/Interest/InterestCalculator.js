@@ -8,6 +8,7 @@ import FutureAmount from "./FutureAmount";
 import PresentAmount from "./PresentAmount";
 import YearsAmount from "./YearsAmount";
 import { Line } from "react-chartjs-2";
+import Chart from "chart.js/auto";
 import { read, utils, writeFileXLSX, XLSX$Utils } from "xlsx";
 
 const InterestCalculator = () => {
@@ -85,9 +86,8 @@ const InterestCalculator = () => {
     if (elt !== null) {
       const wb = utils.table_to_book(elt);
       writeFileXLSX(wb, "myInterestInvst.xlsx");
-    }
-    else{
-      alert("Enter your data first!")
+    } else {
+      alert("Enter your data first!");
     }
   }, [table]);
 
@@ -146,7 +146,14 @@ const InterestCalculator = () => {
               </p>
             </div>
             <div>
-              <Button className="submitButton downloadExcel" onClick={downloadExcel}>Download as Excel</Button>
+              {results && (
+                <Button
+                  className="submitButton downloadExcel"
+                  onClick={downloadExcel}
+                >
+                  Download as Excel
+                </Button>
+              )}
             </div>
           </Col>
           <Col>
