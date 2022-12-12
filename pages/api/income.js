@@ -71,7 +71,7 @@ async function handler(req, res) {
     }
   } else if (req.method == "DELETE") {
     const body = req.body;
-    const oldName = body.oldName;
+    const oldName = body.name;
 
     const url =
       "https://financier-2022-default-rtdb.firebaseio.com/users/" +
@@ -95,6 +95,7 @@ async function handler(req, res) {
     } else {
       return res.status(200).json({
         deleted: true,
+        deletedName: oldName,
       });
     }
   }

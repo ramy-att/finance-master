@@ -16,6 +16,7 @@ const initialState = {
   userInfo: {},
   userExpenses: {},
   userIncomes: {},
+  userInvestments: {},
 };
 
 const authenSlice = createSlice({
@@ -27,12 +28,14 @@ const authenSlice = createSlice({
       state.userInfo = action.payload.userInfo;
       state.userExpenses = action.payload.expenses;
       state.userIncomes = action.payload.incomes;
+      state.userInvestments = action.payload.investments;
     },
     logout(state) {
       state.isAuthenticated = false;
       state.userInfo = {};
       state.userExpenses = {};
       state.userIncomes = {};
+      state.userInvestments = {};
     },
     updateExpenses(state, action) {
       state.userExpenses = action.payload;
@@ -41,6 +44,19 @@ const authenSlice = createSlice({
       const payLoad = action.payload;
       const name = payLoad["name"];
       state.userIncomes = { ...state.userIncomes, [name]: payLoad };
+    },
+    deleteInvestment(state, action) {
+      const name = action.payload;
+      delete state.userInvestments[name];
+    },
+    deleteIncome(state, action) {
+      const name = action.payload;
+      delete state.userIncomes[name];
+    },
+    updateInvestments(state, action) {
+      const payLoad = action.payload;
+      const name = payLoad["name"];
+      state.userInvestments = { ...state.userInvestments, [name]: payLoad };
     },
     updateUserData(state, action) {
       state.userExpenses = action.payload.expenses;

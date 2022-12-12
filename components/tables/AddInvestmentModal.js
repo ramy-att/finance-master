@@ -5,6 +5,8 @@ import { useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { authActions } from "../store";
 import { useDispatch } from "react-redux";
+import { Typeahead } from "react-bootstrap-typeahead";
+import "react-bootstrap-typeahead/css/Typeahead.css";
 
 const AddInvestmentModal = (props) => {
   const { typeOfAction, incomeKey } = props;
@@ -39,7 +41,7 @@ const AddInvestmentModal = (props) => {
   const modalTitle =
     typeOfAction == "edit" ? "Edit Your Investment" : "Add New Investment";
 
-  const formHandler = (e) => {
+  const formHandler = async (e) => {
     e.preventDefault();
     if (investmentType.current.value == 1) {
       // GIC
@@ -67,17 +69,133 @@ const AddInvestmentModal = (props) => {
         // matured amount stays the same since interest is paid out every period
         maturedAmount = amount;
         interestAmount = interest * amount * duration;
-        console.log(interestAmount);
       } else {
         // matured amount > amount due to interest
         maturedAmount = formula();
         interestAmount = maturedAmount - amount;
-        console.log(interestAmount);
       }
-    // API REQUEST BELOW
+      // API REQUEST BELOW
+      const data = {
+        purchaseDate: purchaseDate,
+        duration: duration,
+        payoutFreq: payoutFreq,
+        amount: amount,
+        interest: interest,
+        bank: bank,
+        maturedAmount: maturedAmount,
+        interestAmount: interestAmount,
+      };
+      console.log(data);
+      const endpoint = "/api/investment";
+      const options = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          localId: userInfo.localId,
+          token: userInfo.idToken,
+          type: "GIC/CD",
+          data: data,
+        }),
+      };
+      const response = await fetch(endpoint, options);
+      console.log(response);
+      const result = await response.json();
+      if (!result.error) {
+        console.log(result);
+        dispatch(authActions.updateInvestments(result));
+        // incomeAmount.current.value = "";
+        // incomeSrc.current.value = "1";
+        console.log(result);
+      }
     }
   };
+  // async function getServerSideProps(context) {
+  //   const url =
+  //     "https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords=INDEX&apikey=ROAPGSXI5YJ08S6W";
+  //   const response = await fetch(url, {
+  //     method: "GET",
+  //     header: {
+  //       "Content/type": "application/json",
+  //     },
+  //   });
+  //   const result = await response.json();
+  //   console.log(result);
+  //   return {
+  //     props: {}, // will be passed to the page component as props
+  //   };
+  // }
 
+  const options = [
+    {
+      label: "Alabama",
+      population: 4780127,
+      capital: "Montgomery",
+      region: "South",
+    },
+    { label: "Alaska", population: 710249, capital: "Juneau", region: "West" },
+    {
+      label: "Arizona",
+      population: 6392307,
+      capital: "Phoenix",
+      region: "West",
+    },
+    {
+      label: "Arkansas",
+      population: 2915958,
+      capital: "Little Rock",
+      region: "South",
+    },
+    {
+      label: "Arkansas",
+      population: 2915958,
+      capital: "Little Rock",
+      region: "South",
+    },
+    {
+      label: "Arkansas",
+      population: 2915958,
+      capital: "Little Rock",
+      region: "South",
+    },
+    {
+      label: "Arkansas",
+      population: 2915958,
+      capital: "Little Rock",
+      region: "South",
+    },
+    {
+      label: "Arkansas",
+      population: 2915958,
+      capital: "Little Rock",
+      region: "South",
+    },
+    {
+      label: "Arkansas",
+      population: 2915958,
+      capital: "Little Rock",
+      region: "South",
+    },
+    {
+      label: "Arkansas",
+      population: 2915958,
+      capital: "Little Rock",
+      region: "South",
+    },
+    {
+      label: "Arkansas",
+      population: 2915958,
+      capital: "Little Rock",
+      region: "South",
+    },
+    {
+      label: "Arkansas",
+      population: 2915958,
+      capital: "Little Rock",
+      region: "South",
+    },
+  ];
   return (
     <Modal
       {...props}
@@ -171,7 +289,14 @@ const AddInvestmentModal = (props) => {
               <Form.Group>
                 <Form.Label>Name/Symbol</Form.Label>
                 {/* Allow search endpoint here */}
-                <Form.Control type="text" placeholder="IBM" required />
+                {/* <Form.Control type="search" required /> */}
+                <Typeahead
+                  className="typeahead"
+                  // onChange={setSelected}
+                  options={options}
+                  placeholder="Choose a stock..."
+                  // selected={selected}
+                />
               </Form.Group>
               <Form.Group>
                 <Form.Label>Number of Stocks</Form.Label>

@@ -35,7 +35,19 @@ const getUserIncomes = async (localId, token) => {
     header: { "Content-Type": "application/json" },
   });
   const result = await response.json();
-  console.log(result);
+  return result;
+};
+const getUserInvestments = async (localId, token) => {
+  const url =
+    "https://financier-2022-default-rtdb.firebaseio.com/users/" +
+    localId +
+    "/investments.json?auth=" +
+    token;
+  const response = await fetch(url, {
+    method: "GET",
+    header: { "Content-Type": "application/json" },
+  });
+  const result = await response.json();
   return result;
 };
 async function handler(req, res) {
@@ -61,15 +73,13 @@ async function handler(req, res) {
 
     // Some error occured
     if (result && result.error && result.error.message) {
-      return res
-        .status(200)
-        .json({
-          error:
-            result.error.message == "INVALID_PASSWORD" ||
-            result.error.message == "EMAIL_NOT_FOUND"
-              ? "Incorrect Credentials"
-              : result.error.message,
-        });
+      return res.status(200).json({
+        error:
+          result.error.message == "INVALID_PASSWORD" ||
+          result.error.message == "EMAIL_NOT_FOUND"
+            ? "Incorrect Credentials"
+            : result.error.message,
+      });
     } else {
       const resultVerified = await checkVerification(result);
       const ver = resultVerified.users[0]["emailVerified"];
@@ -77,11 +87,15 @@ async function handler(req, res) {
         // Fetch Actual User Info
         const expenses = await getUserExpenses(result.localId, result.idToken);
         const incomes = await getUserIncomes(result.localId, result.idToken);
+        const investments = await getUserInvestments(
+          result.localId,
+          result.idToken
+        );
 
         res.status(200).json({
           expenses: { ...expenses },
           incomes: incomes === null ? {} : incomes,
-          // investments: investments,
+          investments: { ...investments },
           userInfo: {
             idToken: result.idToken,
             email: result.email,

@@ -8,9 +8,10 @@ import { useEffect, useState, useCallback } from "react";
 const Dashboard = () => {
   const expenses = useSelector((state) => state.userExpenses);
   const incomes = useSelector((state) => state.userIncomes);
+  const investments = useSelector((state) => state.userInvestments);
 
   const [totalIncomes, setTotalIncomes] = useState(0);
-
+  // console.log(investments);
   // const callAPI = async ()=>{
   //   // get: const key= 'https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol=SPX:INDEX&apikey=ROAPGSXI5YJ08S6W'
   //   // search: const key= 'https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords=INDEX&apikey=ROAPGSXI5YJ08S6W'
@@ -73,7 +74,7 @@ const Dashboard = () => {
           <h2 className="dashboardTitles">Investments</h2>
           <UserTable
             type="investments"
-            // data={expenses}
+            data={investments}
           />
         </Row>
       </Container>
