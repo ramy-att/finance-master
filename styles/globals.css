@@ -336,7 +336,7 @@ option:hover {
   background-color: var(--light-gray) !important;
 }
 .AddModalBody {
-  max-height: 20rem;
+  max-height: 25rem;
   height: fit-content;
   overflow-y: auto;
 }
@@ -368,11 +368,11 @@ option:hover {
 .modalSubmit {
   margin-top: 0.5rem !important;
 }
-.userTable{
+/* .userTable{
   padding: 0 0.75rem 0 0.75rem !important;
   max-height: 20rem;
   overflow-y: auto;
-}
+} */
 
 .dashboardTitle{
   margin: 0.5rem 0 0.5rem 0;
@@ -395,4 +395,8 @@ option:hover {
 .plusCircle{
   margin-right: 1rem;
   margin-top: 0.5rem;
+}
+.typeaheadMenu{
+  background-color: var(--blue-gray-05);
+  height: 12rem;
 }

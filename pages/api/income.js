@@ -1,5 +1,5 @@
 async function handler(req, res) {
-  if (req.method === "POST") {
+  if (req.method == "POST") {
     const body = req.body;
     const url =
       "https://financier-2022-default-rtdb.firebaseio.com/users/" +
@@ -8,6 +8,7 @@ async function handler(req, res) {
       body.token;
     const incomeCategory = body.source;
     const incomeAmount = body.amount;
+    const incomeFreq = body.incomeFreq;
 
     const response = await fetch(url, {
       method: "POST",
@@ -31,6 +32,7 @@ async function handler(req, res) {
         name: resultName,
         Category: incomeCategory,
         Amount: incomeAmount,
+        Freq: incomeFreq,
       });
     }
   } else if (req.method == "PATCH") {
@@ -38,7 +40,7 @@ async function handler(req, res) {
     const incomeCategory = body.source;
     const incomeAmount = body.amount;
     const oldName = body.oldName;
-
+    const freq = body.incomeFreq;
     const url =
       "https://financier-2022-default-rtdb.firebaseio.com/users/" +
       body.localId +
@@ -52,6 +54,7 @@ async function handler(req, res) {
       body: JSON.stringify({
         Category: incomeCategory,
         Amount: incomeAmount,
+        Freq: freq,
       }),
       header: {
         "Content/type": "application/json",
@@ -63,10 +66,12 @@ async function handler(req, res) {
         error: result.error.message,
       });
     } else {
+      console.log(result);
       return res.status(200).json({
         name: oldName,
-        Category: incomeCategory,
-        Amount: incomeAmount,
+        Category: result.Category,
+        Amount: result.Amount,
+        Freq: result.Freq,
       });
     }
   } else if (req.method == "DELETE") {

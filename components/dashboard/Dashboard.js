@@ -11,22 +11,6 @@ const Dashboard = () => {
   const investments = useSelector((state) => state.userInvestments);
 
   const [totalIncomes, setTotalIncomes] = useState(0);
-  // console.log(investments);
-  // const callAPI = async ()=>{
-  //   // get: const key= 'https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol=SPX:INDEX&apikey=ROAPGSXI5YJ08S6W'
-  //   // search: const key= 'https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords=INDEX&apikey=ROAPGSXI5YJ08S6W'
-  //   const response = await fetch(key, {
-  //     method: "GET",
-  //     header: {
-  //       "Content/type": "application/json",
-  //     },
-  //   });
-  //   const result = await response.json();
-  //   console.log(result);
-  // }
-  // useEffect(()=>{
-  //   callAPI();
-  // },[])
 
   return (
     <div className="dashboardPage">
@@ -64,7 +48,7 @@ const Dashboard = () => {
           </Col>
         </Row>
         <Row>
-          <h2 className="dashboardTitles">Monthly Incomes</h2>
+          <h2 className="dashboardTitles">Incomes</h2>
           <UserTable
             type="incomes"
             data={incomes}
@@ -76,6 +60,7 @@ const Dashboard = () => {
             type="investments"
             data={investments}
           />
+          <p>*BETA Version Of This App Does Not Allow Live Tracking Of Stock Market*</p>
         </Row>
       </Container>
     </div>

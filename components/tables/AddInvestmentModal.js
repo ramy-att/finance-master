@@ -1,28 +1,31 @@
 import Modal from "react-bootstrap/Modal";
 import { Button } from "react-bootstrap";
 import { Form } from "react-bootstrap";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { authActions } from "../store";
 import { useDispatch } from "react-redux";
-import { Typeahead } from "react-bootstrap-typeahead";
-import "react-bootstrap-typeahead/css/Typeahead.css";
 
 const AddInvestmentModal = (props) => {
-  const { typeOfAction, incomeKey } = props;
+  const { typeOfAction, investKey } = props;
   const investmentType = useRef(null);
   const [investmentIncome, setInvestmentIncome] = useState("GIC/CD");
-
+  const [editing, setEditing] = useState(typeOfAction == "edit");
   const purchaseDateRef = useRef(null);
   const durationRef = useRef(null);
   const interestRef = useRef(null);
   const investmentAmountRef = useRef(null);
   const bankRef = useRef(null);
   const payoutFrequencyRef = useRef(null);
+  const stockNameRef = useRef(null);
+  const numberStocksRef = useRef(null);
+  const stockPriceRef = useRef(null);
+  const currentStockPriceRef = useRef(null);
+  const dividentRef = useRef(null);
+  const dividentFreqRef = useRef(null);
 
   const userInfo = useSelector((state) => state.userInfo);
-  const incomes = useSelector((state) => state.userIncomes);
-
+  const investments = useSelector((state) => state.userInvestments);
   // Redux dispatch
   const dispatch = useDispatch();
 
@@ -38,12 +41,25 @@ const AddInvestmentModal = (props) => {
     }
   };
 
-  const modalTitle =
-    typeOfAction == "edit" ? "Edit Your Investment" : "Add New Investment";
+  const modalTitle = editing ? "Edit Your Investment" : "Add New Investment";
 
-  const formHandler = async (e) => {
-    e.preventDefault();
-    if (investmentType.current.value == 1) {
+  const endDateCalc = (startDate, value) => {
+    const start = new Date(startDate);
+    var totalDays = value * 365;
+    var years = Math.floor(totalDays / 365);
+    var months = Math.floor((totalDays - years * 365) / 30);
+    var days = Math.floor(totalDays - years * 365 - months * 30);
+
+    const endYear = start.getFullYear() + years;
+    const endMonth = start.getMonth() + months + 1;
+    const endDay = start.getDate() + days;
+    return `${endYear}-${endMonth}-${
+      endDay.toString().length == 2 ? endDay : `0${endDay}`
+    }`;
+  };
+  const getInvestment = () => {
+    let data = {};
+    if (investmentType.current.value == "GIC/CD") {
       // GIC
       const purchaseDate = purchaseDateRef.current.value;
       const duration = durationRef.current.value;
@@ -54,6 +70,10 @@ const AddInvestmentModal = (props) => {
       const maturedAmount = 0;
       const interestAmount = 0;
 
+      const startDate = new Date(purchaseDate);
+      startDate.setDate(startDate.getDate() + 1);
+      const maturityDate = endDateCalc(startDate, duration);
+
       const formula = () => {
         const n = 1;
         const future = amount * Math.pow(1 + interest, n * duration);
@@ -61,8 +81,9 @@ const AddInvestmentModal = (props) => {
       };
 
       if (
-        (duration > 1 && payoutFreq != 1) ||
-        (duration == 1 && !(payoutFreq == 1 || payoutFreq == 2))
+        (duration > 1 && payoutFreq != "Maturity") ||
+        (duration == 1 &&
+          !(payoutFreq == "Maturity" || payoutFreq == "Annually"))
       ) {
         // Longer than a year and not paid out at maturity or
         // One year and not paid out annually or at maturity
@@ -75,9 +96,10 @@ const AddInvestmentModal = (props) => {
         interestAmount = maturedAmount - amount;
       }
       // API REQUEST BELOW
-      const data = {
+      data = {
         purchaseDate: purchaseDate,
         duration: duration,
+        maturityDate: maturityDate,
         payoutFreq: payoutFreq,
         amount: amount,
         interest: interest,
@@ -85,117 +107,76 @@ const AddInvestmentModal = (props) => {
         maturedAmount: maturedAmount,
         interestAmount: interestAmount,
       };
-      console.log(data);
-      const endpoint = "/api/investment";
-      const options = {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          localId: userInfo.localId,
-          token: userInfo.idToken,
-          type: "GIC/CD",
-          data: data,
-        }),
+    } else if (investmentType.current.value == "Stocks") {
+      // Stocks
+      const purchaseDate = purchaseDateRef.current.value;
+      const stockName = stockNameRef.current.value;
+      const numberStocks = numberStocksRef.current.value;
+      const stockPrice = stockPriceRef.current.value;
+      const currentStockPrice = currentStockPriceRef.current.value;
+      const divident = dividentRef.current.value;
+      const dividentFreq = dividentFreqRef.current.value;
+      const bank = bankRef.current.value;
+      data = {
+        purchaseDate: purchaseDate,
+        stockName: stockName,
+        numberStocks: numberStocks,
+        stockPrice: stockPrice,
+        bank: bank,
+        currentStockPrice: currentStockPrice,
+        divident: divident,
+        dividentFreq: dividentFreq,
       };
-      const response = await fetch(endpoint, options);
-      console.log(response);
-      const result = await response.json();
-      if (!result.error) {
-        console.log(result);
-        dispatch(authActions.updateInvestments(result));
-        // incomeAmount.current.value = "";
-        // incomeSrc.current.value = "1";
-        console.log(result);
-      }
+    } else {
+      //CRYPTO
+      const stockName = stockNameRef.current.value;
+      const numberStocks = numberStocksRef.current.value;
+      const stockPrice = stockPriceRef.current.value;
+      const currentStockPrice = currentStockPriceRef.current.value;
+      const bank = bankRef.current.value;
+
+      data = {
+        coinName: stockName,
+        numberCoins: numberStocks,
+        coinPrice: stockPrice,
+        currentPrice: currentStockPrice,
+        bank: bank,
+      };
+    }
+    return data;
+  };
+  const formHandler = async (e) => {
+    e.preventDefault();
+    const data = getInvestment();
+    const endpoint = "/api/investment";
+    const options = {
+      method: editing ? "PATCH" : "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: editing
+        ? JSON.stringify({
+            oldName: investKey,
+            localId: userInfo.localId,
+            token: userInfo.idToken,
+            type: investmentType.current.value,
+            data: data,
+          })
+        : JSON.stringify({
+            localId: userInfo.localId,
+            token: userInfo.idToken,
+            type: investmentType.current.value,
+            data: data,
+          }),
+    };
+    const response = await fetch(endpoint, options);
+    const result = await response.json();
+    if (!result.error) {
+      dispatch(authActions.updateInvestments(result));
+      // incomeAmount.current.value = "";
+      // incomeSrc.current.value = "1";
     }
   };
-  // async function getServerSideProps(context) {
-  //   const url =
-  //     "https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords=INDEX&apikey=ROAPGSXI5YJ08S6W";
-  //   const response = await fetch(url, {
-  //     method: "GET",
-  //     header: {
-  //       "Content/type": "application/json",
-  //     },
-  //   });
-  //   const result = await response.json();
-  //   console.log(result);
-  //   return {
-  //     props: {}, // will be passed to the page component as props
-  //   };
-  // }
-
-  const options = [
-    {
-      label: "Alabama",
-      population: 4780127,
-      capital: "Montgomery",
-      region: "South",
-    },
-    { label: "Alaska", population: 710249, capital: "Juneau", region: "West" },
-    {
-      label: "Arizona",
-      population: 6392307,
-      capital: "Phoenix",
-      region: "West",
-    },
-    {
-      label: "Arkansas",
-      population: 2915958,
-      capital: "Little Rock",
-      region: "South",
-    },
-    {
-      label: "Arkansas",
-      population: 2915958,
-      capital: "Little Rock",
-      region: "South",
-    },
-    {
-      label: "Arkansas",
-      population: 2915958,
-      capital: "Little Rock",
-      region: "South",
-    },
-    {
-      label: "Arkansas",
-      population: 2915958,
-      capital: "Little Rock",
-      region: "South",
-    },
-    {
-      label: "Arkansas",
-      population: 2915958,
-      capital: "Little Rock",
-      region: "South",
-    },
-    {
-      label: "Arkansas",
-      population: 2915958,
-      capital: "Little Rock",
-      region: "South",
-    },
-    {
-      label: "Arkansas",
-      population: 2915958,
-      capital: "Little Rock",
-      region: "South",
-    },
-    {
-      label: "Arkansas",
-      population: 2915958,
-      capital: "Little Rock",
-      region: "South",
-    },
-    {
-      label: "Arkansas",
-      population: 2915958,
-      capital: "Little Rock",
-      region: "South",
-    },
-  ];
   return (
     <Modal
       {...props}
@@ -217,22 +198,44 @@ const AddInvestmentModal = (props) => {
               onChange={changeInvestment}
               required
               className="selectCompounding"
+              defaultValue={
+                editing && investKey ? investments[investKey].type : null
+              }
             >
-              <option value="1">GIC/CD</option>
-              <option value="2">Stocks/Index & Mutual Funds</option>
-              <option value="3">Cryptocurrency</option>
-              {/* Add Gold later */}
+              <option value="GIC/CD">GIC/CD</option>
+              <option value="Stocks">Stocks/Index & Mutual Funds</option>
+              <option value="Crypto">Cryptocurrency</option>
             </Form.Select>
           </Form.Group>
           {investmentIncome == "GIC/CD" && (
             <>
               <Form.Group className="mb-3" controlId="formBasicEmail">
                 <Form.Label>Purchase Date</Form.Label>
-                <Form.Control type="date" ref={purchaseDateRef} required />
+                <Form.Control
+                  type="date"
+                  defaultValue={
+                    editing && investKey
+                      ? investments[investKey].purchaseDate
+                      : null
+                  }
+                  ref={purchaseDateRef}
+                  required
+                />
               </Form.Group>
               <Form.Group className="mb-3" controlId="formBasicEmail">
                 <Form.Label>Duration in Years</Form.Label>
-                <Form.Control type="number" ref={durationRef} required />
+                <Form.Control
+                  type="number"
+                  defaultValue={
+                    editing && investKey
+                      ? investments[investKey].duration
+                      : null
+                  }
+                  step="0.01"
+                  min="0"
+                  ref={durationRef}
+                  required
+                />
               </Form.Group>
               <Form.Group className="mb-3" controlId="formBasicEmail">
                 <Form.Label>Payout Frequency</Form.Label>
@@ -241,12 +244,17 @@ const AddInvestmentModal = (props) => {
                   onChange={changeInvestment}
                   required
                   className="selectCompounding"
+                  defaultValue={
+                    editing && investKey
+                      ? investments[investKey].payoutFreq
+                      : null
+                  }
                 >
-                  <option value="1">At Maturity</option>
-                  <option value="2">Annually</option>
-                  <option value="3">Semi-Annually</option>
-                  <option value="3">Quarterly</option>
-                  <option value="3">Monthly</option>
+                  <option value="Maturity">At Maturity</option>
+                  <option value="Annually">Annually</option>
+                  <option value="Semi-Annually">Semi-Annually</option>
+                  <option value="Quarterly">Quarterly</option>
+                  <option value="Monthly">Monthly</option>
                 </Form.Select>
               </Form.Group>
               <Form.Group>
@@ -257,6 +265,9 @@ const AddInvestmentModal = (props) => {
                   placeholder="$100,000"
                   required
                   ref={investmentAmountRef}
+                  defaultValue={
+                    editing && investKey ? investments[investKey].amount : null
+                  }
                 />
               </Form.Group>
               <Form.Group>
@@ -267,6 +278,11 @@ const AddInvestmentModal = (props) => {
                   placeholder="5%"
                   required
                   ref={interestRef}
+                  defaultValue={
+                    editing && investKey
+                      ? investments[investKey].interest * 100
+                      : null
+                  }
                 />
               </Form.Group>
               <Form.Group>
@@ -276,54 +292,132 @@ const AddInvestmentModal = (props) => {
                   placeholder="Royal Bank of Canada"
                   required
                   ref={bankRef}
+                  defaultValue={
+                    editing && investKey ? investments[investKey].bank : null
+                  }
                 />
               </Form.Group>
             </>
           )}
           {investmentIncome == "Stocks" && (
             <>
-              <Form.Group className="mb-3" controlId="formBasicEmail">
-                <Form.Label>Purchase Date</Form.Label>
-                <Form.Control type="date" required />
-              </Form.Group>
               <Form.Group>
                 <Form.Label>Name/Symbol</Form.Label>
-                {/* Allow search endpoint here */}
-                {/* <Form.Control type="search" required /> */}
-                <Typeahead
-                  className="typeahead"
-                  // onChange={setSelected}
-                  options={options}
-                  placeholder="Choose a stock..."
-                  // selected={selected}
+                <Form.Control
+                  ref={stockNameRef}
+                  defaultValue={
+                    editing && investKey
+                      ? investments[investKey].stockName
+                      : null
+                  }
+                  type="input"
+                  required
+                />
+              </Form.Group>
+              <Form.Group className="mb-3" controlId="formBasicEmail">
+                <Form.Label>Purchase Date</Form.Label>
+                <Form.Control
+                  ref={purchaseDateRef}
+                  defaultValue={
+                    editing && investKey
+                      ? investments[investKey].purchaseDate
+                      : null
+                  }
+                  type="date"
+                  required
                 />
               </Form.Group>
               <Form.Group>
                 <Form.Label>Number of Stocks</Form.Label>
                 <Form.Control
+                  ref={numberStocksRef}
                   type="number"
                   step="0.001"
                   placeholder="10"
                   required
+                  defaultValue={
+                    editing && investKey
+                      ? investments[investKey].numberStocks
+                      : null
+                  }
                 />
               </Form.Group>
               <Form.Group>
                 <Form.Label>Price/Qty at Purchase</Form.Label>
                 <Form.Control
+                  ref={stockPriceRef}
                   type="number"
                   step="0.001"
                   placeholder="$475.25"
                   required
+                  defaultValue={
+                    editing && investKey
+                      ? investments[investKey].stockPrice
+                      : null
+                  }
+                />
+              </Form.Group>
+              <Form.Group>
+                <Form.Label>Current Price/Qty</Form.Label>
+                <Form.Control
+                  ref={currentStockPriceRef}
+                  type="number"
+                  step="0.001"
+                  placeholder="$475.25"
+                  required
+                  defaultValue={
+                    editing && investKey
+                      ? investments[investKey].currentStockPrice
+                      : null
+                  }
                 />
               </Form.Group>
               <Form.Group>
                 <Form.Label>Financial Inst Name</Form.Label>
                 <Form.Control
+                  ref={bankRef}
                   type="text"
                   placeholder="Royal Bank of Canada"
                   required
+                  defaultValue={
+                    editing && investKey ? investments[investKey].bank : null
+                  }
                 />
               </Form.Group>
+              <div className="interestCalcFormG">
+                <Form.Group>
+                  <Form.Label>Divident Amount</Form.Label>
+                  <Form.Control
+                    ref={dividentRef}
+                    type="number"
+                    step="0.001"
+                    placeholder="$475.25"
+                    required
+                    defaultValue={
+                      editing && investKey
+                        ? investments[investKey].divident
+                        : null
+                    }
+                  />
+                </Form.Group>
+                <Form.Group>
+                  <Form.Label>Divident Frequency</Form.Label>
+                  <Form.Select
+                    ref={dividentFreqRef}
+                    className="selectCompounding"
+                    defaultValue={
+                      editing && investKey
+                        ? investments[investKey].dividentFreq
+                        : null
+                    }
+                  >
+                    <option value="Annually">Annually</option>
+                    <option value="Semi-Annually">Semi-Annually</option>
+                    <option value="Quarterly">Quarterly</option>
+                    <option value="Monthly">Monthly</option>
+                  </Form.Select>
+                </Form.Group>
+              </div>
             </>
           )}
           {investmentIncome == "Crypto" && (
@@ -331,7 +425,17 @@ const AddInvestmentModal = (props) => {
               <Form.Group>
                 <Form.Label>Name/Symbol</Form.Label>
                 {/* Allow search endpoint here */}
-                <Form.Control type="text" placeholder="Bitcoin" required />
+                <Form.Control
+                  ref={stockNameRef}
+                  type="text"
+                  placeholder="Bitcoin"
+                  required
+                  defaultValue={
+                    editing && investKey
+                      ? investments[investKey].coinName
+                      : null
+                  }
+                />
               </Form.Group>
               <Form.Group>
                 <Form.Label>Number of Coins</Form.Label>
@@ -340,6 +444,12 @@ const AddInvestmentModal = (props) => {
                   step="0.001"
                   placeholder="10"
                   required
+                  ref={numberStocksRef}
+                  defaultValue={
+                    editing && investKey
+                      ? investments[investKey].numberCoins
+                      : null
+                  }
                 />
               </Form.Group>
               <Form.Group>
@@ -349,6 +459,27 @@ const AddInvestmentModal = (props) => {
                   step="0.001"
                   placeholder="$475.25"
                   required
+                  ref={stockPriceRef}
+                  defaultValue={
+                    editing && investKey
+                      ? investments[investKey].stockPrice
+                      : null
+                  }
+                />
+              </Form.Group>
+              <Form.Group>
+                <Form.Label>Current Price/Qty</Form.Label>
+                <Form.Control
+                  type="number"
+                  step="0.001"
+                  placeholder="$475.25"
+                  required
+                  ref={currentStockPriceRef}
+                  defaultValue={
+                    editing && investKey
+                      ? investments[investKey].currentStockPrice
+                      : null
+                  }
                 />
               </Form.Group>
               <Form.Group>
@@ -357,6 +488,10 @@ const AddInvestmentModal = (props) => {
                   type="text"
                   placeholder="Royal Bank of Canada"
                   required
+                  ref={bankRef}
+                  defaultValue={
+                    editing && investKey ? investments[investKey].bank : null
+                  }
                 />
               </Form.Group>
             </>
