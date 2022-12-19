@@ -368,10 +368,16 @@ option:hover {
 .modalSubmit {
   margin-top: 0.5rem !important;
 }
-/* .userTable{
+.userTable{
   padding: 0 0.75rem 0 0.75rem !important;
-  max-height: 20rem;
-  overflow-y: auto;
+  /* max-height: 20rem; */
+  /* overflow-y: auto; */
+  max-width: 100%;
+  overflow-x: auto;
+}
+/* .investmentTable{
+  max-width: 100%;
+  overflow-x: auto;
 } */
 
 .dashboardTitle{

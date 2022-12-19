@@ -129,7 +129,7 @@ const AddIncomeModal = (props) => {
       }
     }
   };
-  const formHandler = async (e) => {
+  const addIncome = async (e) => {
     e.preventDefault();
     // addInvestment();
     const endpoint = "/api/income";

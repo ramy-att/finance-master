@@ -27,7 +27,11 @@ const UserTable = (props) => {
   };
 
   const gicCounter = 0;
+  const gicAmount = 0;
   const stocksCounter = 0;
+  const stocks = { invested: 0, current: 0, dividents: 0 };
+  const cryptoCounter = 0;
+  const crypto = { invested: 0, current: 0 };
 
   const sortIncomes = (array) => {
     const daily = [];
@@ -174,18 +178,17 @@ const UserTable = (props) => {
     );
   };
   const gicTable = () => {
+    //.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
     return (
       data &&
       Object.entries(data).map(([key, val]) => {
         if (val.type == "GIC/CD") {
           gicCounter++;
-          totalAmount += parseFloat(val.amount);
+          gicAmount += parseFloat(val.amount);
           return (
             <tr>
               <td>{gicCounter}</td>
-              <td>
-                ${val.amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
-              </td>
+              <td colSpan={2}>${val.amount}</td>
               <td>{val.interest * 100}%</td>
               <td>
                 {val.duration} {val.duration > 1 ? "Years" : "Year"}
@@ -194,20 +197,10 @@ const UserTable = (props) => {
               <td>{val.maturityDate}</td>
               <td>{val.bank}</td>
               <td>{val.payoutFreq}</td>
-              <td>
-                $
-                {val.interestAmount
-                  .toString()
-                  .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
-              </td>
-              <td>
-                $
-                {val.maturedAmount
-                  .toString()
-                  .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
-              </td>
-              <td></td>
-              <td>
+              <td>${val.interestAmount}</td>
+              <td colSpan={2}>${val.maturedAmount}</td>
+              {/* <td></td> */}
+              <td colSpan={2}>
                 <div className="actionsTd">
                   <Pencil
                     className="tableIcon"
@@ -239,45 +232,32 @@ const UserTable = (props) => {
       Object.entries(data).map(([key, val]) => {
         if (val.type == "Stocks") {
           stocksCounter++;
-          // totalAmount += parseFloat(val.amount);
+          stocks.invested += parseFloat(val.stockPrice * val.numberStocks);
+          stocks.current += parseFloat(
+            val.currentStockPrice * val.numberStocks
+          );
+          stocks.dividents += parseFloat(val.divident * val.dividentFreq);
           return (
             <tr>
               <td>{stocksCounter}</td>
               <td>{val.stockName}</td>
               <td>{val.numberStocks}</td>
-              <td>
-                $
-                {val.stockPrice
-                  .toString()
-                  .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
-              </td>
+              <td>${val.stockPrice}</td>
               <td>{val.purchaseDate}</td>
               <td>{val.bank}</td>
+              <td>${val.currentStockPrice}</td>
+              <td>${val.divident}</td>
+              <td>${parseFloat(val.stockPrice * val.numberStocks)}</td>
+              <td>${parseFloat(val.currentStockPrice * val.numberStocks)}</td>
+              <td>{val.dividentFreq}/Year</td>
               <td>
                 $
-                {val.currentStockPrice
-                  .toString()
-                  .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
-              </td>
-              <td>
-                ${val.divident.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
-              </td>
-              <td>{val.dividentFreq}</td>
-              <td>
-                $
-                {parseFloat(val.currentStockPrice) -
-                  parseFloat(val.stockPrice)
-                    .toString()
-                    .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                {parseFloat(val.currentStockPrice) - parseFloat(val.stockPrice)}
               </td>
               <td>
                 $
-                {(
-                  parseFloat(val.currentStockPrice * val.numberStocks) -
-                  parseFloat(val.stockPrice * val.numberStocks)
-                )
-                  .toString()
-                  .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                {parseFloat(val.currentStockPrice * val.numberStocks) -
+                  parseFloat(val.stockPrice * val.numberStocks)}
               </td>
               <td>
                 <div className="actionsTd">
@@ -310,52 +290,29 @@ const UserTable = (props) => {
       data &&
       Object.entries(data).map(([key, val]) => {
         if (val.type == "Crypto") {
-          stocksCounter++;
-          // totalAmount += parseFloat(val.amount);
+          cryptoCounter++;
+          crypto.invested += parseFloat(val.coinPrice * val.numberCoins);
+          crypto.current += parseFloat(val.currentPrice * val.numberCoins);
           return (
             <tr>
-              <td>{stocksCounter}</td>
-              <td>{val.coinName}</td>
+              <td>{cryptoCounter}</td>
+              <td colSpan={2}>{val.coinName}</td>
               <td>{val.numberCoins}</td>
-              <td>
-                $
-                {val.coinPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
-              </td>
-              <td>
-                $
-                {val.currentPrice
-                  .toString()
-                  .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
-              </td>
-              <td>
-                $
-                {(val.coinPrice * val.numberCoins)
-                  .toString()
-                  .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
-              </td>
-              <td>
-                $
-                {(val.currentPrice * val.numberCoins)
-                  .toString()
-                  .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
-              </td>
+              <td>${val.coinPrice}</td>
+              <td></td>
+              <td>${val.currentPrice}</td>
+              <td>${val.coinPrice * val.numberCoins}</td>
+              <td>${val.currentPrice * val.numberCoins}</td>
               <td>{val.bank}</td>
               <td>
-                $
-                {(parseFloat(val.currentPrice) - parseFloat(val.coinPrice))
-                  .toString()
-                  .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                ${parseFloat(val.currentPrice) - parseFloat(val.coinPrice)}
               </td>
               <td>
                 $
-                {(
-                  parseFloat(val.currentPrice * val.numberCoins) -
-                  parseFloat(val.coinPrice * val.numberCoins)
-                )
-                  .toString()
-                  .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                {parseFloat(val.currentPrice * val.numberCoins) -
+                  parseFloat(val.coinPrice * val.numberCoins)}
               </td>
-              <td>
+              <td colSpan={2}>
                 <div className="actionsTd">
                   <Pencil
                     className="tableIcon"
@@ -383,64 +340,97 @@ const UserTable = (props) => {
   };
   const investmentTable = () => {
     return (
-      <>
-        <tbody>
-          <tr>
-            <th>GICs/CDs</th>
-          </tr>
-          <tr>
-            <th>#</th>
-            <th>Amount</th>
-            <th>Interest</th>
-            <th>Duration</th>
-            <th>Purchase Date</th>
-            <th>End Date</th>
-            <th>Bank</th>
-            <th>Payout Freq</th>
-            <th>Interest Amount</th>
-            <th>Matured Amount</th>
-            <th>//</th>
-            <th>Actions</th>
-          </tr>
-          {gicTable()}
-          <tr>
-            <th>Stocks/ETFs</th>
-          </tr>
-          <tr>
-            <th>#</th>
-            <th>Symbol</th>
-            <th>Qty</th>
-            <th>Purchase Price / Unit</th>
-            <th>Purchase Date</th>
-            <th>Bank</th>
-            <th>Current Price</th>
-            <th>Divident</th>
-            <th>Divident Freq</th>
-            <th>Gain/Loss Per Unit</th>
-            <th>Gain/Loss</th>
-            <th>Actions</th>
-          </tr>
-          {stocksTable()}
-          <tr>
-            <th colSpan={9}>Crypto</th>
-          </tr>
-          <tr>
-            <th>#</th>
-            <th>Name</th>
-            <th>Qty</th>
-            <th>Purchase Price / Coin</th>
-            <th>Purchase Date</th>
-            <th>Current Price/ Coin</th>
-            <th>Total Purchase Price</th>
-            <th>Total Current Price</th>
-            <th>Bank</th>
-            <th>Gain/Loss Per Unit</th>
-            <th>Gain/Loss</th>
-            <th>Actions</th>
-          </tr>
-          {cryptoTable}
-        </tbody>
-      </>
+      <tbody>
+        <tr>
+          <th>GICs/CDs</th>
+        </tr>
+        <tr>
+          <th>#</th>
+          <th colSpan={2}>Amount</th>
+          <th>Interest</th>
+          <th>Duration</th>
+          <th>Purchase Date</th>
+          <th>End Date</th>
+          <th>Bank</th>
+          <th>Payout Freq</th>
+          <th>Interest Amount</th>
+          <th colSpan={2}>Matured Amount</th>
+          <th>Actions</th>
+        </tr>
+        {gicTable()}
+        <tr>
+          <td>Locked Total</td>
+          <td colSpan={13}>${gicAmount}</td>
+        </tr>
+        <tr>
+          <th>Stocks/ETFs</th>
+        </tr>
+        <tr>
+          <th>#</th>
+          <th>Symbol</th>
+          <th>Qty</th>
+          <th>Purchase Price / Unit</th>
+          <th>Purchase Date</th>
+          <th>Bank</th>
+          <th>Current Price</th>
+          <th>Divident</th>
+          <th>Purchased Total</th>
+          <th>Current Total</th>
+          <th>Divident Freq</th>
+          <th>Gain/Loss Per Unit</th>
+          <th>Gain/Loss</th>
+          <th>Actions</th>
+        </tr>
+        {stocksTable()}
+        <tr>
+          <td>Total</td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td>${stocks.invested}</td>
+          <td>${stocks.current}</td>
+          <td>${stocks.dividents} (annual)</td>
+          <td></td>
+          <td>${stocks.current - stocks.invested}</td>
+          <td></td>
+        </tr>
+        <tr>
+          <th colSpan={9}>Crypto</th>
+        </tr>
+        <tr>
+          <th>#</th>
+          <th colSpan={2}>Name</th>
+          <th>Qty</th>
+          <th>Purchase Price / Coin</th>
+          <th>Purchase Date</th>
+          <th>Current Price/ Coin</th>
+          <th>Total Purchase Price</th>
+          <th>Total Current Price</th>
+          <th>Bank</th>
+          <th>Gain/Loss Per Unit</th>
+          <th>Gain/Loss</th>
+          <th colSpan={2}>Actions</th>
+        </tr>
+        {cryptoTable()}
+        <tr>
+          <td>Total</td>
+          <td colSpan={2}></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td>${crypto.invested}</td>
+          <td>${crypto.current}</td>
+          <td></td>
+          <td></td>
+          <td>${crypto.current - crypto.invested}</td>
+          <td colSpan={2}></td>
+        </tr>
+      </tbody>
     );
   };
   const counter = 0;
@@ -450,7 +440,9 @@ const UserTable = (props) => {
       <div className="userTable">
         {type == "incomes" && <Table striped="columns">{incomeTable()}</Table>}
         {type == "investments" && (
-          <Table striped="columns">{investmentTable()}</Table>
+          <Table striped="columns" className="investmentTable">
+            {investmentTable()}
+          </Table>
         )}
       </div>
       <div className="tableAddMoreButton">

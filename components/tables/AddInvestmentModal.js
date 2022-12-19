@@ -8,9 +8,17 @@ import { useDispatch } from "react-redux";
 
 const AddInvestmentModal = (props) => {
   const { typeOfAction, investKey } = props;
-  const investmentType = useRef(null);
-  const [investmentIncome, setInvestmentIncome] = useState("GIC/CD");
+
+  const userInfo = useSelector((state) => state.userInfo);
+  const investments = useSelector((state) => state.userInvestments);
+
   const [editing, setEditing] = useState(typeOfAction == "edit");
+  const [investmentIncome, setInvestmentIncome] = useState(
+    typeOfAction == "edit" ? investments[investKey].type : "GIC/CD"
+  );
+
+  // REFS
+  const investmentType = useRef(null);
   const purchaseDateRef = useRef(null);
   const durationRef = useRef(null);
   const interestRef = useRef(null);
@@ -24,16 +32,14 @@ const AddInvestmentModal = (props) => {
   const dividentRef = useRef(null);
   const dividentFreqRef = useRef(null);
 
-  const userInfo = useSelector((state) => state.userInfo);
-  const investments = useSelector((state) => state.userInvestments);
   // Redux dispatch
   const dispatch = useDispatch();
 
   const changeInvestment = () => {
     if (investmentType.current !== null) {
-      if (investmentType.current.value == 1) {
+      if (investmentType.current.value == "GIC/CD") {
         setInvestmentIncome("GIC/CD");
-      } else if (investmentType.current.value == 2) {
+      } else if (investmentType.current.value == "Stocks") {
         setInvestmentIncome("Stocks");
       } else {
         setInvestmentIncome("Crypto");
@@ -131,6 +137,7 @@ const AddInvestmentModal = (props) => {
       //CRYPTO
       const stockName = stockNameRef.current.value;
       const numberStocks = numberStocksRef.current.value;
+      const purchaseDate = purchaseDateRef.current.value;
       const stockPrice = stockPriceRef.current.value;
       const currentStockPrice = currentStockPriceRef.current.value;
       const bank = bankRef.current.value;
@@ -138,6 +145,7 @@ const AddInvestmentModal = (props) => {
       data = {
         coinName: stockName,
         numberCoins: numberStocks,
+        purchaseDate:purchaseDate,
         coinPrice: stockPrice,
         currentPrice: currentStockPrice,
         bank: bank,
@@ -172,11 +180,13 @@ const AddInvestmentModal = (props) => {
     const response = await fetch(endpoint, options);
     const result = await response.json();
     if (!result.error) {
+      console.log(result)
       dispatch(authActions.updateInvestments(result));
       // incomeAmount.current.value = "";
       // incomeSrc.current.value = "1";
     }
   };
+  console.log(investmentIncome);
   return (
     <Modal
       {...props}
@@ -411,10 +421,10 @@ const AddInvestmentModal = (props) => {
                         : null
                     }
                   >
-                    <option value="Annually">Annually</option>
-                    <option value="Semi-Annually">Semi-Annually</option>
-                    <option value="Quarterly">Quarterly</option>
-                    <option value="Monthly">Monthly</option>
+                    <option value="1">Annually</option>
+                    <option value="2">Semi-Annually</option>
+                    <option value="4">Quarterly</option>
+                    <option value="12">Monthly</option>
                   </Form.Select>
                 </Form.Group>
               </div>
@@ -435,6 +445,19 @@ const AddInvestmentModal = (props) => {
                       ? investments[investKey].coinName
                       : null
                   }
+                />
+              </Form.Group>
+              <Form.Group className="mb-3" controlId="formBasicEmail">
+                <Form.Label>Purchase Date</Form.Label>
+                <Form.Control
+                  type="date"
+                  defaultValue={
+                    editing && investKey
+                      ? investments[investKey].purchaseDate
+                      : null
+                  }
+                  ref={purchaseDateRef}
+                  required
                 />
               </Form.Group>
               <Form.Group>
