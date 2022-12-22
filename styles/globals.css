@@ -15,8 +15,31 @@
 * {
   font-family: serif;
 }
+body{
+  overflow: overlay;
+}
 .form-label {
   font-size: 1.25rem !important;
+}
+
+/* custom scrollbar */
+::-webkit-scrollbar {
+  width: 20px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #d6dee1;
+  border-radius: 20px;
+  border: 6px solid transparent;
+  background-clip: content-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #a8bbbf;
 }
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
@@ -405,4 +428,81 @@ option:hover {
 .typeaheadMenu{
   background-color: var(--blue-gray-05);
   height: 12rem;
+}
+.budgetContainer{
+  min-height: 100vh;
+}
+.block{
+  background-color: var(--blue-gray-09);
+  color: var(--light-gray);
+  border-radius: 1rem;
+  text-align: center;
+  width: 20rem;
+  height: 20rem;
+  padding: 1rem;
+  margin: 2rem;
+}
+.block .expensesContainer{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: calc(20rem - 38px - 38px - 2.5rem);
+  overflow-y: overlay;
+}
+.block .incomesContainer{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: calc(20rem - 38px - 38px - 2.5rem);
+}
+/* .expenseLine{
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+} */
+/* .expenseItemCont{
+  width: 50%;
+} */
+.incomeLine{
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.budgetRow{
+  background-color: var(--blue-gray-07);
+  border-radius: 1rem;
+  max-height: 50rem;
+  overflow: overlay;
+  margin: 2rem 0 2rem 0;
+  padding: 2rem;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+.budgetRowTitle{
+  margin: 1rem 0 0 0;
+}
+.addMoreIcon{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.addMoreIcon:hover{
+  background-color: var(--blue-gray-08);
+}
+.addMoreIcon:hover{
+  cursor: pointer;
+}
+.blockIconsCont{
+  text-align: center;
+}
+.blockIcons{
+  display: flex;
+  justify-content: space-around;
+}
+.blockIcon:hover{
+  cursor: pointer;
 }

@@ -3,12 +3,7 @@ import { useState } from "react";
 import AddIncomeModal from "./AddIncomeModal";
 import AddExpenseModal from "./AddExpenseModal";
 import AddInvestmentModal from "./AddInvestmentModal";
-import {
-  Pencil,
-  Trash,
-  PlusCircle,
-  NodeMinusFill,
-} from "react-bootstrap-icons";
+import { Pencil, Trash, PlusCircle, Eye } from "react-bootstrap-icons";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { authActions } from "../store";
@@ -32,6 +27,7 @@ const UserTable = (props) => {
   const stocks = { invested: 0, current: 0, dividents: 0 };
   const cryptoCounter = 0;
   const crypto = { invested: 0, current: 0 };
+  const expCatCounter = 0;
 
   const sortIncomes = (array) => {
     const daily = [];
@@ -166,13 +162,15 @@ const UserTable = (props) => {
                 </tr>
               );
             })}
-          <tr>
-            <td>Annual Total</td>
-            <td></td>
-            <td></td>
-            <td>${totalAmount}</td>
-            <td></td>
-          </tr>
+          {counter > 1 && (
+            <tr>
+              <td>Annual Total</td>
+              <td></td>
+              <td></td>
+              <td>${totalAmount}</td>
+              <td></td>
+            </tr>
+          )}
         </tbody>
       </>
     );
@@ -358,10 +356,12 @@ const UserTable = (props) => {
           <th>Actions</th>
         </tr>
         {gicTable()}
-        <tr>
-          <td>Locked Total</td>
-          <td colSpan={13}>${gicAmount}</td>
-        </tr>
+        {gicCounter > 1 && (
+          <tr>
+            <td>Locked Total</td>
+            <td colSpan={13}>${gicAmount}</td>
+          </tr>
+        )}
         <tr>
           <th>Stocks/ETFs</th>
         </tr>
@@ -382,22 +382,24 @@ const UserTable = (props) => {
           <th>Actions</th>
         </tr>
         {stocksTable()}
-        <tr>
-          <td>Total</td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td>${stocks.invested}</td>
-          <td>${stocks.current}</td>
-          <td>${stocks.dividents} (annual)</td>
-          <td></td>
-          <td>${stocks.current - stocks.invested}</td>
-          <td></td>
-        </tr>
+        {stocksCounter > 1 && (
+          <tr>
+            <td>Total</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>${stocks.invested}</td>
+            <td>${stocks.current}</td>
+            <td>${stocks.dividents} (annual)</td>
+            <td></td>
+            <td>${stocks.current - stocks.invested}</td>
+            <td></td>
+          </tr>
+        )}
         <tr>
           <th colSpan={9}>Crypto</th>
         </tr>
@@ -416,20 +418,72 @@ const UserTable = (props) => {
           <th colSpan={2}>Actions</th>
         </tr>
         {cryptoTable()}
+        {cryptoCounter > 1 && (
+          <tr>
+            <td>Total</td>
+            <td colSpan={2}></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>${crypto.invested}</td>
+            <td>${crypto.current}</td>
+            <td></td>
+            <td></td>
+            <td>${crypto.current - crypto.invested}</td>
+            <td colSpan={2}></td>
+          </tr>
+        )}
+      </tbody>
+    );
+  };
+  const expensesBody = () => {
+    return (
+      data &&
+      Object.entries(data).map(([key, val]) => {
+        expCatCounter++;
+        // val -> category
+        return (
+          <tr>
+            <td>{expCatCounter}</td>
+            <td>{val.title}</td>
+            <td>${val.total ? val.total : 0}</td>
+            <td>
+              <div className="actionsTd">
+                <Eye size={20} />
+                <Pencil
+                  className="tableIcon"
+                  // onClick={() => {
+                  //   setShowAddModal(true);
+                  //   setIncomeAction("edit");
+                  //   setKey(key);
+                  // }}
+                  size={20}
+                />
+                <Trash
+                  className="tableIcon"
+                  // onClick={() => {
+                  //   deleteItem("investment", key);
+                  // }}
+                  size={20}
+                />
+              </div>
+            </td>
+          </tr>
+        );
+      })
+    );
+  };
+  const expensesTable = () => {
+    return (
+      <tbody>
         <tr>
-          <td>Total</td>
-          <td colSpan={2}></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td>${crypto.invested}</td>
-          <td>${crypto.current}</td>
-          <td></td>
-          <td></td>
-          <td>${crypto.current - crypto.invested}</td>
-          <td colSpan={2}></td>
+          <th>#</th>
+          <th>Category</th>
+          <th>Total</th>
+          <th>Actions</th>
         </tr>
+        {expensesBody()}
       </tbody>
     );
   };
@@ -443,6 +497,9 @@ const UserTable = (props) => {
           <Table striped="columns" className="investmentTable">
             {investmentTable()}
           </Table>
+        )}
+        {type == "expenses" && (
+          <Table striped="columns">{expensesTable()}</Table>
         )}
       </div>
       <div className="tableAddMoreButton">
