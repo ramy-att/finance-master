@@ -67,7 +67,6 @@ const FutureAmount = (props) => {
       const f = formula(i);
       annualData.push(f.toFixed(2));
     }
-    console.log([...annualData].reverse());
     const data = {
       present: present,
       annualData: [...annualData].reverse(),

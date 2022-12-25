@@ -87,6 +87,7 @@ async function handler(req, res) {
         // Fetch Actual User Info
         const expenses = await getUserExpenses(result.localId, result.idToken);
         const incomes = await getUserIncomes(result.localId, result.idToken);
+        console.log(incomes)
         const investments = await getUserInvestments(
           result.localId,
           result.idToken
@@ -112,14 +113,3 @@ async function handler(req, res) {
 }
 
 export default handler;
-// if (resultVerified.userVerification === true) {
-//   res.status(200).json({
-//     idToken: result.idToken,
-//     email: result.email,
-//     localId: result.localId,
-//   });
-// } else {
-//   res.status(200).json({
-//     error: "Email Not Verified",
-//   });
-// }

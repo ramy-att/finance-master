@@ -1,8 +1,8 @@
-import Block from "./Block";
+import Block from "../Block/Block";
 import { Col, Container } from "react-bootstrap";
 import { Row } from "react-bootstrap";
 import { useSelector } from "react-redux";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import AddIncomeModal from "../tables/AddIncomeModal";
 
 export const Budget = (props) => {
@@ -10,6 +10,13 @@ export const Budget = (props) => {
   const incomes = useSelector((state) => state.userIncomes);
   const [showAddIncomeModal, setShowAddIncomeModal] = useState(false);
   const [incomeAction, setIncomeAction] = useState("add");
+  const [totalIncome, setTotalIncome] = useState(0);
+
+  useEffect(() => {
+    Object.entries(incomes).map(([key, val]) => {
+      setTotalIncome((totalIncome += parseFloat(val.Amount) / 2));
+    });
+  }, [incomes, expenses]);
 
   const editIncome = () => {
     alert("hl");
@@ -23,7 +30,7 @@ export const Budget = (props) => {
         {Object.entries(incomes).map(([key, val]) => {
           return (
             // <Col lg={12}>
-            <Block title={val.Category} type="income" elements={val} />
+            <Block key={`${key}--incomeBlock`} title={val.Category} type="income" elements={val} />
             // </Col>
           );
         })}
@@ -39,7 +46,7 @@ export const Budget = (props) => {
       <h1 className="budgetRowTitle">Expenses</h1>
       <div class="budgetRow">
         {Object.entries(expenses).map(([key, val]) => {
-          return <Block title={val.title} type="expense" elements={val} />;
+          return <Block key={`${key}--expenseBlock`} title={val.title} type="expense" elements={val} />;
         })}
         <Block state="addMore" type="income" />
       </div>

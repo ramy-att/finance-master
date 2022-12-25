@@ -4,6 +4,7 @@ import { Col } from "react-bootstrap";
 import Image from "next/image";
 import logo from "../pictures/LogoWBg.png";
 import Link from "next/link";
+
 export const Footer = () => {
   return (
     <div className="footer">
@@ -24,9 +25,9 @@ export const Footer = () => {
                 <span className="slogan">Save. Invest. Enjoy</span>
                 <p className="footerLeft">
                   <span className="copyRight">© Copyright 2022</span>
-                  <a href="https://www.linkedin.com/in/ramy-attalla/">
+                  <Link href="https://www.linkedin.com/in/ramy-attalla/">
                     Creation of Ramy Attalla
-                  </a>
+                  </Link>
                 </p>
               </div>
             </div>
@@ -35,11 +36,11 @@ export const Footer = () => {
             <div className="footerCol">
               <h1>Navigation</h1>
               <div className="footerSection">
-                <a href="/about-us">About Us and Our Policies</a>
+                <Link href="/about-us">About Us and Our Policies</Link>
                 <br />
-                <a href="">Sign In</a>
+                <Link href="">Sign In</Link>
                 <br />
-                <a href="">Sign Up</a>
+                <Link href="">Sign Up</Link>
               </div>
             </div>
           </Col>

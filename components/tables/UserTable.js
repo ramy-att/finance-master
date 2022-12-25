@@ -39,18 +39,18 @@ const UserTable = (props) => {
     const annually = [];
     Object.entries(array).map(([key, val]) => {
       val.Freq == "Daily"
-        ? daily.push(val)
+        ? daily.push({ name: key, ...val })
         : val.Freq == "Weekly"
-        ? weekly.push(val)
+        ? weekly.push({ name: key, ...val })
         : val.Freq == "Biweekly"
-        ? biweekly.push(val)
+        ? biweekly.push({ name: key, ...val })
         : val.Freq == "Monthly"
-        ? monthly.push(val)
+        ? monthly.push({ name: key, ...val })
         : val.Freq == "Quarterly"
-        ? quarterly.push(val)
+        ? quarterly.push({ name: key, ...val })
         : val.Freq == "Semi-Annually"
-        ? semiAnnaully.push(val)
-        : annually.push(val);
+        ? semiAnnaully.push({ name: key, ...val })
+        : annually.push({ name: key, ...val });
     });
     return [
       ...daily,
@@ -103,6 +103,7 @@ const UserTable = (props) => {
       }
     }
   };
+
   const incomeTable = () => {
     return (
       <>
@@ -134,7 +135,7 @@ const UserTable = (props) => {
                   ? parseFloat(val.Amount) * 2
                   : parseFloat(val.Amount);
               return (
-                <tr>
+                <tr key={`${key}--income-row`}>
                   <td>{counter}</td>
                   <td>{val.Freq}</td>
                   <td>{val.Category}</td>
@@ -162,6 +163,7 @@ const UserTable = (props) => {
                 </tr>
               );
             })}
+
           {counter > 1 && (
             <tr>
               <td>Annual Total</td>
@@ -184,7 +186,7 @@ const UserTable = (props) => {
           gicCounter++;
           gicAmount += parseFloat(val.amount);
           return (
-            <tr>
+            <tr key={`${key}--gic-row`}>
               <td>{gicCounter}</td>
               <td colSpan={2}>${val.amount}</td>
               <td>{val.interest * 100}%</td>
@@ -236,7 +238,7 @@ const UserTable = (props) => {
           );
           stocks.dividents += parseFloat(val.divident * val.dividentFreq);
           return (
-            <tr>
+            <tr key={`${key}--stock-row`}>
               <td>{stocksCounter}</td>
               <td>{val.stockName}</td>
               <td>{val.numberStocks}</td>
@@ -292,7 +294,7 @@ const UserTable = (props) => {
           crypto.invested += parseFloat(val.coinPrice * val.numberCoins);
           crypto.current += parseFloat(val.currentPrice * val.numberCoins);
           return (
-            <tr>
+            <tr key={`${key}--crypto-row`}>
               <td>{cryptoCounter}</td>
               <td colSpan={2}>{val.coinName}</td>
               <td>{val.numberCoins}</td>
@@ -444,7 +446,7 @@ const UserTable = (props) => {
         expCatCounter++;
         // val -> category
         return (
-          <tr>
+          <tr key={`${key}--expense-row`}>
             <td>{expCatCounter}</td>
             <td>{val.title}</td>
             <td>${val.total ? val.total : 0}</td>
@@ -453,11 +455,11 @@ const UserTable = (props) => {
                 <Eye size={20} />
                 <Pencil
                   className="tableIcon"
-                  // onClick={() => {
-                  //   setShowAddModal(true);
-                  //   setIncomeAction("edit");
-                  //   setKey(key);
-                  // }}
+                  onClick={() => {
+                    setShowAddModal(true);
+                    setIncomeAction("edit");
+                    setKey(key);
+                  }}
                   size={20}
                 />
                 <Trash

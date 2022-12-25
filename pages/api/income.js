@@ -15,6 +15,7 @@ async function handler(req, res) {
       body: JSON.stringify({
         Category: incomeCategory,
         Amount: incomeAmount,
+        Freq: incomeFreq,
         returnSecureToken: true,
       }),
       header: {

@@ -66,7 +66,7 @@ const authenSlice = createSlice({
 });
 
 const persistConfig = {
-  timeout: 1, //Set the timeout function to 2 seconds
+  timeout: 0.2, //Set the timeout function > 0 to prevent the website from crashing
   key: "root",
   storage,
 };

@@ -4,14 +4,14 @@ import { Col } from "react-bootstrap";
 import UserTable from "../tables/UserTable";
 import { useSelector } from "react-redux";
 import Summary from "./Summary";
-import { useEffect, useState, useCallback } from "react";
+import { useState } from "react";
+
 const Dashboard = () => {
   const expenses = useSelector((state) => state.userExpenses);
   const incomes = useSelector((state) => state.userIncomes);
   const investments = useSelector((state) => state.userInvestments);
 
   const [totalIncomes, setTotalIncomes] = useState(0);
-  console.log(incomes)
   return (
     <div className="dashboardPage">
       <Container fluid>
@@ -49,25 +49,19 @@ const Dashboard = () => {
         </Row>
         <Row>
           <h2 className="dashboardTitles">Incomes</h2>
-          <UserTable
-            type="incomes"
-            data={incomes}
-          />
+          <UserTable type="incomes" data={incomes} />
         </Row>
         <Row>
           <h2 className="dashboardTitles">Investments</h2>
-          <UserTable
-            type="investments"
-            data={investments}
-          />
-          <p>*BETA Version Of This App Does Not Allow Live Tracking Of Stock Market*</p>
+          <UserTable type="investments" data={investments} />
+          <p>
+            *BETA Version Of This App Does Not Allow Live Tracking Of Stock
+            Market*
+          </p>
         </Row>
         <Row>
           <h2 className="dashboardTitles">Expenses</h2>
-          <UserTable
-            type="expenses"
-            data={expenses}
-          />
+          <UserTable type="expenses" data={expenses} />
           <p>*Breakdown of Expenses in MyBudget*</p>
         </Row>
       </Container>

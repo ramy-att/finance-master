@@ -7,10 +7,16 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Link from "next/link";
 import { Alert } from "react-bootstrap";
+import { useRouter } from "next/router";
+import Loading from "../Load/Loading";
+
 function SignIn() {
   const email = useRef();
   const password = useRef();
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const router = useRouter();
 
   // Redux dispatch
   const dispatch = useDispatch();
@@ -42,8 +48,8 @@ function SignIn() {
       // Save user data - redux
       // result is the payload
       // result.userInfo is the user authen info, result.expenses is the user expenses
-      console.log(result)
-      dispatch(authActions.login(result)); 
+      dispatch(authActions.login(result));
+      router.push("/dashboard");
     }
     email.current.value = "";
     password.current.value = "";
@@ -51,7 +57,7 @@ function SignIn() {
   return (
     <Container fluid>
       <Row>
-      {error && (
+        {error && (
           <Alert className="errorAlert" key="danger" variant="danger">
             {error}
           </Alert>

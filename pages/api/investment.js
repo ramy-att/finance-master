@@ -1,6 +1,5 @@
 async function handler(req, res) {
   if (req.method == "POST") {
-    console.log("here")
     const body = req.body;
     const url =
       "https://financier-2022-default-rtdb.firebaseio.com/users/" +
@@ -19,7 +18,6 @@ async function handler(req, res) {
       },
     });
     const result = await response.json();
-    console.log(result)
     if (result && result.error && result.error.message) {
       return res.status(200).json({
         error: result.error.message,
@@ -36,7 +34,9 @@ async function handler(req, res) {
     const url =
       "https://financier-2022-default-rtdb.firebaseio.com/users/" +
       body.localId +
-      "/investments.json?auth=" +
+      "/investments/" +
+      body.oldName +
+      ".json?auth=" +
       body.token;
 
     const type = body.type;
@@ -55,9 +55,8 @@ async function handler(req, res) {
         error: result.error.message,
       });
     } else {
-      const resultName = result.name;
       return res.status(200).json({
-        name: resultName,
+        name: body.oldName,
         ...bodyData,
       });
     }

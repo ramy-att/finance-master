@@ -1,53 +1,13 @@
 import Table from "react-bootstrap/Table";
-import { Line } from "react-chartjs-2";
 import Chart from "chart.js/auto";
 import { useState, useEffect, useCallback, useRef } from "react";
 import { read, utils, writeFileXLSX, XLSX$Utils } from "xlsx";
 import { Button } from "react-bootstrap";
+
 const LoanInfo = (props) => {
   const { data } = props;
-  const [pays, setPayments] = useState([]);
-  const [chartData, setChartData] = useState(null);
-  const [options, setOptions] = useState(null);
-  const [showChart, setShowChart] = useState(false);
   const table = useRef(null);
-  // useEffect(() => {
-  //   if (data && data.payments.length!==0) {
-  //     console.log(data.payments)
-  //     const payments = data.payments;
-  //     setPayments(payments);
-  //     const labels = [];
-  //     for (let i = 1; i <= payments.length; i++) {
-  //       labels.push(`Payment ${i}`);
-  //     }
-  //     const colors = "green";
-  //     const data = {
-  //       labels,
-  //       datasets: [
-  //         {
-  //           label: "Loan",
-  //           data: [...pays],
-  //           borderColor: colors,
-  //           backgroundColor: colors,
-  //         },
-  //       ],
-  //     };
-  //     setChartData(data);
-  //     setOptions({
-  //       responsive: true,
-  //       plugins: {
-  //         legend: {
-  //           position: "top",
-  //         },
-  //         title: {
-  //           display: true,
-  //           text: "Results",
-  //         },
-  //       },
-  //     });
-  //     setShowChart(true);
-  //   }
-  // }, [data]);
+
   const downloadExcel = useCallback(() => {
     const elt = table.current;
     if (elt !== null) {

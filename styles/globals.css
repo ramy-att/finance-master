@@ -15,7 +15,7 @@
 * {
   font-family: serif;
 }
-body{
+body {
   overflow: overlay;
 }
 .form-label {
@@ -73,10 +73,24 @@ option:hover {
 
 .navBar {
   background-color: var(--blue-gray-07) !important;
+  padding: 1rem !important;
+}
+.dropdown-menu{
+  width: fit-content !important;
+}
+.dropdown-menu a{
+  padding: 0.25rem !important;
+  width: 10rem !important;
+
 }
 .navBar a {
   color: white;
   font-weight: 0;
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  margin: 0.5rem;
+  font-size: large;
 }
 .navBar a:hover {
   color: var(--blue-gray-02);
@@ -265,6 +279,12 @@ option:hover {
 .aboutUs {
   height: 100vh;
 }
+.aboutUs div{
+  font-size: large;
+}
+.aboutUsHeader {
+  color: var(--blue-gray-09);
+}
 .dropdown-menu {
   background-color: var(--blue-gray-07) !important;
   padding: 0 !important;
@@ -391,7 +411,7 @@ option:hover {
 .modalSubmit {
   margin-top: 0.5rem !important;
 }
-.userTable{
+.userTable {
   padding: 0 0.75rem 0 0.75rem !important;
   /* max-height: 20rem; */
   /* overflow-y: auto; */
@@ -403,36 +423,36 @@ option:hover {
   overflow-x: auto;
 } */
 
-.dashboardTitle{
+.dashboardTitle {
   margin: 0.5rem 0 0.5rem 0;
 }
-.dashboardTitles{
+.dashboardTitles {
   color: var(--blue-gray-09);
 }
-.dashboardPage{
+.dashboardPage {
   min-height: 100vh;
   height: 100%;
 }
-.actionsTd{
+.actionsTd {
   display: flex;
   align-items: center;
   justify-content: space-evenly;
 }
-.tableIcon:hover{
+.tableIcon:hover {
   cursor: pointer;
 }
-.plusCircle{
+.plusCircle {
   margin-right: 1rem;
   margin-top: 0.5rem;
 }
-.typeaheadMenu{
+.typeaheadMenu {
   background-color: var(--blue-gray-05);
   height: 12rem;
 }
-.budgetContainer{
+.budgetContainer {
   min-height: 100vh;
 }
-.block{
+.block {
   background-color: var(--blue-gray-09);
   color: var(--light-gray);
   border-radius: 1rem;
@@ -441,8 +461,10 @@ option:hover {
   height: 20rem;
   padding: 1rem;
   margin: 2rem;
+  overflow-y: auto;
+  overflow-y: overlay;
 }
-.block .expensesContainer{
+.block .expensesContainer {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -450,7 +472,7 @@ option:hover {
   height: calc(20rem - 38px - 38px - 2.5rem);
   overflow-y: overlay;
 }
-.block .incomesContainer{
+.block .incomesContainer {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -463,18 +485,19 @@ option:hover {
   align-items: center;
 } */
 /* .expenseItemCont{
-  width: 50%;
+  width: 8rem;
 } */
-.incomeLine{
+.incomeLine {
   width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
-.budgetRow{
+.budgetRow {
   background-color: var(--blue-gray-07);
   border-radius: 1rem;
   max-height: 50rem;
+  overflow: auto;
   overflow: overlay;
   margin: 2rem 0 2rem 0;
   padding: 2rem;
@@ -482,27 +505,30 @@ option:hover {
   flex-direction: row;
   flex-wrap: wrap;
 }
-.budgetRowTitle{
+.budgetRowTitle {
   margin: 1rem 0 0 0;
 }
-.addMoreIcon{
+.addMoreIcon {
   display: flex;
   justify-content: center;
   align-items: center;
 }
-.addMoreIcon:hover{
+.addMoreIcon:hover {
   background-color: var(--blue-gray-08);
 }
-.addMoreIcon:hover{
+.addMoreIcon:hover {
   cursor: pointer;
 }
-.blockIconsCont{
+.blockIconsCont {
   text-align: center;
 }
-.blockIcons{
+.blockIcons {
   display: flex;
   justify-content: space-around;
 }
-.blockIcon:hover{
+.blockIcon:hover {
   cursor: pointer;
+}
+.accordion-body h1 {
+  color: var(--blue-gray-09);
 }

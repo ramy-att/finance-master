@@ -7,7 +7,7 @@ import { authActions } from "../store";
 import { useDispatch } from "react-redux";
 
 const AddInvestmentModal = (props) => {
-  const { typeOfAction, investKey } = props;
+  const { typeOfAction, investKey, defaultType } = props;
 
   const userInfo = useSelector((state) => state.userInfo);
   const investments = useSelector((state) => state.userInvestments);
@@ -16,7 +16,6 @@ const AddInvestmentModal = (props) => {
   const [investmentIncome, setInvestmentIncome] = useState(
     typeOfAction == "edit" ? investments[investKey].type : "GIC/CD"
   );
-
   // REFS
   const investmentType = useRef(null);
   const purchaseDateRef = useRef(null);
@@ -145,7 +144,7 @@ const AddInvestmentModal = (props) => {
       data = {
         coinName: stockName,
         numberCoins: numberStocks,
-        purchaseDate:purchaseDate,
+        purchaseDate: purchaseDate,
         coinPrice: stockPrice,
         currentPrice: currentStockPrice,
         bank: bank,
@@ -180,13 +179,11 @@ const AddInvestmentModal = (props) => {
     const response = await fetch(endpoint, options);
     const result = await response.json();
     if (!result.error) {
-      console.log(result)
       dispatch(authActions.updateInvestments(result));
       // incomeAmount.current.value = "";
       // incomeSrc.current.value = "1";
     }
   };
-  console.log(investmentIncome);
   return (
     <Modal
       {...props}
@@ -209,7 +206,11 @@ const AddInvestmentModal = (props) => {
               required
               className="selectCompounding"
               defaultValue={
-                editing && investKey ? investments[investKey].type : null
+                editing && investKey
+                  ? investments[investKey].type
+                  : defaultType
+                  ? defaultType
+                  : null
               }
             >
               <option value="GIC/CD">GIC/CD</option>

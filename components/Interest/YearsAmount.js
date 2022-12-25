@@ -66,7 +66,6 @@ const FutureAmount = (props) => {
             : (duration += 1 / 12);
         }
       }
-      console.log(duration);
       return duration.toFixed(2);
     };
     const length = formula();

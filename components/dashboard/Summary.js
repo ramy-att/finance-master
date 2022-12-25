@@ -3,9 +3,9 @@ const Summary = (props) => {
   return (
     <div className="summaryContainer">
       <h2>{title}</h2>
-      {data.map((row) => {
+      {data.map((row,idx) => {
         return (
-          <div>
+          <div key={`${idx}--summaryContainer`}>
             <span>{row.title}:</span>
             <span>${row.amount}</span>
           </div>

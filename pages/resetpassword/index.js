@@ -1,7 +1,6 @@
-import SignIn from "../../components/SignIn/SignIn";
 import Reset from "../../components/ResetPass/Reset";
 
-export default function resetPassPage() {
+export default function ResetPassPage() {
     return (
       <Reset></Reset>
     );

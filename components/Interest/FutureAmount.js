@@ -1,7 +1,7 @@
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { useRef } from "react";
-import { Col, Row } from "react-bootstrap";
+import { Row } from "react-bootstrap";
 const FutureAmount = (props) => {
   const { resultsHandler } = props;
   const principal = useRef(0);

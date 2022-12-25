@@ -12,7 +12,7 @@ function SignUp() {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
-    const submitHandler = async (evt) => {
+  const submitHandler = async (evt) => {
     evt.preventDefault();
     const data = {
       email: email.current.value,
@@ -79,7 +79,7 @@ function SignUp() {
                   required
                 />
                 <Form.Text className="text-muted">
-                  We'll never share your email with anyone else.
+                  We&apos;ll never share your email with anyone else.
                 </Form.Text>
               </Form.Group>
               <Form.Group className="mb-3" controlId="formBasicPassword">

@@ -40,7 +40,6 @@ const InterestCalculator = () => {
     if (results && formType !== "years") {
       const annual = results.annualData;
       setAnnualResults(annual);
-      console.log(annual);
       const labels = [];
       if (formType == "present") {
         for (let i = 0; i < annual.length; i++) {
@@ -79,7 +78,7 @@ const InterestCalculator = () => {
       });
       setShowChart(true);
     }
-  }, [results]);
+  }, [results, formType]);
 
   const downloadExcel = useCallback(() => {
     const elt = table.current;
@@ -176,7 +175,7 @@ const InterestCalculator = () => {
                         {annualResults !== null &&
                           annualResults.map((x, idx) => {
                             return (
-                              <tr>
+                              <tr key={`${idx}--row`}>
                                 <td>Year {idx + 1}</td>
                                 <td>${x}</td>
                               </tr>
@@ -222,7 +221,7 @@ const InterestCalculator = () => {
                         {annualResults &&
                           annualResults.map((x, idx) => {
                             return (
-                              <tr>
+                              <tr key={`${idx}--row`}>
                                 <td>Year {idx}</td>
                                 <td>${x}</td>
                               </tr>

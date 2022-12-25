@@ -23,20 +23,6 @@ const Loans = () => {
     let paidTilNow = 0;
     const p = 0;
     while (numberPayments > 0) {
-      // console.log(numberPayments)
-      // if (balance < 1) {
-      //   break;
-      // }
-      // const interestAmt =
-      //   freq == "monthly"
-      //     ? (int * balance) / 12
-      //     : freq == "semi-annual"
-      //     ? (int * balance) / 2
-      //     : freq == "quarterly"
-      //     ? (int * balance) / 4
-      //     : freq == "biweekly"
-      //     ? (int * balance) / 26
-      //     : int * balance;
       const interestAmt = int * balance;
       totalInterest += parseFloat(interestAmt);
       payments.push({
@@ -69,7 +55,6 @@ const Loans = () => {
     const ints = interest.current.valueAsNumber / 100;
     const years = duration.current.valueAsNumber;
     const frequeny = freq.current.value; // Annual, Semi, Quarterly, Monthly, Biweekly
-    // console.log(frequeny);
     //Find Number Of Periods
     let n;
     let f;
