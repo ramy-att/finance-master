@@ -25,10 +25,6 @@ function MyApp({ Component, pageProps }) {
     });
   }, [router.events]);
 
-  // useEffect(() => {
-  //   console.log('useEffect fired!', {asPath: router.asPath});
-  // }, [router.asPath]);
-  
   if (loading) {
     return <Loading />;
   }
