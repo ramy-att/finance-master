@@ -13,7 +13,7 @@
 }
 /* Global Edits */
 * {
-  font-family: serif;
+  font-family: serif !important;
 }
 body {
   overflow: overlay;
@@ -75,13 +75,12 @@ option:hover {
   background-color: var(--blue-gray-07) !important;
   padding: 1rem !important;
 }
-.dropdown-menu{
+.dropdown-menu {
   width: fit-content !important;
 }
-.dropdown-menu a{
+.dropdown-menu a {
   padding: 0.25rem !important;
   width: 10rem !important;
-
 }
 .navBar a {
   color: white;
@@ -279,7 +278,7 @@ option:hover {
 .aboutUs {
   height: 100vh;
 }
-.aboutUs div{
+.aboutUs div {
   font-size: large;
 }
 .aboutUsHeader {
@@ -463,6 +462,7 @@ option:hover {
   margin: 2rem;
   overflow-y: auto;
   overflow-y: overlay;
+  position: relative;
 }
 .block .expensesContainer {
   display: flex;
@@ -521,10 +521,14 @@ option:hover {
 }
 .blockIconsCont {
   text-align: center;
+  position: absolute;
+  bottom: 1rem;
+  width: calc(100% - 1rem);
 }
 .blockIcons {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
+  width: calc(100% - 1rem);
 }
 .blockIcon:hover {
   cursor: pointer;
@@ -532,3 +536,56 @@ option:hover {
 .accordion-body h1 {
   color: var(--blue-gray-09);
 }
+.addNewExpense {
+  font-size: large;
+}
+.modal-title {
+  width: 100% !important;
+}
+.ModalHeaderCont {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  font-size: larger;
+  font-family: "Courier New", Courier, monospace;
+}
+.ModalHeaderTitle {
+  display: flex;
+  align-items: center;
+}
+.ModalHeaderCont input {
+  border: none;
+  border-bottom: 2px solid var(--blue-gray-09);
+  border-radius: 0;
+  background-color: transparent;
+  font-size: larger;
+  width: fit-content;
+}
+.ModalHeaderCont input:focus {
+  border: none;
+  border-bottom: 2px solid var(--blue-gray-09);
+  border-radius: 0;
+  background-color: transparent;
+  font-size: larger;
+}
+.addNewExpenseRow {
+  height: 2.5rem;
+  text-align: center;
+  font-size: large;
+}
+.addNewExpenseRow:hover {
+  cursor: pointer;
+}
+.expenseRowDel {
+  text-align: center;
+  vertical-align: middle;
+}
+/* .expenseTable{
+  width: 100%;
+}
+.expenseTableRow{
+  border-bottom: 1px solid var(--light-gray);
+}
+.expenseTitleCell{
+  width: 1rem;
+} */

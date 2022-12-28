@@ -1,30 +1,119 @@
 import Modal from "react-bootstrap/Modal";
+import { FormControl, Table } from "react-bootstrap";
 import { Button } from "react-bootstrap";
 import { Form } from "react-bootstrap";
-import { useRef, useState } from "react";
-
+import { useRef, useState, useEffect } from "react";
+import { useSelector } from "react-redux";
+import { authActions } from "../store";
+import { useDispatch } from "react-redux";
+import ExpenseRow from "./ExpenseRow";
+import { PlusCircle, Pencil } from "react-bootstrap-icons";
 const AddExpenseModal = (props) => {
-  const incomeSrc = useRef(null);
-  const [investmentIncome, setInvestmentIncome] = useState(false);
-  const [otherIncome, setOtherIncome] = useState(false);
+  // PROPS
+  const { typeOfAction, expenseKey } = props;
+  // REDUX Storage
+  const userInfo = useSelector((state) => state.userInfo);
+  const expenses = useSelector((state) => state.userExpenses);
+  const dispatch = useDispatch();
+  // STATES
+  const [editing, setEditing] = useState(typeOfAction == "edit");
+  const [categoryTotal, setCategoryTotal] = useState(
+    editing ? expenses[expenseKey].CategoryTotal : null
+  );
+  const [expensesToEdit, setExpensesToEdit] = useState(
+    typeOfAction == "edit" ? expenses[expenseKey].CategoryExpenses : ""
+  );
+  // REFS
+  const categoryTitleRef = useRef(null);
+  useEffect(() => {
+    let total = 0;
+    if (expensesToEdit.length > 0) {
+      expensesToEdit.map((item) => {
+        total +=
+          item.ExpenseAmount == undefined
+            ? 0
+            : item.ExpenseFreq == "Daily"
+            ? parseFloat(item.ExpenseAmount) * 365
+            : item.ExpenseFreq == "Weekly"
+            ? parseFloat(item.ExpenseAmount) * 52
+            : item.ExpenseFreq == "Biweekly"
+            ? parseFloat(item.ExpenseAmount) * 26
+            : item.ExpenseFreq == "Monthly"
+            ? parseFloat(item.ExpenseAmount) * 12
+            : item.ExpenseFreq == "Quarterly"
+            ? parseFloat(item.ExpenseAmount) * 4
+            : item.ExpenseFreq == "Semi-Annually"
+            ? parseFloat(item.ExpenseAmount) * 2
+            : parseFloat(item.ExpenseAmount);
+      });
+      setCategoryTotal(total);
+    }
+  }, [expensesToEdit]);
 
-  const changeIncomeSrc = () => {
-    if (incomeSrc.current !== null) {
-      if (incomeSrc.current.value == 3 || incomeSrc.current.value == 4) {
-        setInvestmentIncome(true);
-      } else if (incomeSrc.current.value == 5) {
-        setOtherIncome(true);
-      }
-      if (incomeSrc.current.value != 5) {
-        setOtherIncome(false);
-      }
-      if (incomeSrc.current.value != 3 && incomeSrc.current.value != 4) {
-        setInvestmentIncome(false);
-      }
+  const modalTitle = editing ? "Edit Category: " : "Add New Category: ";
+  const buttonText = editing ? "Save Changes" : "Submit";
+  const expenseRowChangeHandler = (del, idx, title, amount, freq) => {
+    console.log(amount)
+    const array = [...expensesToEdit];
+    if (del) {
+      array.splice(idx, 1); // 2nd parameter means remove one item only
+    } else {
+      array[idx] = {
+        ExpenseTitle: title,
+        ExpenseAmount: amount,
+        ExpenseFreq: freq,
+      };
+    }
+    setExpensesToEdit(array);
+  };
+  const addNewRow = () => {
+    setExpensesToEdit([...expensesToEdit, {}]);
+  };
+  const submitHandler = async (e) => {
+    e.preventDefault();
+    const endpoint = "/api/expense";
+    let options;
+    console.log(categoryTitleRef.current);
+    const title =
+      categoryTitleRef.current != null
+        ? categoryTitleRef.current.value
+        : "New Category";
+    if (editing) {
+      options = {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          oldName: expenseKey,
+          localId: userInfo.localId,
+          token: userInfo.idToken,
+          CategoryTitle: title,
+          CategoryTotal: categoryTotal,
+          CategoryExpenses: [...expensesToEdit],
+        }),
+      };
+    } else if (!editing) {
+      options = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          localId: userInfo.localId,
+          token: userInfo.idToken,
+          CategoryTitle: title,
+          CategoryTotal: categoryTotal,
+          CategoryExpenses: [...expensesToEdit],
+        }),
+      };
+    }
+    const response = await fetch(endpoint, options);
+    const result = await response.json();
+    if (!result.error) {
+      dispatch(authActions.updateExpenses(result));
     }
   };
-
-
   return (
     <Modal
       {...props}
@@ -34,38 +123,59 @@ const AddExpenseModal = (props) => {
     >
       <Modal.Header closeButton>
         <Modal.Title id="contained-modal-title-vcenter">
-          Add New Expense Category
+          <div className="ModalHeaderCont">
+            <div>{modalTitle}</div>
+            <div className="ModalHeaderTitle">
+              {editing ? (
+                <FormControl
+                  ref={categoryTitleRef}
+                  defaultValue={expenses[expenseKey].CategoryTitle}
+                />
+              ) : (
+                <FormControl ref={categoryTitleRef} />
+              )}
+            </div>
+          </div>
         </Modal.Title>
       </Modal.Header>
       <Modal.Body className="AddModalBody">
-        <Form>
-          <div>
-            <Form.Group className="mb-3" controlId="formBasicEmail">
-              <Form.Label>Category Name</Form.Label>
-              <Form.Control placeholder="Category Name" type="text" />
-            </Form.Group>
-          </div>
-          <div>
-            <Form.Label>Add Expenses</Form.Label>
-            {/* How to make it render new lines? */}
-            <Form.Group className="mb-3" controlId="formBasicEmail">
-              <div className="addExpenseInModal">
-                  <Form.Control placeholder="Expense Name" type="text" />
-                  <Form.Control
-                    placeholder="Amount"
-                    type="number"
-                    step="0.001"
-                  />
-              </div>
-            </Form.Group>
-          </div>
+        <Form onSubmit={submitHandler}>
+          <Table striped bordered hover size="sm">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Expense Name</th>
+                <th>Amount</th>
+                <th>Freq</th>
+                <th>Delete</th>
+              </tr>
+            </thead>
+            <tbody>
+              {expensesToEdit.length > 0 &&
+                expensesToEdit.map((expense, idx) => {
+                  return (
+                    <ExpenseRow
+                      expenseRowChange={expenseRowChangeHandler}
+                      expense={expense}
+                      idx={idx}
+                    />
+                  );
+                })}
+              <tr className="addNewExpenseRow">
+                <td colSpan={5} onClick={addNewRow}>
+                  Add New Expense <PlusCircle size={20} />
+                </td>
+              </tr>
+            </tbody>
+          </Table>
+          <div>Annual Category Total: ${categoryTotal}</div>
           <div className="modalSubmitCont text-center">
             <Button
               variant="primary"
               type="submit"
               className="submitButton modalSubmit"
             >
-              Submit
+              {buttonText}
             </Button>
           </div>
         </Form>

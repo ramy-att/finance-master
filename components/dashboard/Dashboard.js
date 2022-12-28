@@ -54,15 +54,10 @@ const Dashboard = () => {
         <Row>
           <h2 className="dashboardTitles">Investments</h2>
           <UserTable type="investments" data={investments} />
-          <p>
-            *BETA Version Of This App Does Not Allow Live Tracking Of Stock
-            Market*
-          </p>
         </Row>
         <Row>
           <h2 className="dashboardTitles">Expenses</h2>
           <UserTable type="expenses" data={expenses} />
-          <p>*Breakdown of Expenses in MyBudget*</p>
         </Row>
       </Container>
     </div>

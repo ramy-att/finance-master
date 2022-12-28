@@ -1,22 +1,21 @@
 async function handler(req, res) {
   if (req.method == "POST") {
     const body = req.body;
+    const CategoryTitle = body.CategoryTitle;
+    const CategoryTotal = body.CategoryTotal;
+    const CategoryExpenses = body.CategoryExpenses;
     const url =
       "https://financier-2022-default-rtdb.firebaseio.com/users/" +
       body.localId +
-      "/incomes.json?auth=" +
+      "/expenses.json?auth=" +
       body.token;
-    const incomeCategory = body.source;
-    const incomeAmount = body.amount;
-    const incomeFreq = body.incomeFreq;
 
     const response = await fetch(url, {
       method: "POST",
       body: JSON.stringify({
-        Category: incomeCategory,
-        Amount: incomeAmount,
-        Freq: incomeFreq,
-        returnSecureToken: true,
+        CategoryTitle: CategoryTitle,
+        CategoryTotal: CategoryTotal,
+        CategoryExpenses: CategoryExpenses,
       }),
       header: {
         "Content/type": "application/json",
@@ -28,25 +27,23 @@ async function handler(req, res) {
         error: result.error.message,
       });
     } else {
-      const resultName = result.name;
-      console.log(result)
       return res.status(200).json({
-        name: resultName,
-        Category: incomeCategory,
-        Amount: incomeAmount,
-        Freq: incomeFreq,
+        name: result.name,
+        CategoryTitle: CategoryTitle,
+        CategoryAmount: CategoryTotal,
+        CategoryExpenses: CategoryExpenses,
       });
     }
   } else if (req.method == "PATCH") {
     const body = req.body;
-    const incomeCategory = body.source;
-    const incomeAmount = body.amount;
+    const CategoryTitle = body.CategoryTitle;
+    const CategoryTotal = body.CategoryTotal;
+    const CategoryExpenses = body.CategoryExpenses;
     const oldName = body.oldName;
-    const freq = body.incomeFreq;
     const url =
       "https://financier-2022-default-rtdb.firebaseio.com/users/" +
       body.localId +
-      "/incomes/" +
+      "/expenses/" +
       oldName +
       ".json?auth=" +
       body.token;
@@ -54,9 +51,9 @@ async function handler(req, res) {
     const response = await fetch(url, {
       method: "PATCH",
       body: JSON.stringify({
-        Category: incomeCategory,
-        Amount: incomeAmount,
-        Freq: freq,
+        CategoryTitle: CategoryTitle,
+        CategoryTotal: CategoryTotal,
+        CategoryExpenses: CategoryExpenses,
       }),
       header: {
         "Content/type": "application/json",
@@ -70,20 +67,20 @@ async function handler(req, res) {
     } else {
       return res.status(200).json({
         name: oldName,
-        Category: result.Category,
-        Amount: result.Amount,
-        Freq: result.Freq,
+        CategoryTitle: result.CategoryTitle,
+        CategoryAmount: result.CategoryTotal,
+        CategoryExpenses: result.CategoryExpenses,
       });
     }
-  } else if (req.method == "DELETE") {
+  } else {
     const body = req.body;
-    const oldName = body.name;
+    const name = body.name;
 
     const url =
       "https://financier-2022-default-rtdb.firebaseio.com/users/" +
       body.localId +
-      "/incomes/" +
-      oldName +
+      "/expenses/" +
+      name +
       ".json?auth=" +
       body.token;
 
@@ -101,7 +98,7 @@ async function handler(req, res) {
     } else {
       return res.status(200).json({
         deleted: true,
-        deletedName: oldName,
+        deletedName: name,
       });
     }
   }

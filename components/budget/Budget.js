@@ -3,6 +3,7 @@ import { Col, Container } from "react-bootstrap";
 import { Row } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import { useState, useEffect } from "react";
+import { ChartSection } from "./ChartSection";
 import AddIncomeModal from "../tables/AddIncomeModal";
 
 export const Budget = (props) => {
@@ -23,6 +24,7 @@ export const Budget = (props) => {
     setShowAddIncomeModal(true);
     setIncomeAction("edit");
   };
+  console.log(expenses)
   return (
     <Container class="budgetContainer">
       <h1 className="budgetRowTitle">Incomes</h1>
@@ -46,7 +48,7 @@ export const Budget = (props) => {
       <h1 className="budgetRowTitle">Expenses</h1>
       <div class="budgetRow">
         {Object.entries(expenses).map(([key, val]) => {
-          return <Block key={`${key}--expenseBlock`} title={val.title} type="expense" elements={val} />;
+          return <Block key={`${key}--expenseBlock`} title={val.CategoryTitle} type="expense" elements={val.CategoryExpenses} />;
         })}
         <Block state="addMore" type="income" />
       </div>
@@ -58,6 +60,7 @@ export const Budget = (props) => {
         onHide={() => setShowAddIncomeModal(false)}
       />
       {/* Add a bar chart showing In vs Out */}
+      <ChartSection incomes={incomes} expenses={expenses}/>
     </Container>
   );
 };

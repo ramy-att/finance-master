@@ -49,22 +49,21 @@ const Block = (props) => {
         <>
           <h2>{title && title}</h2>
           {type == "expense" ? (
-            <div className="expensesContainer">
-              {Object.entries(elements).map(([key, val]) => {
-                if (val.expenseTitle) {
-                  return (
-                    <div className="incomeLine" key={`${key}-expense`}>
-                      <span className="expenseItemCont">
-                        {val.expenseTitle}
-                      </span>
-                      {/* Add Freq Here */}
-                      <span className="expenseItemCont">
-                        ${val.expenseAmount}
-                      </span>
-                    </div>
-                  );
-                }
-              })}
+            <div className="expensesTableContainer">
+              <table className="expenseTable">
+                <tbody>
+                  {elements.map((expense, idx) => {
+                    return (
+                      <tr className="expenseTableRow">
+                        <td className="expenseIdx">{idx}</td>
+                        <td className="expenseTitleCell">{expense.ExpenseTitle}</td>
+                        <td>${expense.ExpenseAmount}</td>
+                        <td>{expense.ExpenseFreq}</td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
             </div>
           ) : type == "income" ? (
             <div className="incomesContainer">

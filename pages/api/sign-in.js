@@ -87,7 +87,6 @@ async function handler(req, res) {
         // Fetch Actual User Info
         const expenses = await getUserExpenses(result.localId, result.idToken);
         const incomes = await getUserIncomes(result.localId, result.idToken);
-        console.log(incomes)
         const investments = await getUserInvestments(
           result.localId,
           result.idToken

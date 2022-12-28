@@ -38,7 +38,9 @@ const authenSlice = createSlice({
       state.userInvestments = {};
     },
     updateExpenses(state, action) {
-      state.userExpenses = action.payload;
+      const payLoad = action.payload;
+      const name = payLoad["name"];
+      state.userExpenses = { ...state.userExpenses, [name]: payLoad };
     },
     updateIncomes(state, action) {
       const payLoad = action.payload;
@@ -52,6 +54,10 @@ const authenSlice = createSlice({
     deleteIncome(state, action) {
       const name = action.payload;
       delete state.userIncomes[name];
+    },
+    deleteExpense(state, action) {
+      const name = action.payload;
+      delete state.userExpenses[name];
     },
     updateInvestments(state, action) {
       const payLoad = action.payload;

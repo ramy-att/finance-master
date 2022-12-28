@@ -101,6 +101,24 @@ const UserTable = (props) => {
       if (!result.error) {
         dispatch(authActions.deleteInvestment(result.deletedName));
       }
+    } else {
+      const endpoint = "/api/expense";
+      const options = {
+        method: "DELETE",
+        body: JSON.stringify({
+          localId: userInfo.localId,
+          token: userInfo.idToken,
+          name: key,
+        }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      };
+      const response = await fetch(endpoint, options);
+      const result = await response.json();
+      if (!result.error) {
+        dispatch(authActions.deleteExpense(result.deletedName));
+      }
     }
   };
 
@@ -440,40 +458,51 @@ const UserTable = (props) => {
     );
   };
   const expensesBody = () => {
+    let totalExpenses = 0;
     return (
-      data &&
-      Object.entries(data).map(([key, val]) => {
-        expCatCounter++;
-        // val -> category
-        return (
-          <tr key={`${key}--expense-row`}>
-            <td>{expCatCounter}</td>
-            <td>{val.title}</td>
-            <td>${val.total ? val.total : 0}</td>
-            <td>
-              <div className="actionsTd">
-                <Eye size={20} />
-                <Pencil
-                  className="tableIcon"
-                  onClick={() => {
-                    setShowAddModal(true);
-                    setIncomeAction("edit");
-                    setKey(key);
-                  }}
-                  size={20}
-                />
-                <Trash
-                  className="tableIcon"
-                  // onClick={() => {
-                  //   deleteItem("investment", key);
-                  // }}
-                  size={20}
-                />
-              </div>
-            </td>
+      <>
+        {data &&
+          Object.entries(data).map(([key, val]) => {
+            expCatCounter++;
+            totalExpenses += parseFloat(val.CategoryAmount);
+            return (
+              <tr key={`${key}--expense-row`}>
+                <td>{expCatCounter}</td>
+                <td>{val.CategoryTitle}</td>
+                <td>${val.CategoryAmount}</td>
+                <td>
+                  <div className="actionsTd">
+                    <Eye size={20} />
+                    <Pencil
+                      className="tableIcon"
+                      onClick={() => {
+                        setShowAddModal(true);
+                        setIncomeAction("edit");
+                        setKey(key);
+                      }}
+                      size={20}
+                    />
+                    <Trash
+                      className="tableIcon"
+                      onClick={() => {
+                        deleteItem("expense", key);
+                      }}
+                      size={20}
+                    />
+                  </div>
+                </td>
+              </tr>
+            );
+          })}
+        {Object.keys(data).length > 0 && (
+          <tr>
+            <td>Total</td>
+            <td></td>
+            <td>${totalExpenses}</td>
+            <td></td>
           </tr>
-        );
-      })
+        )}
+      </>
     );
   };
   const expensesTable = () => {
@@ -482,7 +511,7 @@ const UserTable = (props) => {
         <tr>
           <th>#</th>
           <th>Category</th>
-          <th>Total</th>
+          <th>Annual Total</th>
           <th>Actions</th>
         </tr>
         {expensesBody()}
@@ -494,14 +523,24 @@ const UserTable = (props) => {
   return (
     <>
       <div className="userTable">
-        {type == "incomes" && <Table striped="columns">{incomeTable()}</Table>}
-        {type == "investments" && (
-          <Table striped="columns" className="investmentTable">
-            {investmentTable()}
-          </Table>
-        )}
-        {type == "expenses" && (
-          <Table striped="columns">{expensesTable()}</Table>
+        {type == "incomes" ? (
+          Object.keys(data).length > 0 ? (
+            <Table striped="columns">{incomeTable()}</Table>
+          ) : (
+            <h1>Add Your First Income!</h1>
+          )
+        ) : type == "investments" ? (
+          Object.keys(data).length > 0 ? (
+            <Table striped="columns" className="investmentTable">
+              {investmentTable()}
+            </Table>
+          ) : (
+            <h1>Add Your First Investment!</h1>
+          )
+        ) : (
+          type == "expenses" && (
+            <Table striped="columns">{expensesTable()}</Table>
+          )
         )}
       </div>
       <div className="tableAddMoreButton">
@@ -527,6 +566,8 @@ const UserTable = (props) => {
       )}
       {showAddModal && type == "expenses" && (
         <AddExpenseModal
+          typeOfAction={incomeAction}
+          expenseKey={key}
           show={showAddModal}
           type={type}
           onHide={() => setShowAddModal(false)}

@@ -134,7 +134,7 @@ const AddIncomeModal = (props) => {
     // addInvestment();
     const endpoint = "/api/income";
     const options = {
-      method: editing ? "PATCH" : "POST",
+      method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
