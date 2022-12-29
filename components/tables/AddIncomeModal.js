@@ -1,7 +1,7 @@
 import Modal from "react-bootstrap/Modal";
 import { Button } from "react-bootstrap";
 import { Form } from "react-bootstrap";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { authActions } from "../store";
 import { useDispatch } from "react-redux";
@@ -35,6 +35,10 @@ const AddIncomeModal = (props) => {
   //REDUX STORAGE
   const userInfo = useSelector((state) => state.userInfo);
   const incomes = useSelector((state) => state.userIncomes);
+
+  useEffect(() => {
+    setEditing(typeOfAction == "edit");
+  }, [typeOfAction]);
 
   // Redux dispatch
   const dispatch = useDispatch();
@@ -184,6 +188,7 @@ const AddIncomeModal = (props) => {
       incomeSrc.current.value = "Salary";
     }
   };
+
   const modalTitle =
     typeOfAction == "edit"
       ? "Edit Your Income Source"

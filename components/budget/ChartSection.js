@@ -1,33 +1,22 @@
 import React from "react";
 import { useState, useEffect } from "react";
-// import {
-//   Chart as ChartJS,
-//   CategoryScale,
-//   LinearScale,
-//   BarElement,
-//   Title,
-//   Tooltip,
-//   Legend,
-// } from "chart.js";
 import Chart from "chart.js/auto";
 import { Bar } from "react-chartjs-2";
 
 export function ChartSection(props) {
   const { incomes, expenses } = props;
-  const [expenseData, setExpenseData] = useState([]);
   const [datasets, setDataSets] = useState([]);
   useEffect(() => {
-    const array = [...expenseData];
-    const reds= ["#8B0000","#8B3000","#8B1000","#8B5000"]
-    const greens= ["#3db042","#318d35","#256a28","#18461a"]
-    let c= 0;
-    let c2=0;
+    const array = [];
+    const reds = ["#8B0000", "#8B3000", "#8B1000", "#8B5000"];
+    const greens = ["#8db042", "#4db026", "#3db046", "#9db056"];
+    let c = 0;
+    let c2 = 0;
     Object.entries(expenses).map(([key, val]) => {
-      console.log(c%reds.length)
       array.push({
         label: val.CategoryTitle,
         data: [0, val.CategoryAmount],
-        backgroundColor: reds[c%reds.length],
+        backgroundColor: reds[c % reds.length],
       });
       c++;
     });
@@ -50,12 +39,12 @@ export function ChartSection(props) {
             : parseFloat(val.Amount),
           0,
         ],
-        backgroundColor: greens[c2%greens.length],
+        backgroundColor: greens[c2 % greens.length],
       });
+      c2++;
     });
     setDataSets([...array]);
-  }, []);
-  console.log(expenseData);
+  }, [incomes, expenses]);
   const labels = ["Incomes", "Expenses"];
   const data = {
     labels,
@@ -78,26 +67,5 @@ export function ChartSection(props) {
       },
     },
   };
-  console.log(datasets);
   return <Bar options={options} data={data} />;
 }
-// {
-//   label: "Investment",
-//   data: [1, 2],
-//   backgroundColor: "red",
-// },
-// {
-//   label: "Investment",
-//   data: [1, 2],
-//   backgroundColor: "red",
-// },
-// {
-//   label: "Investment",
-//   data: [1, 2],
-//   backgroundColor: "red",
-// },
-// {
-//   label: "Investment",
-//   data: [1, 2],
-//   backgroundColor: "red",
-// },

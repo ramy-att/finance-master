@@ -465,6 +465,7 @@ const UserTable = (props) => {
           Object.entries(data).map(([key, val]) => {
             expCatCounter++;
             totalExpenses += parseFloat(val.CategoryAmount);
+            console.log(val)
             return (
               <tr key={`${key}--expense-row`}>
                 <td>{expCatCounter}</td>

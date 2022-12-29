@@ -53,7 +53,6 @@ const AddExpenseModal = (props) => {
   const modalTitle = editing ? "Edit Category: " : "Add New Category: ";
   const buttonText = editing ? "Save Changes" : "Submit";
   const expenseRowChangeHandler = (del, idx, title, amount, freq) => {
-    console.log(amount)
     const array = [...expensesToEdit];
     if (del) {
       array.splice(idx, 1); // 2nd parameter means remove one item only
@@ -111,6 +110,7 @@ const AddExpenseModal = (props) => {
     const response = await fetch(endpoint, options);
     const result = await response.json();
     if (!result.error) {
+      console.log(result)
       dispatch(authActions.updateExpenses(result));
     }
   };
@@ -155,6 +155,7 @@ const AddExpenseModal = (props) => {
                 expensesToEdit.map((expense, idx) => {
                   return (
                     <ExpenseRow
+                      key={`${idx}--expenseRow`}
                       expenseRowChange={expenseRowChangeHandler}
                       expense={expense}
                       idx={idx}

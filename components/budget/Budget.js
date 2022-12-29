@@ -5,42 +5,95 @@ import { useSelector } from "react-redux";
 import { useState, useEffect } from "react";
 import { ChartSection } from "./ChartSection";
 import AddIncomeModal from "../tables/AddIncomeModal";
+import AddExpenseModal from "../tables/AddExpenseModal";
+import { useDispatch } from "react-redux";
+import { authActions } from "../store";
 
 export const Budget = (props) => {
   const expenses = useSelector((state) => state.userExpenses);
   const incomes = useSelector((state) => state.userIncomes);
+  const userInfo = useSelector((state) => state.userInfo);
+
   const [showAddIncomeModal, setShowAddIncomeModal] = useState(false);
-  const [incomeAction, setIncomeAction] = useState("add");
-  const [totalIncome, setTotalIncome] = useState(0);
+  const [showAddExpenseModal, setShowAddExpenseModal] = useState(false);
+  const [key, setKey] = useState("");
+  const [incomeAction, setIncomeAction] = useState("");
+  const [expenseAction, setExpenseAction] = useState("");
+  // const [totalIncome, setTotalIncome] = useState(0);
 
-  useEffect(() => {
-    Object.entries(incomes).map(([key, val]) => {
-      setTotalIncome((totalIncome += parseFloat(val.Amount) / 2));
-    });
-  }, [incomes, expenses]);
+  const dispatch = useDispatch();
 
-  const editIncome = () => {
-    alert("hl");
-    setShowAddIncomeModal(true);
-    setIncomeAction("edit");
+  // useEffect(() => {
+  //   Object.entries(incomes).map(([key, val]) => {
+  //     setTotalIncome((totalIncome += parseFloat(val.Amount) / 2));
+  //   });
+  // }, [incomes, expenses]);
+
+  const deleteItem = async (type, key) => {
+    if (type == "income") {
+      const endpoint = "/api/income";
+      const options = {
+        method: "DELETE",
+        body: JSON.stringify({
+          localId: userInfo.localId,
+          token: userInfo.idToken,
+          name: key,
+        }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      };
+      const response = await fetch(endpoint, options);
+      const result = await response.json();
+      if (!result.error) {
+        dispatch(authActions.deleteIncome(result.deletedName));
+      }
+    } else {
+      const endpoint = "/api/expense";
+      const options = {
+        method: "DELETE",
+        body: JSON.stringify({
+          localId: userInfo.localId,
+          token: userInfo.idToken,
+          name: key,
+        }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      };
+      const response = await fetch(endpoint, options);
+      const result = await response.json();
+      if (!result.error) {
+        dispatch(authActions.deleteExpense(result.deletedName));
+      }
+    }
   };
-  console.log(expenses)
   return (
     <Container class="budgetContainer">
       <h1 className="budgetRowTitle">Incomes</h1>
       <div class="budgetRow">
         {Object.entries(incomes).map(([key, val]) => {
           return (
-            // <Col lg={12}>
-            <Block key={`${key}--incomeBlock`} title={val.Category} type="income" elements={val} />
-            // </Col>
+            <Block
+              key={`${key}--incomeBlock`}
+              title={val.Category}
+              type="income"
+              editElm={() => {
+                setShowAddIncomeModal(true);
+                setIncomeAction("edit");
+                setKey(key);
+              }}
+              deleteElm={() => {
+                deleteItem("income", key);
+              }}
+              elements={val}
+            />
           );
         })}
         <Block
           onClick={() => {
             setShowAddIncomeModal(true);
           }}
-          editElm={editIncome}
           state="addMore"
           type="income"
         />
@@ -48,19 +101,42 @@ export const Budget = (props) => {
       <h1 className="budgetRowTitle">Expenses</h1>
       <div class="budgetRow">
         {Object.entries(expenses).map(([key, val]) => {
-          return <Block key={`${key}--expenseBlock`} title={val.CategoryTitle} type="expense" elements={val.CategoryExpenses} />;
+          console.log(key);
+          return (
+            <Block
+              key={`${key}--expenseBlock`}
+              title={val.CategoryTitle}
+              type="expense"
+              editElm={() => {
+                setShowAddExpenseModal(true);
+                setExpenseAction("edit");
+                setKey(key);
+              }}
+              deleteElm={() => {
+                deleteItem("expense", key);
+              }}
+              elements={val.CategoryExpenses}
+            />
+          );
         })}
         <Block state="addMore" type="income" />
       </div>
       <AddIncomeModal
         typeOfAction={incomeAction}
-        // incomeKey={key}
+        incomeKey={key}
         show={showAddIncomeModal}
-        // type={type}
+        type={incomeAction}
         onHide={() => setShowAddIncomeModal(false)}
       />
+      <AddExpenseModal
+        typeOfAction={expenseAction}
+        expenseKey={key}
+        show={showAddExpenseModal}
+        type={expenseAction}
+        onHide={() => setShowAddExpenseModal(false)}
+      />
       {/* Add a bar chart showing In vs Out */}
-      <ChartSection incomes={incomes} expenses={expenses}/>
+      <ChartSection incomes={incomes} expenses={expenses} />
     </Container>
   );
 };

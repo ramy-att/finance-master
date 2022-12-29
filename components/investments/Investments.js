@@ -4,14 +4,21 @@ import Block from "../Block/Block";
 import { useSelector } from "react-redux";
 import { useState, useEffect } from "react";
 import AddInvestmentModal from "../tables/AddInvestmentModal";
+import { ChartSection } from "./ChartSection";
+import { useDispatch } from "react-redux";
+import { authActions } from "../store";
 
 const Investments = () => {
   const investments = useSelector((state) => state.userInvestments);
+  const userInfo = useSelector((state) => state.userInfo);
+
   const [gics, setGics] = useState([]);
   const [stocks, setStocks] = useState([]);
   const [crypto, setCrypto] = useState([]);
   const [showAddInvestmentModal, setShowAddInvestmentModal] = useState(false);
   const [defaultType, setDefaultType] = useState("GIC/CD");
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const stocks = [];
@@ -32,6 +39,25 @@ const Investments = () => {
     });
   }, [investments]);
 
+  const deleteItem = async (key) => {
+    const endpoint = "/api/investment";
+    const options = {
+      method: "DELETE",
+      body: JSON.stringify({
+        localId: userInfo.localId,
+        token: userInfo.idToken,
+        name: key,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+    const response = await fetch(endpoint, options);
+    const result = await response.json();
+    if (!result.error) {
+      dispatch(authActions.deleteInvestment(result.deletedName));
+    }
+  };
   return (
     <Container class="budgetContainer">
       <h1 className="budgetRowTitle">GICs</h1>
@@ -43,6 +69,9 @@ const Investments = () => {
               type="investment"
               idx={idx}
               elements={gic}
+              deleteElm={() => {
+                deleteItem(gic.name);
+              }}
             />
           );
         })}
@@ -63,6 +92,9 @@ const Investments = () => {
               type="investment"
               idx={idx}
               elements={stock}
+              deleteElm={() => {
+                deleteItem(gic.name);
+              }}
             />
           );
         })}
@@ -83,6 +115,9 @@ const Investments = () => {
               type="investment"
               idx={idx}
               elements={crypto}
+              deleteElm={() => {
+                deleteItem(gic.name);
+              }}
             />
           );
         })}
@@ -99,6 +134,7 @@ const Investments = () => {
         defaultType={defaultType}
         onHide={() => setShowAddInvestmentModal(false)}
       />
+      <ChartSection investments={investments} />
     </Container>
   );
 };

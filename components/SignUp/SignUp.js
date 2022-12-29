@@ -5,7 +5,7 @@ import Row from "react-bootstrap/Row";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { Alert } from "react-bootstrap";
-
+import Link from "next/link";
 function SignUp() {
   const email = useRef();
   const password = useRef();
@@ -92,6 +92,13 @@ function SignUp() {
                   placeholder="6 Character Password"
                   required
                 />
+              </Form.Group>
+              <Form.Group className="forgotPasswordContainer">
+                <Link href="/signin">
+                  <Form.Text className="text-muted forgotPassword signUpLink">
+                    Sign In
+                  </Form.Text>
+                </Link>
               </Form.Group>
               <div className="buttonContainer">
                 <Button className="submitButton" type="submit">

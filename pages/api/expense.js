@@ -14,7 +14,7 @@ async function handler(req, res) {
       method: "POST",
       body: JSON.stringify({
         CategoryTitle: CategoryTitle,
-        CategoryTotal: CategoryTotal,
+        CategoryAmount: CategoryTotal,
         CategoryExpenses: CategoryExpenses,
       }),
       header: {
@@ -52,7 +52,7 @@ async function handler(req, res) {
       method: "PATCH",
       body: JSON.stringify({
         CategoryTitle: CategoryTitle,
-        CategoryTotal: CategoryTotal,
+        CategoryAmount: CategoryTotal,
         CategoryExpenses: CategoryExpenses,
       }),
       header: {
@@ -68,7 +68,7 @@ async function handler(req, res) {
       return res.status(200).json({
         name: oldName,
         CategoryTitle: result.CategoryTitle,
-        CategoryAmount: result.CategoryTotal,
+        CategoryAmount: result.CategoryAmount,
         CategoryExpenses: result.CategoryExpenses,
       });
     }

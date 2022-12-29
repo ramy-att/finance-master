@@ -89,7 +89,12 @@ function SignIn() {
               <Form.Group className="forgotPasswordContainer">
                 <Link href="/resetpassword">
                   <Form.Text className="text-muted forgotPassword">
-                    Forgot Password
+                    Forgot Password /
+                  </Form.Text>
+                </Link>
+                <Link href="/signup">
+                  <Form.Text className="text-muted forgotPassword signUpLink">
+                    Sign Up
                   </Form.Text>
                 </Link>
               </Form.Group>

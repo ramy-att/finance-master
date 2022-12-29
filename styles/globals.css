@@ -160,8 +160,12 @@ option:hover {
   border-bottom: 2px solid var(--blue-gray-07) !important;
 }
 .forgotPasswordContainer {
+  font-size: larger !important;
   text-align: center;
   margin-bottom: 0.5rem;
+}
+.signUpLink{
+  margin-left: 0.25rem;
 }
 .forgotPassword:hover {
   color: var(--blue-gray-09) !important;
@@ -460,8 +464,8 @@ option:hover {
   height: 20rem;
   padding: 1rem;
   margin: 2rem;
-  overflow-y: auto;
-  overflow-y: overlay;
+  overflow-y: hidden;
+  overflow-x: hidden;
   position: relative;
 }
 .block .expensesContainer {
@@ -580,12 +584,26 @@ option:hover {
   text-align: center;
   vertical-align: middle;
 }
-/* .expenseTable{
+.expensesTableContainer {
+  max-height: 12rem;
+  overflow-y: auto;
+}
+.expenseTable {
   width: 100%;
 }
-.expenseTableRow{
-  border-bottom: 1px solid var(--light-gray);
+.expenseTable td {
+  vertical-align: middle;
 }
-.expenseTitleCell{
+.expenseTitleCell {
   width: 1rem;
-} */
+}
+.expenseBlockTitle {
+  word-wrap: break-word;
+}
+.signoutButton{
+  background-color: var(--light-gray) !important;
+  color: var(--blue-gray-09) !important;
+}
+.signoutButton:hover{
+  background-color: var(--blue-gray-01) !important;
+}

@@ -10,6 +10,7 @@ import { authActions } from "../store";
 import { useDispatch } from "react-redux";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { Button } from "react-bootstrap";
 
 const NavBar = () => {
   const router = useRouter();
@@ -27,7 +28,7 @@ const NavBar = () => {
 
   const signOut = () => {
     dispatch(authActions.logout());
-    router.push("/")
+    router.push("/");
   };
   return (
     <Navbar collapseOnSelect className="navBar" expand="lg" variant="dark">
@@ -50,9 +51,6 @@ const NavBar = () => {
               </Nav.Link>
               <Nav.Link as={Link} href="/myBudget">
                 Budget
-              </Nav.Link>
-              <Nav.Link as={Link} href="/myAccounts">
-                Accounts
               </Nav.Link>
               <Nav.Link as={Link} href="/myInvestments">
                 Investments
@@ -99,9 +97,9 @@ const NavBar = () => {
               <Nav.Link as={Link} href="">
                 {userEmail}
               </Nav.Link>
-              <Nav.Link eventKey={2} href="/" onClick={signOut}>
+              <Button className="signoutButton" onClick={signOut}>
                 Sign Out
-              </Nav.Link>
+              </Button>
             </Nav>
           )}
         </Navbar.Collapse>
