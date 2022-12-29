@@ -2,6 +2,7 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
+import Link from "next/link";
 
 function ResetPass() {
   return (
@@ -24,6 +25,13 @@ function ResetPass() {
                   <Form.Text className="text-muted">
                     This will send you an email. Please check your Junk.
                   </Form.Text>
+              </Form.Group>
+              <Form.Group className="forgotPasswordContainer">
+                <Link href="/signin">
+                  <Form.Text className="text-muted forgotPassword signUpLink">
+                    Remember Password? Sign In
+                  </Form.Text>
+                </Link>
               </Form.Group>
               <div className="buttonContainer">
                 <Button className="submitButton" type="submit">
