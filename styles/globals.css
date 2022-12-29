@@ -436,6 +436,9 @@ option:hover {
   min-height: 100vh;
   height: 100%;
 }
+.dashboardPage{
+  margin: 0 1rem 0 1rem;
+}
 .actionsTd {
   display: flex;
   align-items: center;

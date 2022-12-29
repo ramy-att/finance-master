@@ -46,15 +46,15 @@ const NavBar = () => {
         <Navbar.Collapse id="responsive-navbar-nav">
           {isAuth && (
             <Nav className="me-auto">
-              <Nav.Link as={Link} href="/dashboard">
+              <Link href="/dashboard">
                 Dashboard
-              </Nav.Link>
-              <Nav.Link as={Link} href="/myBudget">
+              </Link>
+              <Link href="/myBudget">
                 Budget
-              </Nav.Link>
-              <Nav.Link as={Link} href="/myInvestments">
+              </Link>
+              <Link href="/myInvestments">
                 Investments
-              </Nav.Link>
+              </Link>
               <NavDropdown
                 title="Tools"
                 show={show}
@@ -74,29 +74,29 @@ const NavBar = () => {
           )}
           {!isAuth && (
             <Nav className="me-auto">
-              <Nav.Link as={Link} href="/interestCalculator">
+              <Link href="/interestCalculator">
                 Interest Calculator
-              </Nav.Link>
-              <Nav.Link as={Link} href="/loanCalculator">
+              </Link>
+              <Link href="/loanCalculator">
                 Loan Calculator
-              </Nav.Link>
+              </Link>
             </Nav>
           )}
           {!isAuth && (
             <Nav>
-              <Nav.Link as={Link} href="/signin">
+              <Link href="/signin">
                 Sign In
-              </Nav.Link>
-              <Nav.Link as={Link} eventKey={2} href="/signup">
+              </Link>
+              <Link eventKey={2} href="/signup">
                 Sign Up
-              </Nav.Link>
+              </Link>
             </Nav>
           )}
           {isAuth && (
             <Nav>
-              <Nav.Link as={Link} href="">
+              <Link href="">
                 {userEmail}
-              </Nav.Link>
+              </Link>
               <Button className="signoutButton" onClick={signOut}>
                 Sign Out
               </Button>

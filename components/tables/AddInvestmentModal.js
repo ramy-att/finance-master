@@ -486,7 +486,7 @@ const AddInvestmentModal = (props) => {
                   ref={stockPriceRef}
                   defaultValue={
                     editing && investKey
-                      ? investments[investKey].stockPrice
+                      ? investments[investKey].stockPrice||investments[investKey].coinPrice
                       : null
                   }
                 />
@@ -501,7 +501,7 @@ const AddInvestmentModal = (props) => {
                   ref={currentStockPriceRef}
                   defaultValue={
                     editing && investKey
-                      ? investments[investKey].currentStockPrice
+                      ? investments[investKey].currentStockPrice||investments[investKey].currentPrice
                       : null
                   }
                 />

@@ -7,6 +7,7 @@ import { Pencil, Trash, PlusCircle, Eye } from "react-bootstrap-icons";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { authActions } from "../store";
+import AddCashModal from "./AddCashModal";
 
 const UserTable = (props) => {
   const { type, data } = props;
@@ -373,7 +374,7 @@ const UserTable = (props) => {
           <th>Payout Freq</th>
           <th>Interest Amount</th>
           <th colSpan={2}>Matured Amount</th>
-          <th>Actions</th>
+          <th colSpan={2}>Actions</th>
         </tr>
         {gicTable()}
         {gicCounter > 1 && (
@@ -465,7 +466,6 @@ const UserTable = (props) => {
           Object.entries(data).map(([key, val]) => {
             expCatCounter++;
             totalExpenses += parseFloat(val.CategoryAmount);
-            console.log(val)
             return (
               <tr key={`${key}--expense-row`}>
                 <td>{expCatCounter}</td>
@@ -519,6 +519,75 @@ const UserTable = (props) => {
       </tbody>
     );
   };
+  const cashBody = () => {
+    let totalCash = 0;
+    let counter = 0;
+    return (
+      <>
+        {data &&
+          Object.entries(data).map(([key, val]) => {
+            totalCash += parseFloat(val.Amount);
+            counter++;
+            return (
+              <tr key={`${key}--cash-row`}>
+                <td>{counter}</td>
+                <td>{val.Location}</td>
+                <td>
+                  {val.AccountName == "" ? val.Location : val.AccountName}
+                </td>
+                <td>{val.Bank}</td>
+                <td>${val.Amount}</td>
+                <td>
+                  <div className="actionsTd">
+                    <Pencil
+                      className="tableIcon"
+                      onClick={() => {
+                        setShowAddModal(true);
+                        setIncomeAction("edit");
+                        setKey(key);
+                      }}
+                      size={20}
+                    />
+                    <Trash
+                      className="tableIcon"
+                      // onClick={() => {
+                      //   deleteItem("expense", key);
+                      // }}
+                      size={20}
+                    />
+                  </div>
+                </td>
+              </tr>
+            );
+          })}
+        {Object.keys(data).length > 0 && (
+          <tr>
+            <td>Total</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>${totalCash}</td>
+            <td></td>
+          </tr>
+        )}
+      </>
+    );
+  };
+  const cashTable = () => {
+    return (
+      <tbody>
+        <tr>
+          <th>#</th>
+          <th>Type</th>
+          <th>Name</th>
+          <th>Bank</th>
+          <th>Amount</th>
+          <th>Actions</th>
+        </tr>
+        {cashBody()}
+      </tbody>
+    );
+  };
   const counter = 0;
   const totalAmount = 0;
   return (
@@ -538,11 +607,11 @@ const UserTable = (props) => {
           ) : (
             <h1>Add Your First Investment!</h1>
           )
-        ) : (
-          type == "expenses" && (
-            <Table striped="columns">{expensesTable()}</Table>
-          )
-        )}
+        ) : type == "expenses" ? (
+          <Table striped="columns">{expensesTable()}</Table>
+        ) : type == "cash" ? (
+          <Table striped="columns">{cashTable()}</Table>
+        ) : null}
       </div>
       <div className="tableAddMoreButton">
         <PlusCircle className="tableIcon plusCircle" onClick={add} size={30} />
@@ -569,6 +638,15 @@ const UserTable = (props) => {
         <AddExpenseModal
           typeOfAction={incomeAction}
           expenseKey={key}
+          show={showAddModal}
+          type={type}
+          onHide={() => setShowAddModal(false)}
+        />
+      )}
+      {showAddModal && type == "cash" && (
+        <AddCashModal
+          typeOfAction={incomeAction}
+          cashKey={key}
           show={showAddModal}
           type={type}
           onHide={() => setShowAddModal(false)}

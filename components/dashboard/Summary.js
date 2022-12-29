@@ -7,7 +7,7 @@ const Summary = (props) => {
         return (
           <div key={`${idx}--summaryContainer`}>
             <span>{row.title}:</span>
-            <span>${row.amount}</span>
+            <span>{row.amount}</span>
           </div>
         );
       })}
