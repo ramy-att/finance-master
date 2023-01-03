@@ -67,6 +67,7 @@ export const Loans = (props) => {
             setShowLoansModal(true);
           }}
           state="addMore"
+          type="loans"
         />
       </div>
         {console.log(loansAction)}

@@ -52,7 +52,7 @@ export default function LogInPage() {
         <Row>
           <Accordion className="Accordion">
             <Accordion.Item eventKey="0">
-              <Accordion.Header>50 20 20 Budget Rule</Accordion.Header>
+              <Accordion.Header>50 30 20 Budget Rule</Accordion.Header>
               <Accordion.Body>
                 The 50/30/20 budgeting rule by US Senator Elizabeth Warren
                 divides your after-tax income into three categories: 50% for

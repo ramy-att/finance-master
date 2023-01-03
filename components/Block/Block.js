@@ -9,7 +9,7 @@ const Block = (props) => {
     <div
       className={`${state == "addMore" && "addMoreIcon"} ${
         type == "loans" && "loanBlock"
-      } block`}
+      } ${state == "addMore" && type == "loans" ? "loanAddMore" : null} block`}
       onClick={state == "addMore" && onClick ? onClick : null}
     >
       {state == "addMore" ? (

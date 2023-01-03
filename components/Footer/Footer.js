@@ -38,9 +38,9 @@ export const Footer = () => {
               <div className="footerSection">
                 <Link href="/about-us">About Us and Our Policies</Link>
                 <br />
-                <Link href="">Sign In</Link>
+                <Link href="/signin">Sign In</Link>
                 <br />
-                <Link href="">Sign Up</Link>
+                <Link href="/signup">Sign Up</Link>
               </div>
             </div>
           </Col>
@@ -48,8 +48,12 @@ export const Footer = () => {
             <div className="footerCol">
               <h1>Resources</h1>
               <div className="footerSection">
-                <a href="https://www.investopedia.com/articles/basics/11/3-s-simple-investing.asp">
+                <a href="https://www.canada.ca/en/financial-consumer-agency/services/savings-investments/investing-basics.html#toc0">
                   Types of Investments
+                </a>
+                <br />
+                <a href="https://www.koho.ca/learn/what-is-the-fifty-thirty-twenty-budgeting-rule/">
+                  50 30 20 Budget
                 </a>
                 <br />
                 <a href="https://www.investopedia.com/terms/i/inflation.asp">

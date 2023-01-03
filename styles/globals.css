@@ -527,7 +527,7 @@ option:hover {
 .budgetRow {
   background-color: var(--blue-gray-07);
   border-radius: 1rem;
-  max-height: 50rem;
+  max-height: 52rem;
   overflow: auto;
   overflow: overlay;
   margin: 2rem 0 2rem 0;
@@ -543,6 +543,9 @@ option:hover {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+.loanAddMore{
+  width: 100%;
 }
 .addMoreIcon:hover {
   background-color: var(--blue-gray-08);

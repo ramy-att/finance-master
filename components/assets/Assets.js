@@ -6,6 +6,7 @@ import { useState, useEffect } from "react";
 import AddCashModal from "../tables/AddCashModal";
 import { useDispatch } from "react-redux";
 import { authActions } from "../store";
+import { ChartSection } from "./ChartSection";
 
 export const Assets = (props) => {
   const assets = useSelector((state) => state.userCash);
@@ -124,6 +125,7 @@ export const Assets = (props) => {
         onHide={() => setShowAddCashModal(false)}
       />
       {/* Add a bar chart showing In vs Out */}
+      <ChartSection cash={assets}/>
     </Container>
   );
 };
