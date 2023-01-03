@@ -55,6 +55,12 @@ const NavBar = () => {
               <Link href="/myInvestments">
                 Investments
               </Link>
+              <Link href="/myAssets">
+                Assets & Cash
+              </Link>
+              <Link href="/myLoans">
+                Loans
+              </Link>
               <NavDropdown
                 title="Tools"
                 show={show}

@@ -50,6 +50,20 @@ const getUserCash = async (localId, token) => {
   const result = await response.json();
   return result;
 };
+const getUserLoans = async (localId, token) => {
+  const url =
+    "https://financier-2022-default-rtdb.firebaseio.com/users/" +
+    localId +
+    "/loans.json?auth=" +
+    token;
+  const response = await fetch(url, {
+    method: "GET",
+    header: { "Content-Type": "application/json" },
+  });
+  const result = await response.json();
+  return result;
+};
+
 const getUserInvestments = async (localId, token) => {
   const url =
     "https://financier-2022-default-rtdb.firebaseio.com/users/" +
@@ -105,12 +119,14 @@ async function handler(req, res) {
           result.idToken
         );
         const cash = await getUserCash(result.localId, result.idToken);
+        const loans = await getUserLoans(result.localId, result.idToken);
 
         res.status(200).json({
           expenses: { ...expenses },
           incomes: incomes === null ? {} : incomes,
           investments: { ...investments },
-          cash: {...cash},
+          cash: { ...cash },
+          loans: loans == null ? {} : loans,
           userInfo: {
             idToken: result.idToken,
             email: result.email,

@@ -11,21 +11,24 @@ const Dashboard = () => {
   const incomes = useSelector((state) => state.userIncomes);
   const investments = useSelector((state) => state.userInvestments);
   const cash = useSelector((state) => state.userCash);
+  const loans = useSelector((state) => state.userLoans);
 
   const [totalIncomes, setTotalIncomes] = useState(0);
   const [totalExpenses, setTotalExpenses] = useState(0);
-  const [totalInvestments, setTotalInvestments] = useState({});
+  const [totalInvestments, setTotalInvestments] = useState({
+    gicPurchase: 0,
+    gicMaturity: 0,
+    stocksPurchase: 0,
+    stocksCurrent: 0,
+    cryptoPurchase: 0,
+    cryptoCurrent: 0,
+  });
   const [totalAssets, setTotalAssets] = useState(0);
+  const [totalLoans, setTotalLoans] = useState(0);
 
   useEffect(() => {
-    const invests = {
-      gicPurchase: 0,
-      gicMaturity: 0,
-      stocksPurchase: 0,
-      stocksCurrent: 0,
-      cryptoPurchase: 0,
-      cryptoCurrent: 0,
-    };
+    const invests = {};
+    let totalAssets = 0;
     Object.entries(incomes).map(([key, val]) => {
       setTotalIncomes(
         parseFloat(totalIncomes) + useGetAnnual(val.Freq, val.Amount)
@@ -61,18 +64,29 @@ const Dashboard = () => {
       }
       setTotalInvestments(invests);
     });
-    let totalAssets = 0;
     Object.entries(cash).map(([key, val]) => {
       totalAssets += parseFloat(val.Amount);
     });
     setTotalAssets(totalAssets);
+    Object.entries(loans).map(([key, val]) => {
+      console.log(loans)
+      setTotalLoans(parseFloat(totalLoans) - parseFloat(val.totalPaid));
+    });
   }, [incomes, expenses, investments, cash]);
+
+  const investmentsDiff =
+    totalInvestments.cryptoCurrent +
+    totalInvestments.gicMaturity +
+    totalInvestments.stocksCurrent -
+    (totalInvestments.cryptoPurchase +
+      totalInvestments.stocksPurchase +
+      totalInvestments.gicPurchase);
   return (
     <div className="dashboardPage">
       <Container fluid>
         <h1 className="dashboardTitle">Your Dashboard</h1>
         <Row className="text-center">
-          <Col sm={4}>
+          <Col lg={6} xl={4}>
             <Summary
               title="Annual Budget"
               data={[
@@ -85,7 +99,7 @@ const Dashboard = () => {
               ]}
             />
           </Col>
-          <Col sm={4}>
+          <Col lg={6} xl={4}>
             <Summary
               title="Investments"
               data={[
@@ -101,38 +115,54 @@ const Dashboard = () => {
                   title: "Crypto (Purchase / Current)",
                   amount: `$${totalInvestments.cryptoPurchase} / $${totalInvestments.cryptoCurrent}`,
                 },
+                {
+                  title: "Total (Difference)",
+                  amount: `$${
+                    totalInvestments.cryptoPurchase +
+                    totalInvestments.stocksPurchase +
+                    totalInvestments.gicPurchase
+                  } / $${
+                    totalInvestments.cryptoCurrent +
+                    totalInvestments.gicMaturity +
+                    totalInvestments.stocksCurrent
+                  } ($${investmentsDiff})`,
+                },
               ]}
             />
           </Col>
-          <Col sm={4}>
+          <Col lg={6} xl={4}>
             <Summary
               title="Net Worth"
               data={[
                 { title: "Assets", amount: `$${totalAssets}` },
                 {
-                  title: "Sale Investments Value (matured, current)",
+                  title: "Investments Value (matured, current)",
                   amount: `$${
                     totalInvestments.cryptoCurrent +
                     totalInvestments.stocksCurrent +
                     totalInvestments.gicMaturity
                   }`,
                 },
-                { title: "Loans", amount: "" },
+                { title: "Loans", amount: `$${totalLoans}` },
+                {
+                  title: "Net Worth",
+                  amount: `$${totalLoans + investmentsDiff + totalAssets}`,
+                },
               ]}
             />
           </Col>
         </Row>
         <Row>
           <h2 className="dashboardTitles">Incomes</h2>
-          <UserTable type="incomes" data={incomes} />
+          <UserTable type="income" data={incomes} />
         </Row>
         <Row>
           <h2 className="dashboardTitles">Investments</h2>
-          <UserTable type="investments" data={investments} />
+          <UserTable type="investment" data={investments} />
         </Row>
         <Row>
           <h2 className="dashboardTitles">Expenses</h2>
-          <UserTable type="expenses" data={expenses} />
+          <UserTable type="expense" data={expenses} />
         </Row>
         <Row>
           <h2 className="dashboardTitles">Cash & Assets</h2>
@@ -140,7 +170,7 @@ const Dashboard = () => {
         </Row>
         <Row>
           <h2 className="dashboardTitles">Loans</h2>
-          <UserTable type="expenses" data={expenses} />
+          <UserTable type="loan" data={loans} />
         </Row>
       </Container>
     </div>

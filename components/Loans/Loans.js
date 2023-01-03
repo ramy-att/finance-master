@@ -1,10 +1,11 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import LoanInfo from "./LoanInfo";
+import useLoanCalc from "../hooks/useLoanCalc";
 
 const Loans = () => {
   const principal = useRef(null);
@@ -13,82 +14,28 @@ const Loans = () => {
   const duration = useRef(null);
   const freq = useRef(null);
   const [payment, setPayment] = useState(0);
+  const [submitted, setSubmitted] = useState(false);
+
+  const loanInfo = useLoanCalc(
+    downPayment,
+    principal,
+    interest,
+    duration,
+    freq,
+    submitted
+  );
+
   const [data, setData] = useState(null);
 
-  const schedule = (owed, int, freq, payment, numberPayments) => {
-    let balance = owed;
-    let totalInterest = 0;
-    const paymentAmt = payment;
-    const payments = [];
-    let paidTilNow = 0;
-    const p = 0;
-    while (numberPayments > 0) {
-      const interestAmt = int * balance;
-      totalInterest += parseFloat(interestAmt);
-      payments.push({
-        payment: parseFloat(paymentAmt).toFixed(3),
-        interest: interestAmt.toFixed(3),
-        principal: (payment - interestAmt).toFixed(3),
-        paidToDate: (paymentAmt + paidTilNow).toFixed(3),
-      });
-      paidTilNow += paymentAmt;
-      balance -= paymentAmt - interestAmt;
-      numberPayments--;
-      p = parseFloat(p) + parseFloat((payment - interestAmt).toFixed(3));
-    }
-    // Total Interest Paid:
-    const totalPaid = owed + totalInterest;
-    return {
-      initialOwed: owed.toFixed(3),
-      totalPaid: totalPaid.toFixed(3),
-      totalInterest: totalInterest.toFixed(3),
-      payments: [...payments],
-    };
-  };
+  useEffect(() => {
+    setData(loanInfo);
+  }, [loanInfo]);
+
   const calculator = (evt) => {
-    //M = P [ i(1 + i)^n ] / [ (1 + i)^n – 1]
-    //P= i(PV)/(1-(1+int)^-n)
     evt.preventDefault();
-    const down = downPayment.current.valueAsNumber;
-    const princ = principal.current.valueAsNumber - (down || 0);
-    3;
-    const ints = interest.current.valueAsNumber / 100;
-    const years = duration.current.valueAsNumber;
-    const frequeny = freq.current.value; // Annual, Semi, Quarterly, Monthly, Biweekly
-    //Find Number Of Periods
-    let n;
-    let f;
-    if (frequeny == 1) {
-      //annual
-      n = years;
-      f = "annual";
-    } else if (frequeny == 2) {
-      //semi
-      n = years * 2;
-      f = "semi-annual";
-      ints = ints / 2;
-    } else if (frequeny == 3) {
-      //quarter
-      ints = ints / 4;
-      n = years * 4;
-      f = "quarterly";
-    } else if (frequeny == 4) {
-      //month
-      ints = ints / 12;
-      n = years * 12;
-      f = "monthly";
-    } else if (frequeny == 5) {
-      //biweekly
-      ints = (ints * 12) / 26;
-      f = "biweekly";
-      n = (years * 12) / 26;
-    }
-    // const paymentAmt = (ints * princ) / (1 - Math.pow(1 + ints, -1 * n));
-    const paymentAmt =
-      princ * ((ints * Math.pow(1 + ints, n)) / (Math.pow(ints + 1, n) - 1));
-    const d = schedule(princ, ints, f, paymentAmt, n);
-    setData(d);
+    setSubmitted(true);
   };
+
   return (
     <Container fluid className="LoanPage">
       <Row>

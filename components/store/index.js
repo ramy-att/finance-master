@@ -17,7 +17,8 @@ const initialState = {
   userExpenses: {},
   userIncomes: {},
   userInvestments: {},
-  userCash: {}
+  userCash: {},
+  userLoans: {}
 };
 
 const authenSlice = createSlice({
@@ -31,6 +32,7 @@ const authenSlice = createSlice({
       state.userIncomes = action.payload.incomes;
       state.userInvestments = action.payload.investments;
       state.userCash = action.payload.cash;
+      state.userLoans = action.payload.loans;
 
     },
     logout(state) {
@@ -40,6 +42,13 @@ const authenSlice = createSlice({
       state.userIncomes = {};
       state.userInvestments = {};
       state.userCash = {};
+      state.userLoans = {};
+    },
+    updateLoans(state, action) {
+      const payLoad = action.payload;
+      const name = payLoad["name"];
+      console.log(name)
+      state.userLoans = { ...state.userLoans, [name]: payLoad };
     },
     updateExpenses(state, action) {
       const payLoad = action.payload;
@@ -67,6 +76,14 @@ const authenSlice = createSlice({
     deleteExpense(state, action) {
       const name = action.payload;
       delete state.userExpenses[name];
+    },
+    deleteCash(state, action){
+      const name = action.payload;
+      delete state.userCash[name];
+    },
+    deleteLoan(state, action){
+      const name = action.payload;
+      delete state.userLoans[name];
     },
     updateInvestments(state, action) {
       const payLoad = action.payload;

@@ -21,7 +21,9 @@ body {
 .form-label {
   font-size: 1.25rem !important;
 }
-
+th {
+  color: var(--blue-gray-09);
+}
 /* custom scrollbar */
 ::-webkit-scrollbar {
   width: 20px;
@@ -164,7 +166,7 @@ option:hover {
   text-align: center;
   margin-bottom: 0.5rem;
 }
-.signUpLink{
+.signUpLink {
   margin-left: 0.25rem;
 }
 .forgotPassword:hover {
@@ -401,7 +403,7 @@ option:hover {
   background-color: var(--blue-gray-08);
   color: var(--light-gray);
   border-radius: 1rem;
-  height: 10rem;
+  height: 12rem;
   width: 100%;
   padding: 1rem;
   margin-bottom: 1rem;
@@ -436,7 +438,7 @@ option:hover {
   min-height: 100vh;
   height: 100%;
 }
-.dashboardPage{
+.dashboardPage {
   margin: 0 1rem 0 1rem;
 }
 .actionsTd {
@@ -470,6 +472,28 @@ option:hover {
   overflow-y: hidden;
   overflow-x: hidden;
   position: relative;
+}
+.loanBlock {
+  width: 100%;
+}
+.loanBlock .loanContainer {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+.loanContainer + p {
+  position: absolute;
+  left: 1rem;
+  bottom: 3rem;
+}
+.loanItemCont {
+  width: 45%;
+}
+.loanItem {
+  display: flex;
+  justify-content: space-between;
+  text-align: left;
+  font-size: larger;
 }
 .block .expensesContainer {
   display: flex;
@@ -603,10 +627,29 @@ option:hover {
 .expenseBlockTitle {
   word-wrap: break-word;
 }
-.signoutButton{
+.signoutButton {
   background-color: var(--light-gray) !important;
   color: var(--blue-gray-09) !important;
 }
-.signoutButton:hover{
+.signoutButton:hover {
   background-color: var(--blue-gray-01) !important;
+}
+.loanDetailPage div{
+  text-align: left;
+  margin: 0 1rem 0 1rem;
+}
+.loanItem{
+  margin: 0 !important;
+}
+.blockLinkCont{
+  width: 100%;
+  margin-top: 0.5rem;
+  text-align: left;
+}
+.blockLinkCont a{
+  color: var(--light-gray);
+  text-decoration: none;
+}
+.blockLinkCont a:hover{
+  color: var(--blue-gray-02);
 }

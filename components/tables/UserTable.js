@@ -3,11 +3,12 @@ import { useState } from "react";
 import AddIncomeModal from "./AddIncomeModal";
 import AddExpenseModal from "./AddExpenseModal";
 import AddInvestmentModal from "./AddInvestmentModal";
+import AddLoanModal from "./AddLoanModal";
+import AddCashModal from "./AddCashModal";
 import { Pencil, Trash, PlusCircle, Eye } from "react-bootstrap-icons";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { authActions } from "../store";
-import AddCashModal from "./AddCashModal";
 
 const UserTable = (props) => {
   const { type, data } = props;
@@ -65,62 +66,87 @@ const UserTable = (props) => {
   };
   type == "incomes" ? sortIncomes(data) : null;
 
-  const deleteItem = async (type, key) => {
-    if (type == "income") {
-      const endpoint = "/api/income";
-      const options = {
-        method: "DELETE",
-        body: JSON.stringify({
-          localId: userInfo.localId,
-          token: userInfo.idToken,
-          name: key,
-        }),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      };
-      const response = await fetch(endpoint, options);
-      const result = await response.json();
-      if (!result.error) {
-        dispatch(authActions.deleteIncome(result.deletedName));
-      }
-    } else if (type == "investment") {
-      const endpoint = "/api/investment";
-      const options = {
-        method: "DELETE",
-        body: JSON.stringify({
-          localId: userInfo.localId,
-          token: userInfo.idToken,
-          name: key,
-        }),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      };
-      const response = await fetch(endpoint, options);
-      const result = await response.json();
-      if (!result.error) {
-        dispatch(authActions.deleteInvestment(result.deletedName));
-      }
-    } else {
-      const endpoint = "/api/expense";
-      const options = {
-        method: "DELETE",
-        body: JSON.stringify({
-          localId: userInfo.localId,
-          token: userInfo.idToken,
-          name: key,
-        }),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      };
-      const response = await fetch(endpoint, options);
-      const result = await response.json();
-      if (!result.error) {
-        dispatch(authActions.deleteExpense(result.deletedName));
-      }
+  const deleteItem = async (key) => {
+    const endpoint = `/api/${type}`;
+    const options = {
+      method: "DELETE",
+      body: JSON.stringify({
+        localId: userInfo.localId,
+        token: userInfo.idToken,
+        name: key,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+    const response = await fetch(endpoint, options);
+    const result = await response.json();
+    if (!result.error) {
+      type == "income"
+        ? dispatch(authActions.deleteIncome(result.deletedName))
+        : type == "expense"
+        ? dispatch(authActions.deleteExpense(result.deletedName))
+        : type == "investment"
+        ? dispatch(authActions.deleteInvestment(result.deletedName))
+        : type == "cash"
+        ? dispatch(authActions.deleteCash(result.deletedName))
+        : dispatch(authActions.deleteLoan(result.deletedName));
     }
+    // if (type == "income") {
+    //   const endpoint = "/api/income";
+    //   const options = {
+    //     method: "DELETE",
+    //     body: JSON.stringify({
+    //       localId: userInfo.localId,
+    //       token: userInfo.idToken,
+    //       name: key,
+    //     }),
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //     },
+    //   };
+    //   const response = await fetch(endpoint, options);
+    //   const result = await response.json();
+    //   if (!result.error) {
+    //     dispatch(authActions.deleteIncome(result.deletedName));
+    //   }
+    // } else if (type == "investment") {
+    //   const endpoint = "/api/investment";
+    //   const options = {
+    //     method: "DELETE",
+    //     body: JSON.stringify({
+    //       localId: userInfo.localId,
+    //       token: userInfo.idToken,
+    //       name: key,
+    //     }),
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //     },
+    //   };
+    //   const response = await fetch(endpoint, options);
+    //   const result = await response.json();
+    //   if (!result.error) {
+    //     dispatch(authActions.deleteInvestment(result.deletedName));
+    //   }
+    // } else {
+    //   const endpoint = "/api/expense";
+    //   const options = {
+    //     method: "DELETE",
+    //     body: JSON.stringify({
+    //       localId: userInfo.localId,
+    //       token: userInfo.idToken,
+    //       name: key,
+    //     }),
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //     },
+    //   };
+    //   const response = await fetch(endpoint, options);
+    //   const result = await response.json();
+    //   if (!result.error) {
+    //     dispatch(authActions.deleteExpense(result.deletedName));
+    //   }
+    // }
   };
 
   const incomeTable = () => {
@@ -173,7 +199,7 @@ const UserTable = (props) => {
                       <Trash
                         className="tableIcon"
                         onClick={() => {
-                          deleteItem("income", val.name);
+                          deleteItem(val.name);
                         }}
                         size={20}
                       />
@@ -233,7 +259,7 @@ const UserTable = (props) => {
                   <Trash
                     className="tableIcon"
                     onClick={() => {
-                      deleteItem("investment", key);
+                      deleteItem(key);
                     }}
                     size={20}
                   />
@@ -292,7 +318,7 @@ const UserTable = (props) => {
                   <Trash
                     className="tableIcon"
                     onClick={() => {
-                      deleteItem("investment", key);
+                      deleteItem(key);
                     }}
                     size={20}
                   />
@@ -345,7 +371,7 @@ const UserTable = (props) => {
                   <Trash
                     className="tableIcon"
                     onClick={() => {
-                      deleteItem("investment", key);
+                      deleteItem(key);
                     }}
                     size={20}
                   />
@@ -486,7 +512,7 @@ const UserTable = (props) => {
                     <Trash
                       className="tableIcon"
                       onClick={() => {
-                        deleteItem("expense", key);
+                        deleteItem(key);
                       }}
                       size={20}
                     />
@@ -528,12 +554,13 @@ const UserTable = (props) => {
           Object.entries(data).map(([key, val]) => {
             totalCash += parseFloat(val.Amount);
             counter++;
+            console.log(val)
             return (
               <tr key={`${key}--cash-row`}>
                 <td>{counter}</td>
-                <td>{val.Location}</td>
+                <td>{val.Type}</td>
                 <td>
-                  {val.AccountName == "" ? val.Location : val.AccountName}
+                  {val.AccountName == "" ? val.Type : val.AccountName}
                 </td>
                 <td>{val.Bank}</td>
                 <td>${val.Amount}</td>
@@ -550,9 +577,9 @@ const UserTable = (props) => {
                     />
                     <Trash
                       className="tableIcon"
-                      // onClick={() => {
-                      //   deleteItem("expense", key);
-                      // }}
+                      onClick={() => {
+                        deleteItem(key);
+                      }}
                       size={20}
                     />
                   </div>
@@ -588,18 +615,86 @@ const UserTable = (props) => {
       </tbody>
     );
   };
+  const loansBody = () => {
+    let totalOwed = 0;
+    let counter = 0;
+    return (
+      <>
+        {data &&
+          Object.entries(data).map(([key, val]) => {
+            totalOwed += parseFloat(val.totalPaid);
+            if (val.payments != undefined && val.payments.length > 0) {
+              counter++;
+              const payment = val.payments[0].payment;
+              return (
+                <tr key={`${key}--loan-row`}>
+                  <td>{counter}</td>
+                  <td>
+                    ${parseFloat(val.initialOwed) + parseFloat(val.downPayment)}
+                  </td>
+                  <td>${val.downPayment}</td>
+                  <td>${val.initialOwed}</td>
+                  <td>${val.totalInterest}</td>
+                  <td>${val.totalPaid}</td>
+                  <td>{val.frequency}</td>
+                  <td>${payment}</td>
+                  <td>
+                    <div className="actionsTd">
+                      <Pencil
+                        className="tableIcon"
+                        size={20}
+                        onClick={() => {
+                          setShowAddModal(true);
+                          setIncomeAction("edit");
+                          setKey(key);
+                        }}
+                      />
+                      <Trash
+                        className="tableIcon"
+                        size={20}
+                        onClick={() => {
+                          deleteItem(key);
+                        }}
+                      />
+                    </div>
+                  </td>
+                </tr>
+              );
+            }
+          })}
+      </>
+    );
+  };
+  const loansTable = () => {
+    return (
+      <tbody>
+        <tr>
+          <th>#</th>
+          <th>Initial Owed</th>
+          <th>Down Payment</th>
+          <th>Loan Amount</th>
+          <th>Total Interest</th>
+          <th>Total Paid</th>
+          <th>Frequency</th>
+          <th>Payment</th>
+          <th>Actions</th>
+        </tr>
+        {loansBody()}
+      </tbody>
+    );
+  };
   const counter = 0;
   const totalAmount = 0;
   return (
     <>
       <div className="userTable">
-        {type == "incomes" ? (
+        {type == "income" ? (
           Object.keys(data).length > 0 ? (
             <Table striped="columns">{incomeTable()}</Table>
           ) : (
             <h1>Add Your First Income!</h1>
           )
-        ) : type == "investments" ? (
+        ) : type == "investment" ? (
           Object.keys(data).length > 0 ? (
             <Table striped="columns" className="investmentTable">
               {investmentTable()}
@@ -607,16 +702,30 @@ const UserTable = (props) => {
           ) : (
             <h1>Add Your First Investment!</h1>
           )
-        ) : type == "expenses" ? (
-          <Table striped="columns">{expensesTable()}</Table>
+        ) : type == "expense" ? (
+          Object.keys(data).length > 0 ? (
+            <Table striped="columns">{expensesTable()}</Table>
+          ) : (
+            <h1>Add Your First Expense Category!</h1>
+          )
         ) : type == "cash" ? (
-          <Table striped="columns">{cashTable()}</Table>
+          Object.keys(data).length > 0 ? (
+            <Table striped="columns">{cashTable()}</Table>
+          ) : (
+            <h1>Add Your First Asset/Account!</h1>
+          )
+        ) : type == "loan" ? (
+          Object.keys(data).length > 0 ? (
+            <Table striped="columns">{loansTable()}</Table>
+          ) : (
+            <h1>Add Your First Loan!</h1>
+          )
         ) : null}
       </div>
       <div className="tableAddMoreButton">
         <PlusCircle className="tableIcon plusCircle" onClick={add} size={30} />
       </div>
-      {showAddModal && type == "incomes" && (
+      {showAddModal && type == "income" && (
         <AddIncomeModal
           typeOfAction={incomeAction}
           incomeKey={key}
@@ -625,7 +734,16 @@ const UserTable = (props) => {
           onHide={() => setShowAddModal(false)}
         />
       )}
-      {showAddModal && type == "investments" && (
+      {showAddModal && type == "loan" && (
+        <AddLoanModal
+          typeofaction={incomeAction}
+          loankey={key}
+          show={showAddModal}
+          type={type}
+          onHide={() => setShowAddModal(false)}
+        />
+      )}
+      {showAddModal && type == "investment" && (
         <AddInvestmentModal
           typeOfAction={incomeAction}
           investKey={key}
@@ -634,7 +752,7 @@ const UserTable = (props) => {
           onHide={() => setShowAddModal(false)}
         />
       )}
-      {showAddModal && type == "expenses" && (
+      {showAddModal && type == "expense" && (
         <AddExpenseModal
           typeOfAction={incomeAction}
           expenseKey={key}

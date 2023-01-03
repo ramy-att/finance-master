@@ -4,22 +4,12 @@ async function handler(req, res) {
     const url =
       "https://financier-2022-default-rtdb.firebaseio.com/users/" +
       body.localId +
-      "/cash.json?auth=" +
+      "/loans.json?auth=" +
       body.token;
-    const type = body.type;
-    const amount = body.amount;
-    const bank = body.bank;
-    const accName = body.accountName;
-
+    const data = body.data;
     const response = await fetch(url, {
       method: "POST",
-      body: JSON.stringify({
-        Type: type,
-        Amount: amount,
-        Bank: bank,
-        AccountName: accName,
-        returnSecureToken: true,
-      }),
+      body: JSON.stringify(data),
       header: {
         "Content/type": "application/json",
       },
@@ -31,37 +21,25 @@ async function handler(req, res) {
       });
     } else {
       const resultName = result.name;
+      console.log(resultName)
       return res.status(200).json({
         name: resultName,
-        Type: type,
-        Amount: amount,
-        Bank: bank,
-        AccountName: accName,
+        ...data,
       });
     }
   } else if (req.method == "PATCH") {
     const body = req.body;
-    console.log(body);
     const url =
       "https://financier-2022-default-rtdb.firebaseio.com/users/" +
       body.localId +
-      "/cash/" +
+      "/loans/" +
       body.oldName +
       ".json?auth=" +
       body.token;
-    const type = body.type;
-    const amount = body.amount;
-    const bank = body.bank;
-    const accName = body.accountName;
-
+    const data = body.data;
     const response = await fetch(url, {
       method: "PATCH",
-      body: JSON.stringify({
-        Type: type,
-        Amount: amount,
-        Bank: bank,
-        AccountName: accName,
-      }),
+      body: JSON.stringify(data),
       header: {
         "Content/type": "application/json",
       },
@@ -72,12 +50,10 @@ async function handler(req, res) {
         error: result.error.message,
       });
     } else {
+      console.log(body.oldName);
       return res.status(200).json({
         name: body.oldName,
-        Type: type,
-        Amount: amount,
-        Bank: bank,
-        AccountName: accName,
+        ...data,
       });
     }
   } else {
@@ -87,7 +63,7 @@ async function handler(req, res) {
     const url =
       "https://financier-2022-default-rtdb.firebaseio.com/users/" +
       body.localId +
-      "/cash/" +
+      "/loans/" +
       oldName +
       ".json?auth=" +
       body.token;

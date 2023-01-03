@@ -1,12 +1,15 @@
+import Link from "next/link";
 import { useState } from "react";
-import { PlusLg, Trash, Pencil } from "react-bootstrap-icons";
+import { PlusLg, Trash, Pencil, BoxArrowUpRight } from "react-bootstrap-icons";
 
 const Block = (props) => {
   const { state, type, title, onClick, editElm, idx, deleteElm, elements } =
     props;
   return (
     <div
-      className={`${state == "addMore" && "addMoreIcon"} block`}
+      className={`${state == "addMore" && "addMoreIcon"} ${
+        type == "loans" && "loanBlock"
+      } block`}
       onClick={state == "addMore" && onClick ? onClick : null}
     >
       {state == "addMore" ? (
@@ -79,7 +82,113 @@ const Block = (props) => {
                 })}
               </div>
             </>
-          ) : null}
+          ) : type == "assets" ? (
+            <>
+              <div className="expensesContainer">
+                {Object.entries(elements).map(([key, val]) => {
+                  if (!(key == "name" || val == "" || key == "AccountName")) {
+                    return (
+                      <div className="incomeLine" key={`${key}--investment`}>
+                        <span className="expenseItemCont">{key}</span>
+                        {/* Add Freq Here */}
+                        <span className="expenseItemCont">
+                          {key == "Amount" ? `$${val}` : val}
+                        </span>
+                      </div>
+                    );
+                  }
+                })}
+              </div>
+            </>
+          ) : type == "bankAcc" ? (
+            <>
+              <div className="expensesContainer">
+                {Object.entries(elements).map(([key, val]) => {
+                  if (!(key == "name" || val == "" || key == "AccountName")) {
+                    return (
+                      <div className="incomeLine" key={`${key}--investment`}>
+                        <span className="expenseItemCont">{key}</span>
+                        {/* Add Freq Here */}
+                        <span className="expenseItemCont">
+                          {key == "Amount" ? `$${val}` : val}
+                        </span>
+                      </div>
+                    );
+                  }
+                })}
+              </div>
+            </>
+          ) : type == "otherAsset" ? (
+            <>
+              <div className="expensesContainer">
+                {Object.entries(elements).map(([key, val]) => {
+                  if (!(key == "name" || val == "" || key == "AccountName")) {
+                    return (
+                      <div className="incomeLine" key={`${key}--investment`}>
+                        <span className="expenseItemCont">{key}</span>
+                        {/* Add Freq Here */}
+                        <span className="expenseItemCont">
+                          {key == "Amount" ? `$${val}` : val}
+                        </span>
+                      </div>
+                    );
+                  }
+                })}
+              </div>
+            </>
+          ) : (
+            <>
+              <div className="expensesContainer">
+                <div className="loanContainer">
+                  <div className="loanItemCont">
+                    <div className="loanItem">
+                      <span>Initital Owed:</span>$
+                      {parseFloat(elements.initialOwed) +
+                        parseFloat(elements.downPayment)}
+                    </div>
+                    <div className="loanItem">
+                      <span>Down Payment: </span>${elements.downPayment}
+                    </div>
+                    <div className="loanItem">
+                      <span>Loaned Amount:</span>$
+                      {parseFloat(elements.initialOwed)}
+                    </div>
+                    <div className="loanItem">
+                      <span>Payment Freq:</span>
+                      {elements.frequency}
+                    </div>
+                  </div>
+                  <div className="loanItemCont">
+                    <div className="loanItem">
+                      <span>No. Payments:</span>
+                      {elements.payments.length}
+                    </div>
+                    <div className="loanItem">
+                      <span>Total Interest:</span>${elements.downPayment} (
+                      {elements.interestRate * 100}%)
+                    </div>
+                    <div className="loanItem">
+                      <span>Total Paid:</span>${elements.totalPaid}
+                    </div>
+                    <div className="loanItem">
+                      <span>Payment Amount:</span>$
+                      {elements.payments[0].payment}
+                    </div>
+                  </div>
+                </div>
+                <div className="blockLinkCont">
+                  <Link href={`/myLoans/${idx !== undefined ? idx : ""}`}>
+                    <a target={"_blank"}>
+                      See Payment Schedule
+                      <BoxArrowUpRight
+                        style={{ marginBottom: "5px", marginLeft: "5px" }}
+                      />
+                    </a>
+                  </Link>
+                </div>
+              </div>
+            </>
+          )}
           <div className="blockIconsCont">
             <div className="blockIcons">
               <Pencil className="blockIcon" size={30} onClick={editElm} />

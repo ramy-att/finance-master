@@ -8,7 +8,6 @@ import { useDispatch } from "react-redux";
 
 const AddCashModal = (props) => {
   const { typeOfAction, cashKey } = props;
-
   const userInfo = useSelector((state) => state.userInfo);
   const cash = useSelector((state) => state.userCash);
 
@@ -16,8 +15,8 @@ const AddCashModal = (props) => {
 
   const [bankAccount, setBankAccount] = useState(true);
   const [asset, setAsset] = useState(false);
-  const [editing, setEditing] = useState(typeOfAction == "edit");
-
+  const [editing, setEditing] = useState(typeOfAction == "edit" || cashKey);
+  console.log(editing);
   const cashLocRef = useRef(null);
   const otherLocRef = useRef(null);
   const amountRef = useRef(null);
@@ -25,16 +24,15 @@ const AddCashModal = (props) => {
   const bankNameRef = useRef(null);
 
   const changeCashLoc = () => {
-    if (cashLocRef.current != null && cashLocRef.current.value == "other") {
+    if (cashLocRef.current != null && cashLocRef.current.value == "Other") {
       setBankAccount(false);
     } else {
       setBankAccount(true);
     }
-    if(cashLocRef.current !=null && cashLocRef.current.value == "Asset"){
-        setAsset(true);
-    }
-    else{
-        setAsset(false);
+    if (cashLocRef.current != null && cashLocRef.current.value == "Asset") {
+      setAsset(true);
+    } else {
+      setAsset(false);
     }
   };
   const addCash = async (e) => {
@@ -50,21 +48,17 @@ const AddCashModal = (props) => {
             localId: userInfo.localId,
             token: userInfo.idToken,
             oldName: cashKey,
-            location: !bankAccount
-              ? otherLocRef.current.value
-              : cashLocRef.current.value,
+            type: cashLocRef.current.value,
             amount: amountRef.current.value,
-            accountName: !bankAccount ? "" : accNameRef.current.value,
+            accountName: accNameRef.current.value,
             bank: !bankAccount ? "" : bankNameRef.current.value,
           })
         : JSON.stringify({
             localId: userInfo.localId,
             token: userInfo.idToken,
-            location: !bankAccount
-              ? otherLocRef.current.value
-              : cashLocRef.current.value,
+            type: cashLocRef.current.value,
             amount: amountRef.current.value,
-            accountName: !bankAccount ? "" : accNameRef.current.value,
+            accountName: accNameRef.current.value,
             bank: !bankAccount || asset ? "" : bankNameRef.current.value,
           }),
     };
@@ -77,6 +71,7 @@ const AddCashModal = (props) => {
       //   incomeFreq.current.value = "Daily";
     }
   };
+  console.log(editing);
   return (
     <Modal
       {...props}
@@ -95,7 +90,7 @@ const AddCashModal = (props) => {
               ref={cashLocRef}
               onChange={changeCashLoc}
               defaultValue={
-                editing && cashKey ? cash[cashKey].Location : "Chequing Account"
+                editing && cashKey ? cash[cashKey].Type : "Chequing Account"
               }
               required
             >
@@ -105,7 +100,7 @@ const AddCashModal = (props) => {
                 Investment Account (e.g. TFSA)
               </option>
               <option value="Asset">Asset</option>
-              <option value="other">Other</option>
+              <option value="Other">Other</option>
             </Form.Select>
           </Form.Group>
           {bankAccount && !asset && (
@@ -119,32 +114,19 @@ const AddCashModal = (props) => {
               />
             </Form.Group>
           )}
-          {bankAccount && (
-            <Form.Group className="mb-3" controlId="formBasicEmail">
-              <Form.Label>Name</Form.Label>
-              <Form.Control
-                ref={accNameRef}
-                required
-                defaultValue={
-                  editing && cashKey ? cash[cashKey].Location : null
-                }
-                placeholder="Main Savings"
-              />
-            </Form.Group>
-          )}
-          {!bankAccount && (
-            <Form.Group className="mb-3" controlId="formBasicEmail">
-              <Form.Label>Name</Form.Label>
-              <Form.Control
-                ref={otherLocRef}
-                required
-                defaultValue={
-                  editing && cashKey ? cash[cashKey].Location : null
-                }
-                placeholder="Appartment"
-              />
-            </Form.Group>
-          )}
+          <Form.Group className="mb-3" controlId="formBasicEmail">
+            <Form.Label>Name</Form.Label>
+            <Form.Control
+              ref={accNameRef}
+              required
+              defaultValue={
+                editing && cashKey
+                  ? cash[cashKey].AccountName || cash[cashKey].Type
+                  : null
+              }
+              placeholder={asset ? "House" : "Main Savings"}
+            />
+          </Form.Group>
           <Form.Group className="mb-3" controlId="formBasicEmail">
             <Form.Label>Amount</Form.Label>
             <Form.Control

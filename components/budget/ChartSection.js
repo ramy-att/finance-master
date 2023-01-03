@@ -67,5 +67,5 @@ export function ChartSection(props) {
       },
     },
   };
-  return <Bar options={options} data={data} />;
+  return datasets.length>0 && <Bar options={options} data={data} />;
 }

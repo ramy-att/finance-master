@@ -15,7 +15,7 @@ export default function LogInPage() {
     <Container classname="HomePage" fluid>
       <Row>
         <div className="carouselRow">
-          <Carousel controls={false} indicators={false} class="homeCarousel">
+          <Carousel controls={false} indicators={false} className="homeCarousel">
             <Carousel.Item>
               <Image
                 className="d-block w-100"
@@ -213,7 +213,7 @@ export default function LogInPage() {
                   called diversification. This can help you to reduce risk.
                   There are two ways to diversify your investments: portfolio
                   diversification and asset allocation.
-                  <div>
+                  <p>
                     Portfolio diversification: Means having a mix of investments
                     to reduce risk. For example, having investments in many
                     companies instead of just one. When you hold a variety of
@@ -221,14 +221,14 @@ export default function LogInPage() {
                     will lose value at the same time. If you only own one stock
                     and that company loses value, then you risk losing all of
                     the money you invested.
-                  </div>
-                  <div>
+                  </p>
+                  <p>
                     Asset allocation: Means having different types of asset
                     classes in your investment portfolio, for example: stocks,
                     bonds and cash. When you have different types of assets, you
                     reduce the risk that all assets will lose value at the same
                     time.
-                  </div>
+                  </p>
                 </p>
                 <a href="https://www.canada.ca/en/financial-consumer-agency/services/savings-investments/investing-basics.html#toc0">
                   Source
