@@ -7,7 +7,7 @@ import { authActions } from "../store";
 import { useDispatch } from "react-redux";
 
 const AddIncomeModal = (props) => {
-  const { typeOfAction, incomeKey } = props;
+  const { typeofaction, incomekey } = props;
 
   // REFS
   // INCOME REFS
@@ -30,15 +30,15 @@ const AddIncomeModal = (props) => {
   //STATES
   const [investmentIncome, setInvestmentIncome] = useState("");
   const [otherIncome, setOtherIncome] = useState(false);
-  const [editing, setEditing] = useState(typeOfAction == "edit");
+  const [editing, setEditing] = useState(typeofaction == "edit");
   const [investmentAmount, setInvestmentAmount] = useState(0);
   //REDUX STORAGE
   const userInfo = useSelector((state) => state.userInfo);
   const incomes = useSelector((state) => state.userIncomes);
 
   useEffect(() => {
-    setEditing(typeOfAction == "edit");
-  }, [typeOfAction]);
+    setEditing(typeofaction == "edit");
+  }, [typeofaction]);
 
   // Redux dispatch
   const dispatch = useDispatch();
@@ -172,7 +172,7 @@ const AddIncomeModal = (props) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        oldName: incomeKey,
+        oldName: incomekey,
         localId: userInfo.localId,
         token: userInfo.idToken,
         source: incomeSrc.current.value,
@@ -190,7 +190,7 @@ const AddIncomeModal = (props) => {
   };
 
   const modalTitle =
-    typeOfAction == "edit"
+    typeofaction == "edit"
       ? "Edit Your Income Source"
       : "Add New Income Source";
   return (
@@ -220,7 +220,7 @@ const AddIncomeModal = (props) => {
                 required
                 className="selectCompounding"
                 defaultValue={
-                  editing && incomeKey ? incomes[incomeKey].Category : null
+                  editing ? incomes[incomekey].Category : null
                 }
               >
                 <option value="Salary">Job Salary</option>
@@ -269,10 +269,6 @@ const AddIncomeModal = (props) => {
               </>
             ) : investmentIncome == "Fixed Income (Dividents)" ? (
               <>
-                {/* <Form.Group className="mb-3" controlId="formBasicEmail">
-                  <Form.Label>Maturity Date</Form.Label>
-                  <Form.Control type="date" required />
-                </Form.Group> */}
                 <Form.Group>
                   <Form.Label>Locked Amount</Form.Label>
                   <Form.Control type="number" step="0.001" required />
@@ -291,7 +287,7 @@ const AddIncomeModal = (props) => {
                   ref={incomeSrc}
                   type="text"
                   defaultValue={
-                    editing && incomeKey ? incomes[incomeKey].Category : null
+                    editing ? incomes[incomekey].Category : null
                   }
                 />
               </Form.Group>
@@ -306,7 +302,7 @@ const AddIncomeModal = (props) => {
                 step="0.001"
                 ref={incomeAmount}
                 defaultValue={
-                  editing && incomeKey ? incomes[incomeKey].Amount : null
+                  editing ? incomes[incomekey].Amount : null
                 }
                 placeholder="Amount"
               />
@@ -321,7 +317,7 @@ const AddIncomeModal = (props) => {
                   required
                   className="selectCompounding"
                   defaultValue={
-                    editing && incomeKey ? incomes[incomeKey].Freq : null
+                    editing ? incomes[incomekey].Freq : null
                   }
                 >
                   <option value="Daily">At Maturity</option>
@@ -339,7 +335,7 @@ const AddIncomeModal = (props) => {
                   required
                   className="selectCompounding"
                   defaultValue={
-                    editing && incomeKey ? incomes[incomeKey].Freq : null
+                    editing ? incomes[incomekey].Freq : null
                   }
                 >
                   <option value="Daily">Daily</option>

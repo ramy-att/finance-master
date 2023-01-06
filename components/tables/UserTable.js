@@ -209,15 +209,13 @@ const UserTable = (props) => {
               );
             })}
 
-          {counter > 1 && (
-            <tr>
-              <td>Annual Total</td>
-              <td></td>
-              <td></td>
-              <td>${totalAmount}</td>
-              <td></td>
-            </tr>
-          )}
+          <tr>
+            <td>Annual Total</td>
+            <td></td>
+            <td></td>
+            <td>${totalAmount}</td>
+            <td></td>
+          </tr>
         </tbody>
       </>
     );
@@ -554,14 +552,12 @@ const UserTable = (props) => {
           Object.entries(data).map(([key, val]) => {
             totalCash += parseFloat(val.Amount);
             counter++;
-            console.log(val)
+            console.log(val);
             return (
               <tr key={`${key}--cash-row`}>
                 <td>{counter}</td>
                 <td>{val.Type}</td>
-                <td>
-                  {val.AccountName == "" ? val.Type : val.AccountName}
-                </td>
+                <td>{val.AccountName == "" ? val.Type : val.AccountName}</td>
                 <td>{val.Bank}</td>
                 <td>${val.Amount}</td>
                 <td>
@@ -727,8 +723,8 @@ const UserTable = (props) => {
       </div>
       {showAddModal && type == "income" && (
         <AddIncomeModal
-          typeOfAction={incomeAction}
-          incomeKey={key}
+          typeofaction={incomeAction}
+          incomekey={key}
           show={showAddModal}
           type={type}
           onHide={() => setShowAddModal(false)}
@@ -745,7 +741,7 @@ const UserTable = (props) => {
       )}
       {showAddModal && type == "investment" && (
         <AddInvestmentModal
-          typeOfAction={incomeAction}
+          typeofaction={incomeAction}
           investKey={key}
           show={showAddModal}
           type={type}
@@ -754,8 +750,8 @@ const UserTable = (props) => {
       )}
       {showAddModal && type == "expense" && (
         <AddExpenseModal
-          typeOfAction={incomeAction}
-          expenseKey={key}
+          typeofaction={incomeAction}
+          expensekey={key}
           show={showAddModal}
           type={type}
           onHide={() => setShowAddModal(false)}
@@ -763,7 +759,7 @@ const UserTable = (props) => {
       )}
       {showAddModal && type == "cash" && (
         <AddCashModal
-          typeOfAction={incomeAction}
+          typeofaction={incomeAction}
           cashKey={key}
           show={showAddModal}
           type={type}

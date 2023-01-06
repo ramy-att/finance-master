@@ -19,15 +19,8 @@ export const Budget = (props) => {
   const [key, setKey] = useState("");
   const [incomeAction, setIncomeAction] = useState("");
   const [expenseAction, setExpenseAction] = useState("");
-  // const [totalIncome, setTotalIncome] = useState(0);
 
   const dispatch = useDispatch();
-
-  // useEffect(() => {
-  //   Object.entries(incomes).map(([key, val]) => {
-  //     setTotalIncome((totalIncome += parseFloat(val.Amount) / 2));
-  //   });
-  // }, [incomes, expenses]);
 
   const deleteItem = async (type, key) => {
     if (type == "income") {
@@ -68,6 +61,13 @@ export const Budget = (props) => {
       }
     }
   };
+  const hideModals = () => {
+    setShowAddExpenseModal(false);
+    setShowAddIncomeModal(false);
+    // setKey('');
+    setExpenseAction("");
+    setIncomeAction("");
+  };
   return (
     <Container class="budgetContainer">
       <h1 className="budgetRowTitle">Incomes</h1>
@@ -101,13 +101,13 @@ export const Budget = (props) => {
       <h1 className="budgetRowTitle">Expenses</h1>
       <div class="budgetRow">
         {Object.entries(expenses).map(([key, val]) => {
-          console.log(key);
           return (
             <Block
               key={`${key}--expenseBlock`}
               title={val.CategoryTitle}
               type="expense"
               editElm={() => {
+                console.log(key);
                 setShowAddExpenseModal(true);
                 setExpenseAction("edit");
                 setKey(key);
@@ -119,22 +119,32 @@ export const Budget = (props) => {
             />
           );
         })}
-        <Block state="addMore" type="income" />
+        <Block
+          state="addMore"
+          type="expense"
+          onClick={() => {
+            setShowAddExpenseModal(true);
+          }}
+        />
       </div>
-      <AddIncomeModal
-        typeOfAction={incomeAction}
-        incomeKey={key}
-        show={showAddIncomeModal}
-        type={incomeAction}
-        onHide={() => setShowAddIncomeModal(false)}
-      />
-      <AddExpenseModal
-        typeOfAction={expenseAction}
-        expenseKey={key}
-        show={showAddExpenseModal}
-        type={expenseAction}
-        onHide={() => setShowAddExpenseModal(false)}
-      />
+      {showAddIncomeModal && (
+        <AddIncomeModal
+          typeofaction={incomeAction}
+          incomekey={key}
+          show={showAddIncomeModal}
+          type={incomeAction}
+          onHide={hideModals}
+        />
+      )}
+      {showAddExpenseModal && (
+        <AddExpenseModal
+          typeofaction={expenseAction}
+          expensekey={key}
+          show={showAddExpenseModal}
+          type={expenseAction}
+          onHide={hideModals}
+        />
+      )}
       {/* Add a bar chart showing In vs Out */}
       <ChartSection incomes={incomes} expenses={expenses} />
     </Container>

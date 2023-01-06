@@ -118,7 +118,7 @@ export const Assets = (props) => {
         <Block state="addMore" type="income" />
       </div>
       <AddCashModal
-        typeOfAction={assetAction}
+        typeofaction={assetAction}
         cashKey={key}
         show={showAddCashModal}
         type={assetAction}

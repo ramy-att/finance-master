@@ -7,7 +7,7 @@ import { authActions } from "../store";
 import { useDispatch } from "react-redux";
 
 const AddCashModal = (props) => {
-  const { typeOfAction, cashKey } = props;
+  const { typeofaction, cashKey } = props;
   const userInfo = useSelector((state) => state.userInfo);
   const cash = useSelector((state) => state.userCash);
 
@@ -15,7 +15,7 @@ const AddCashModal = (props) => {
 
   const [bankAccount, setBankAccount] = useState(true);
   const [asset, setAsset] = useState(false);
-  const [editing, setEditing] = useState(typeOfAction == "edit" || cashKey);
+  const [editing, setEditing] = useState(typeofaction == "edit" || cashKey);
   console.log(editing);
   const cashLocRef = useRef(null);
   const otherLocRef = useRef(null);

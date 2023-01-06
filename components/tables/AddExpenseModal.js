@@ -10,19 +10,25 @@ import ExpenseRow from "./ExpenseRow";
 import { PlusCircle, Pencil } from "react-bootstrap-icons";
 const AddExpenseModal = (props) => {
   // PROPS
-  const { typeOfAction, expenseKey } = props;
+  const { typeofaction, expensekey } = props;
   // REDUX Storage
   const userInfo = useSelector((state) => state.userInfo);
   const expenses = useSelector((state) => state.userExpenses);
   const dispatch = useDispatch();
   // STATES
-  const [editing, setEditing] = useState(typeOfAction == "edit");
+  const [editing, setEditing] = useState(typeofaction == "edit");
   const [categoryTotal, setCategoryTotal] = useState(
-    editing ? expenses[expenseKey].CategoryTotal : null
+    editing ? expenses[expensekey].CategoryTotal : null
   );
-  const [expensesToEdit, setExpensesToEdit] = useState(
-    typeOfAction == "edit" ? expenses[expenseKey].CategoryExpenses : ""
-  );
+  const [expensesToEdit, setExpensesToEdit] = useState([]);
+  useEffect(() => {
+    console.log("useEffect");
+    expensekey&&console.log(expensekey);
+    expensekey&&console.log(expenses[expensekey].CategoryExpenses);
+    setEditing(typeofaction == "edit");
+    setExpensesToEdit(typeofaction == "edit" ? expenses[expensekey].CategoryExpenses : "");
+  }, [typeofaction,expensekey]);
+
   // REFS
   const categoryTitleRef = useRef(null);
   useEffect(() => {
@@ -84,7 +90,7 @@ const AddExpenseModal = (props) => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          oldName: expenseKey,
+          oldName: expensekey,
           localId: userInfo.localId,
           token: userInfo.idToken,
           CategoryTitle: title,
@@ -129,7 +135,7 @@ const AddExpenseModal = (props) => {
               {editing ? (
                 <FormControl
                   ref={categoryTitleRef}
-                  defaultValue={expenses[expenseKey].CategoryTitle}
+                  defaultValue={expenses[expensekey].CategoryTitle}
                 />
               ) : (
                 <FormControl ref={categoryTitleRef} />

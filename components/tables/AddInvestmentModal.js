@@ -7,14 +7,14 @@ import { authActions } from "../store";
 import { useDispatch } from "react-redux";
 
 const AddInvestmentModal = (props) => {
-  const { typeOfAction, investKey, defaultType } = props;
+  const { typeofaction, investKey, defaultType } = props;
 
   const userInfo = useSelector((state) => state.userInfo);
   const investments = useSelector((state) => state.userInvestments);
 
-  const [editing, setEditing] = useState(typeOfAction == "edit");
+  const [editing, setEditing] = useState(typeofaction == "edit");
   const [investmentIncome, setInvestmentIncome] = useState(
-    typeOfAction == "edit" ? investments[investKey].type : "GIC/CD"
+    typeofaction == "edit" ? investments[investKey].type : "GIC/CD"
   );
   // REFS
   const investmentType = useRef(null);
