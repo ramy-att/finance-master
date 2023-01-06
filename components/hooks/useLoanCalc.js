@@ -46,38 +46,33 @@ const useLoanCalc = (downRef, principalRef, intRef, yearsRef, freqRef, dep) => {
     //Find Number Of Periods
     let n;
     let f;
-    if (freq == 1) {
+    if (freq == "annual") {
       //annual
       n = years;
-      f = "annual";
-    } else if (freq == 2) {
+    } else if (freq == "semi-annual") {
       //semi
       n = years * 2;
-      f = "semi-annual";
       ints = ints / 2;
-    } else if (freq == 3) {
+    } else if (freq == "quarterly") {
       //quarter
       ints = ints / 4;
       n = years * 4;
-      f = "quarterly";
-    } else if (freq == 4) {
+    } else if (freq == "monthly") {
       //month
       ints = ints / 12;
       n = years * 12;
-      f = "monthly";
-    } else if (freq == 5) {
+    } else if (freq == "biweekly") {
       //biweekly
       ints = (ints * 12) / 26;
-      f = "biweekly";
       n = (years * 12) / 26;
     }
     const paymentAmt =
       princ * ((ints * Math.pow(1 + ints, n)) / (Math.pow(ints + 1, n) - 1));
-    const d = schedule(princ, ints, f, paymentAmt, n);
+    const d = schedule(princ, ints, freq, paymentAmt, n);
     setResult({
       initialOwed: principal,
       downPayment: down,
-      interestRate: ints,
+      interestRate: int/100,
       duration: years,
       ...d,
     });

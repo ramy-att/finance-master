@@ -151,11 +151,11 @@ const AddLoanModal = (props) => {
               defaultValue={typeofaction == "edit" ? loans[loankey].frequency : null}
               ref={freqRef}
             >
-              <option value="1">Annual</option>
-              <option value="2">Semi-Annual</option>
-              <option value="3">Quarterly</option>
-              <option value="4">Monthly</option>
-              <option value="5">Bi-Weekly</option>
+              <option value="annual">Annual</option>
+              <option value="semi-annual">Semi-Annual</option>
+              <option value="quarterly">Quarterly</option>
+              <option value="monthly">Monthly</option>
+              <option value="biweekly">Bi-Weekly</option>
             </Form.Select>
           </Form.Group>
           <div className="text-center">

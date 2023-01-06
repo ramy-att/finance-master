@@ -5,6 +5,7 @@ import { PlusLg, Trash, Pencil, BoxArrowUpRight } from "react-bootstrap-icons";
 const Block = (props) => {
   const { state, type, title, onClick, editElm, idx, deleteElm, elements } =
     props;
+    console.log(elements)
   return (
     <div
       className={`${state == "addMore" && "addMoreIcon"} ${
@@ -164,7 +165,7 @@ const Block = (props) => {
                       {elements.payments.length}
                     </div>
                     <div className="loanItem">
-                      <span>Total Interest:</span>${elements.downPayment} (
+                      <span>Total Interest:</span>${elements.totalInterest} (
                       {elements.interestRate * 100}%)
                     </div>
                     <div className="loanItem">

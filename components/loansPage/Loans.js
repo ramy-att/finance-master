@@ -36,31 +36,36 @@ export const Loans = (props) => {
       dispatch(authActions.deleteLoan(result.deletedName));
     }
   };
+  const hideModal = () => {
+    setShowLoansModal(false);
+    setKey("");
+    setLoansAction("");
+  };
   const counter = 0;
   return (
     <Container class="budgetContainer">
       <h1 className="budgetRowTitle">Loans</h1>
       <div class="budgetRow">
         {Object.entries(loans).map(([key, val]) => {
-          console.log(key)
+          console.log(key);
           counter++;
-            return (
-              <Block
-                key={`${key}--loanBlock`}
-                title={`Loan #${counter}`}
-                type="loans"
-                idx={key}
-                editElm={() => {
-                  setShowLoansModal(true);
-                  setLoansAction("edit");
-                  setKey(key);
-                }}
-                deleteElm={() => {
-                  deleteItem(key);
-                }}
-                elements={val}
-              />
-            );
+          return (
+            <Block
+              key={`${key}--loanBlock`}
+              title={`Loan #${counter}`}
+              type="loans"
+              idx={key}
+              editElm={() => {
+                setShowLoansModal(true);
+                setLoansAction("edit");
+                setKey(key);
+              }}
+              deleteElm={() => {
+                deleteItem(key);
+              }}
+              elements={val}
+            />
+          );
         })}
         <Block
           onClick={() => {
@@ -70,13 +75,15 @@ export const Loans = (props) => {
           type="loans"
         />
       </div>
-        {console.log(loansAction)}
-      <AddLoanModal
-        typeofaction={loansAction}
-        loankey={key}
-        show={showLoansModal}
-        onHide={() => setShowLoansModal(false)}
-      />
+      {console.log(loansAction)}
+      {showLoansModal && (
+        <AddLoanModal
+          typeofaction={loansAction}
+          loankey={key}
+          show={showLoansModal}
+          onHide={hideModal}
+        />
+      )}
       {/* Add a bar chart showing In vs Out */}
     </Container>
   );
