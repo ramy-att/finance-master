@@ -15,7 +15,7 @@ export const Assets = (props) => {
   const [showAddCashModal, setShowAddCashModal] = useState(false);
   const [key, setKey] = useState("");
   const [assetAction, setAssetAction] = useState("");
-
+  const [defType, setDefType] = useState("");
   const dispatch = useDispatch();
 
   const deleteItem = async (key) => {
@@ -36,6 +36,12 @@ export const Assets = (props) => {
     if (!result.error) {
       dispatch(authActions.deleteCash(result.deletedName));
     }
+  };
+  const hideModal = () => {
+    setShowAddCashModal(false);
+    setKey("");
+    setDefType("");
+    setAssetAction("");
   };
   return (
     <Container class="budgetContainer">
@@ -64,6 +70,7 @@ export const Assets = (props) => {
         <Block
           onClick={() => {
             setShowAddCashModal(true);
+            setDefType("Asset");
           }}
           state="addMore"
           type="income"
@@ -91,7 +98,14 @@ export const Assets = (props) => {
             );
           }
         })}
-        <Block state="addMore" type="income" />
+        <Block
+          state="addMore"
+          type="income"
+          onClick={() => {
+            setShowAddCashModal(true);
+            setDefType("Chequing Account");
+          }}
+        />
       </div>
       <h1 className="budgetRowTitle">Cash Elsewhere</h1>
       <div class="budgetRow">
@@ -115,17 +129,27 @@ export const Assets = (props) => {
             );
           }
         })}
-        <Block state="addMore" type="income" />
+        <Block
+          state="addMore"
+          type="income"
+          onClick={() => {
+            setShowAddCashModal(true);
+            setDefType("Other");
+          }}
+        />
       </div>
-      <AddCashModal
-        typeofaction={assetAction}
-        cashKey={key}
-        show={showAddCashModal}
-        type={assetAction}
-        onHide={() => setShowAddCashModal(false)}
-      />
+      {showAddCashModal && (
+        <AddCashModal
+          typeofaction={assetAction}
+          cashKey={key}
+          defType={defType}
+          show={showAddCashModal}
+          type={assetAction}
+          onHide={hideModal}
+        />
+      )}
       {/* Add a bar chart showing In vs Out */}
-      <ChartSection cash={assets}/>
+      <ChartSection cash={assets} />
     </Container>
   );
 };

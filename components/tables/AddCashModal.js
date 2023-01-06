@@ -7,7 +7,7 @@ import { authActions } from "../store";
 import { useDispatch } from "react-redux";
 
 const AddCashModal = (props) => {
-  const { typeofaction, cashKey } = props;
+  const { typeofaction,defType='Chequing Account', cashKey } = props;
   const userInfo = useSelector((state) => state.userInfo);
   const cash = useSelector((state) => state.userCash);
 
@@ -16,7 +16,7 @@ const AddCashModal = (props) => {
   const [bankAccount, setBankAccount] = useState(true);
   const [asset, setAsset] = useState(false);
   const [editing, setEditing] = useState(typeofaction == "edit" || cashKey);
-  console.log(editing);
+
   const cashLocRef = useRef(null);
   const otherLocRef = useRef(null);
   const amountRef = useRef(null);
@@ -35,6 +35,14 @@ const AddCashModal = (props) => {
       setAsset(false);
     }
   };
+  // Set when editing!
+  useEffect(() => {
+    changeCashLoc();
+  }, [cashLocRef]);
+
+  useEffect(() => {
+    setEditing(typeofaction == "edit");
+  }, [typeofaction]);
   const addCash = async (e) => {
     e.preventDefault();
     const endpoint = "/api/cash";
@@ -51,7 +59,7 @@ const AddCashModal = (props) => {
             type: cashLocRef.current.value,
             amount: amountRef.current.value,
             accountName: accNameRef.current.value,
-            bank: !bankAccount ? "" : bankNameRef.current.value,
+            bank: !bankAccount || asset ? "" : bankNameRef.current.value,
           })
         : JSON.stringify({
             localId: userInfo.localId,
@@ -90,7 +98,7 @@ const AddCashModal = (props) => {
               ref={cashLocRef}
               onChange={changeCashLoc}
               defaultValue={
-                editing && cashKey ? cash[cashKey].Type : "Chequing Account"
+                editing && cashKey ? cash[cashKey].Type : defType
               }
               required
             >
