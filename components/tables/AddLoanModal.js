@@ -39,7 +39,7 @@ const AddLoanModal = (props) => {
   };
   useEffect(() => {
     loanInfo != null ? createLoan() : null;
-  }, [loanInfo]);
+  }, [loanInfo, createLoan]);
 
   const createLoan = async () => {
     if (submitted) {

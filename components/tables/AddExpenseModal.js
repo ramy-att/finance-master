@@ -23,7 +23,7 @@ const AddExpenseModal = (props) => {
     setExpensesToEdit(
       typeofaction == "edit" ? expenses[expensekey].CategoryExpenses : ""
     );
-  }, [typeofaction, expensekey]);
+  }, [typeofaction, expensekey, expenses]);
 
   // REFS
   const categoryTitleRef = useRef(null);

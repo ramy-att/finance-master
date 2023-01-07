@@ -81,7 +81,7 @@ const useLoanCalc = (downRef, principalRef, intRef, yearsRef, freqRef, dep) => {
     if (dep) {
       calculator();
     }
-  }, [dep]);
+  }, [dep, calculator]);
   return result;
 };
 export default useLoanCalc;
