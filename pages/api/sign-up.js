@@ -1,86 +1,3 @@
-const createExp = async (local, token, id, title) => {
-  const url =
-    "https://financier-2022-default-rtdb.firebaseio.com/users/" +
-    local +
-    "/expenses/" +
-    id +
-    ".json?auth=" +
-    token;
-  const response = await fetch(url, {
-    method: "POST",
-    body: JSON.stringify({
-      expenseTitle: title,
-      expenseAmount: 0,
-    }),
-    header: { "Content/type": "application/json" },
-  });
-  const x = await response.json();
-};
-
-const createStarterExpenses = async (UID, token) => {
-  const data = [
-    [
-      "Rent/Mortgage",
-      "Utilities, heat, water, electricity, phone, cable, Internet",
-      "Home maintenance & improvements/condo fees",
-      "Property Tax",
-    ],
-    [
-      "Car Loan/Lease Payment",
-      "Gas/Electricity",
-      "Oil & Maintenance",
-      "Insurance",
-      "Public Transit",
-      "Parking Fees",
-    ],
-    [
-      "Groceries",
-      "Clothing & Grooming",
-      "Coffee, lunches & Dining Out",
-      "Charity",
-    ],
-    ["DayCare, after-school, elder care", "Activities/Lessons"],
-    ["TFSA", "RRSP", "RESP", "Workplace Savings", "HISA"],
-    [
-      "Glasses",
-      "Dental",
-      "Prescriptions/Non-Prescription",
-      "Life Insurance",
-      "Health insurance",
-    ],
-    ["Credit Card"],
-  ].reverse();
-  const categories = [
-    "Housing",
-    "Transportation",
-    "Monthly Living Expenses",
-    "Dependants/Children",
-    "Monthly Savings",
-    "Health Care",
-    "Credit Cards",
-  ].reverse();
-  const url =
-    "https://financier-2022-default-rtdb.firebaseio.com/users/" +
-    UID +
-    "/expenses.json?auth=" +
-    token;
-  for (let i = 0; i < categories.length; i++) {
-    const response = await fetch(url, {
-      method: "POST",
-      body: JSON.stringify({
-        title: categories[i],
-        expenses: [],
-      }),
-      header: { "Content/type": "application/json" },
-    });
-    const x = await response.json();
-    const id = x.name;
-    const arr = data[i];
-    for (let a = arr.length - 1; a >= 0; a--) {
-      createExp(UID, token, id, arr[a]);
-    }
-  }
-};
 // Send Verification Email
 const verifyUser = async (userInfo) => {
   const verifyUrl =
@@ -190,7 +107,6 @@ const handler = async (req, res) => {
     } else {
       // Sign up successful
       createExpensesExample(result.localId, result.idToken);
-      // createStarterExpenses(result.localId, result.idToken);
       verifyUser(result);
       res.status(200).json({
         idToken: result.idToken,
