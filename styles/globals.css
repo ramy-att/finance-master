@@ -466,7 +466,7 @@ option:hover {
   border-radius: 1rem;
   text-align: center;
   width: 20rem;
-  height: 20rem;
+  height: 25rem;
   padding: 1rem;
   margin: 2rem;
   overflow-y: hidden;
@@ -615,7 +615,7 @@ option:hover {
   vertical-align: middle;
 }
 .expensesTableContainer {
-  max-height: 12rem;
+  max-height: 20rem;
   overflow-y: auto;
 }
 .expenseTable {

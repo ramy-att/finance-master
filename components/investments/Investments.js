@@ -15,6 +15,8 @@ const Investments = () => {
   const [gics, setGics] = useState([]);
   const [stocks, setStocks] = useState([]);
   const [crypto, setCrypto] = useState([]);
+  const [key, setKey] = useState("");
+  const [typeofaction, setTypeofaction] = useState("");
   const [showAddInvestmentModal, setShowAddInvestmentModal] = useState(false);
   const [defaultType, setDefaultType] = useState("GIC/CD");
 
@@ -58,6 +60,11 @@ const Investments = () => {
       dispatch(authActions.deleteInvestment(result.deletedName));
     }
   };
+  const hideModal = () => {
+    setShowAddInvestmentModal(false);
+    setKey("");
+    setTypeofaction("");
+  };
   return (
     <Container class="budgetContainer">
       <h1 className="budgetRowTitle">GICs</h1>
@@ -71,6 +78,11 @@ const Investments = () => {
               elements={gic}
               deleteElm={() => {
                 deleteItem(gic.name);
+              }}
+              editElm={() => {
+                setShowAddInvestmentModal(true);
+                setKey(gic.name);
+                setTypeofaction("edit");
               }}
             />
           );
@@ -93,7 +105,12 @@ const Investments = () => {
               idx={idx}
               elements={stock}
               deleteElm={() => {
-                deleteItem(gic.name);
+                deleteItem(stock.name);
+              }}
+              editElm={() => {
+                setShowAddInvestmentModal(true);
+                setKey(stock.name);
+                setTypeofaction("edit");
               }}
             />
           );
@@ -116,7 +133,12 @@ const Investments = () => {
               idx={idx}
               elements={crypto}
               deleteElm={() => {
-                deleteItem(gic.name);
+                deleteItem(crypto.name);
+              }}
+              editElm={() => {
+                setShowAddInvestmentModal(true);
+                setKey(crypto.name);
+                setTypeofaction("edit");
               }}
             />
           );
@@ -129,11 +151,15 @@ const Investments = () => {
           }}
         />
       </div>
-      <AddInvestmentModal
-        show={showAddInvestmentModal}
-        defaultType={defaultType}
-        onHide={() => setShowAddInvestmentModal(false)}
-      />
+      {showAddInvestmentModal && (
+        <AddInvestmentModal
+          show={showAddInvestmentModal}
+          defaultType={defaultType}
+          typeofaction={typeofaction}
+          investKey={key}
+          onHide={hideModal}
+        />
+      )}
       <ChartSection investments={investments} />
     </Container>
   );

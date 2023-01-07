@@ -27,7 +27,14 @@ const Dashboard = () => {
   const [totalLoans, setTotalLoans] = useState(0);
 
   useEffect(() => {
-    const invests = {};
+    const invests = {
+      gicPurchase: 0,
+      gicMaturity: 0,
+      stocksPurchase: 0,
+      stocksCurrent: 0,
+      cryptoPurchase: 0,
+      cryptoCurrent: 0,
+    };
     let totalAssets = 0;
     Object.entries(incomes).map(([key, val]) => {
       setTotalIncomes(

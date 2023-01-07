@@ -45,7 +45,9 @@ const AddInvestmentModal = (props) => {
       }
     }
   };
-
+  useEffect(() => {
+    changeInvestment();
+  }, [defaultType]);
   const modalTitle = editing ? "Edit Your Investment" : "Add New Investment";
 
   const endDateCalc = (startDate, value) => {
@@ -119,14 +121,16 @@ const AddInvestmentModal = (props) => {
       const numberStocks = numberStocksRef.current.value;
       const stockPrice = stockPriceRef.current.value;
       const currentStockPrice = currentStockPriceRef.current.value;
-      const divident = dividentRef.current.value;
-      const dividentFreq = dividentFreqRef.current.value;
+      const divident = dividentRef.current.value || 0;
+      const dividentFreq = divident == 0 ? "" : dividentFreqRef.current.value;
       const bank = bankRef.current.value;
       data = {
         purchaseDate: purchaseDate,
         stockName: stockName,
         numberStocks: numberStocks,
         stockPrice: stockPrice,
+        totalPurchase: parseFloat(numberStocks) * parseFloat(stockPrice),
+        totalCurrent: parseFloat(numberStocks) * parseFloat(currentStockPrice),
         bank: bank,
         currentStockPrice: currentStockPrice,
         divident: divident,
@@ -403,7 +407,6 @@ const AddInvestmentModal = (props) => {
                     type="number"
                     step="0.001"
                     placeholder="$475.25"
-                    required
                     defaultValue={
                       editing && investKey
                         ? investments[investKey].divident
@@ -486,7 +489,8 @@ const AddInvestmentModal = (props) => {
                   ref={stockPriceRef}
                   defaultValue={
                     editing && investKey
-                      ? investments[investKey].stockPrice||investments[investKey].coinPrice
+                      ? investments[investKey].stockPrice ||
+                        investments[investKey].coinPrice
                       : null
                   }
                 />
@@ -501,7 +505,8 @@ const AddInvestmentModal = (props) => {
                   ref={currentStockPriceRef}
                   defaultValue={
                     editing && investKey
-                      ? investments[investKey].currentStockPrice||investments[investKey].currentPrice
+                      ? investments[investKey].currentStockPrice ||
+                        investments[investKey].currentPrice
                       : null
                   }
                 />
