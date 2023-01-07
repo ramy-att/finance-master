@@ -157,6 +157,7 @@ const Investments = () => {
           defaultType={defaultType}
           typeofaction={typeofaction}
           investKey={key}
+          hideModal={hideModal}
           onHide={hideModal}
         />
       )}

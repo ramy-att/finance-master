@@ -679,7 +679,7 @@ const UserTable = (props) => {
   };
   const hideModal = () => {
     setKey("");
-    setShowAddModal("");
+    setShowAddModal(false);
     setIncomeAction("");
   };
   const counter = 0;
@@ -730,6 +730,7 @@ const UserTable = (props) => {
           incomekey={key}
           show={showAddModal}
           type={type}
+          hideModal={hideModal}
           onHide={hideModal}
         />
       )}
@@ -739,6 +740,7 @@ const UserTable = (props) => {
           loankey={key}
           show={showAddModal}
           type={type}
+          hideModal={hideModal}
           onHide={hideModal}
         />
       )}
@@ -748,6 +750,7 @@ const UserTable = (props) => {
           investKey={key}
           show={showAddModal}
           type={type}
+          hideModal={hideModal}
           onHide={hideModal}
         />
       )}
@@ -757,6 +760,7 @@ const UserTable = (props) => {
           expensekey={key}
           show={showAddModal}
           type={type}
+          hideModal={hideModal}
           onHide={hideModal}
         />
       )}
@@ -766,6 +770,7 @@ const UserTable = (props) => {
           cashKey={key}
           show={showAddModal}
           type={type}
+          hideModal={hideModal}
           onHide={hideModal}
         />
       )}

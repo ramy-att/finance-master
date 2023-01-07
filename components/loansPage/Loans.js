@@ -81,6 +81,7 @@ export const Loans = (props) => {
           typeofaction={loansAction}
           loankey={key}
           show={showLoansModal}
+          hideModal={hideModal}
           onHide={hideModal}
         />
       )}

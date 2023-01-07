@@ -7,7 +7,7 @@ import { authActions } from "../store";
 import { useDispatch } from "react-redux";
 
 const AddIncomeModal = (props) => {
-  const { typeofaction, incomekey } = props;
+  const { typeofaction, incomekey, hideModal } = props;
 
   // REFS
   // INCOME REFS
@@ -138,7 +138,7 @@ const AddIncomeModal = (props) => {
         interestAmount: interestAmount,
       };
       amt = interestAmount / (m * duration);
-    } else if ((incomeSrc.current.value = "Stocks")) {
+    } else if (incomeSrc.current.value == "Stocks") {
       // Stocks
       const purchaseDate = purchaseDateRef.current.value;
       const stockName = stockNameRef.current.value;
@@ -164,24 +164,16 @@ const AddIncomeModal = (props) => {
     }
     const endpoint = "/api/investment";
     const options = {
-      method: editing ? "PATCH" : "POST",
+      method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: editing
-        ? JSON.stringify({
-            oldName: investKey,
-            localId: userInfo.localId,
-            token: userInfo.idToken,
-            type: incomeSrc.current.value,
-            data: data,
-          })
-        : JSON.stringify({
-            localId: userInfo.localId,
-            token: userInfo.idToken,
-            type: incomeSrc.current.value,
-            data: data,
-          }),
+      body: JSON.stringify({
+        localId: userInfo.localId,
+        token: userInfo.idToken,
+        type: incomeSrc.current.value,
+        data: data,
+      }),
     };
     const response = await fetch(endpoint, options);
     const result = await response.json();
@@ -223,6 +215,7 @@ const AddIncomeModal = (props) => {
 
   const editIncome = async (e) => {
     e.preventDefault();
+    const investmentAmount = await addInvestment();
     const endpoint = "/api/income";
     const options = {
       method: "PATCH",
@@ -234,7 +227,11 @@ const AddIncomeModal = (props) => {
         localId: userInfo.localId,
         token: userInfo.idToken,
         source: incomeSrc.current.value,
-        amount: incomeAmount.current.value,
+        amount:
+          incomeSrc.current.value == "GIC/CD" ||
+          incomeSrc.current.value == "Stocks"
+            ? investmentAmount
+            : incomeAmount.current.value,
         incomeFreq: incomeFreq.current.value,
       }),
     };
@@ -244,6 +241,7 @@ const AddIncomeModal = (props) => {
       dispatch(authActions.updateIncomes(result));
       incomeAmount.current.value = "";
       incomeSrc.current.value = "Salary";
+      hideModal();
     }
   };
 

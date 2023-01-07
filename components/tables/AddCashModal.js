@@ -7,7 +7,12 @@ import { authActions } from "../store";
 import { useDispatch } from "react-redux";
 
 const AddCashModal = (props) => {
-  const { typeofaction,defType='Chequing Account', cashKey } = props;
+  const {
+    typeofaction,
+    defType = "Chequing Account",
+    cashKey,
+    hideModal,
+  } = props;
   const userInfo = useSelector((state) => state.userInfo);
   const cash = useSelector((state) => state.userCash);
 
@@ -74,12 +79,9 @@ const AddCashModal = (props) => {
     const result = await response.json();
     if (!result.error) {
       dispatch(authActions.updateCash(result));
-      //   incomeAmount.current.value = "";
-      //   incomeSrc.current.value = "Salary";
-      //   incomeFreq.current.value = "Daily";
+      editing ? hideModal() : null;
     }
   };
-  console.log(editing);
   return (
     <Modal
       {...props}
@@ -97,9 +99,7 @@ const AddCashModal = (props) => {
             <Form.Select
               ref={cashLocRef}
               onChange={changeCashLoc}
-              defaultValue={
-                editing && cashKey ? cash[cashKey].Type : defType
-              }
+              defaultValue={editing && cashKey ? cash[cashKey].Type : defType}
               required
             >
               <option value="Chequing Account">Chequing Account</option>

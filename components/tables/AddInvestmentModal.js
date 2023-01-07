@@ -7,7 +7,7 @@ import { authActions } from "../store";
 import { useDispatch } from "react-redux";
 
 const AddInvestmentModal = (props) => {
-  const { typeofaction, investKey, defaultType } = props;
+  const { typeofaction, investKey, defaultType, hideModal } = props;
 
   const userInfo = useSelector((state) => state.userInfo);
   const investments = useSelector((state) => state.userInvestments);
@@ -213,13 +213,15 @@ const AddInvestmentModal = (props) => {
     };
     const response = await fetch(endpoint, options);
     const result = await response.json();
-    investmentType.current.value == "GIC/CD"
+    investmentType.current.value == "GIC/CD" &&
+    payoutFrequencyRef.current.value != "Maturity"
       ? getIncome("GIC/CD", data.payoutAmount, data.payoutFreq)
       : investmentType.current.value == "Stocks"
       ? getIncome("Dividents", data.divident, data.dividentFreq)
       : null;
     if (!result.error) {
       dispatch(authActions.updateInvestments(result));
+      editing ? hideModal() : null;
     }
   };
   return (

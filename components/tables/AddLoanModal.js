@@ -9,14 +9,13 @@ import { useDispatch } from "react-redux";
 import useLoanCalc from "../hooks/useLoanCalc";
 
 const AddLoanModal = (props) => {
-  const { typeofaction, loankey } = props;
+  const { typeofaction, loankey, hideModal } = props;
 
   const userInfo = useSelector((state) => state.userInfo);
   const loans = useSelector((state) => state.userLoans);
 
   const [submitted, setSubmitted] = useState(false);
 
-  console.log(typeofaction);
   const principalRef = useRef(null);
   const downPaymentRef = useRef(null);
   const interestRef = useRef(null);
@@ -49,22 +48,24 @@ const AddLoanModal = (props) => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: typeofaction == "edit"
-          ? JSON.stringify({
-              localId: userInfo.localId,
-              token: userInfo.idToken,
-              oldName: loankey,
-              data: loanInfo,
-            })
-          : JSON.stringify({
-              localId: userInfo.localId,
-              token: userInfo.idToken,
-              data: loanInfo,
-            }),
+        body:
+          typeofaction == "edit"
+            ? JSON.stringify({
+                localId: userInfo.localId,
+                token: userInfo.idToken,
+                oldName: loankey,
+                data: loanInfo,
+              })
+            : JSON.stringify({
+                localId: userInfo.localId,
+                token: userInfo.idToken,
+                data: loanInfo,
+              }),
       };
       const response = await fetch(endpoint, options);
       const result = await response.json();
       if (!result.error) {
+        editing ? hideModal() : null;
         dispatch(authActions.updateLoans(result));
         setSubmitted(false);
       }
@@ -106,7 +107,9 @@ const AddLoanModal = (props) => {
               <Form.Group className="mb-3" controlId="formBasicEmail">
                 <Form.Label>Down Payment</Form.Label>
                 <Form.Control
-                  defaultValue={typeofaction == "edit" ? loans[loankey].downPayment : null}
+                  defaultValue={
+                    typeofaction == "edit" ? loans[loankey].downPayment : null
+                  }
                   ref={downPaymentRef}
                   type="number"
                   step=".001"
@@ -122,7 +125,9 @@ const AddLoanModal = (props) => {
                 <Form.Control
                   ref={interestRef}
                   defaultValue={
-                    typeofaction == "edit" ? loans[loankey].interestRate * 100 : null
+                    typeofaction == "edit"
+                      ? loans[loankey].interestRate * 100
+                      : null
                   }
                   required
                   type="number"
@@ -135,7 +140,9 @@ const AddLoanModal = (props) => {
                 <Form.Label>Loan Term</Form.Label>
                 <Form.Control
                   ref={durationRef}
-                  defaultValue={typeofaction == "edit" ? loans[loankey].duration : null}
+                  defaultValue={
+                    typeofaction == "edit" ? loans[loankey].duration : null
+                  }
                   required
                   type="number"
                   placeholder="5 Years"
@@ -148,7 +155,9 @@ const AddLoanModal = (props) => {
             <Form.Select
               required
               className="selectCompounding"
-              defaultValue={typeofaction == "edit" ? loans[loankey].frequency : null}
+              defaultValue={
+                typeofaction == "edit" ? loans[loankey].frequency : null
+              }
               ref={freqRef}
             >
               <option value="annual">Annual</option>

@@ -10,7 +10,7 @@ import ExpenseRow from "./ExpenseRow";
 import { PlusCircle, Pencil } from "react-bootstrap-icons";
 const AddExpenseModal = (props) => {
   // PROPS
-  const { typeofaction, expensekey } = props;
+  const { typeofaction, expensekey, hideModal } = props;
   // REDUX Storage
   const userInfo = useSelector((state) => state.userInfo);
   const expenses = useSelector((state) => state.userExpenses);
@@ -22,12 +22,11 @@ const AddExpenseModal = (props) => {
   );
   const [expensesToEdit, setExpensesToEdit] = useState([]);
   useEffect(() => {
-    console.log("useEffect");
-    expensekey&&console.log(expensekey);
-    expensekey&&console.log(expenses[expensekey].CategoryExpenses);
     setEditing(typeofaction == "edit");
-    setExpensesToEdit(typeofaction == "edit" ? expenses[expensekey].CategoryExpenses : "");
-  }, [typeofaction,expensekey]);
+    setExpensesToEdit(
+      typeofaction == "edit" ? expenses[expensekey].CategoryExpenses : ""
+    );
+  }, [typeofaction, expensekey]);
 
   // REFS
   const categoryTitleRef = useRef(null);
@@ -116,8 +115,8 @@ const AddExpenseModal = (props) => {
     const response = await fetch(endpoint, options);
     const result = await response.json();
     if (!result.error) {
-      console.log(result)
       dispatch(authActions.updateExpenses(result));
+      editing ? hideModal() : null;
     }
   };
   return (

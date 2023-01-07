@@ -107,7 +107,6 @@ export const Budget = (props) => {
               title={val.CategoryTitle}
               type="expense"
               editElm={() => {
-                console.log(key);
                 setShowAddExpenseModal(true);
                 setExpenseAction("edit");
                 setKey(key);
@@ -133,6 +132,7 @@ export const Budget = (props) => {
           incomekey={key}
           show={showAddIncomeModal}
           type={incomeAction}
+          hideModal={hideModals}
           onHide={hideModals}
         />
       )}
@@ -142,6 +142,7 @@ export const Budget = (props) => {
           expensekey={key}
           show={showAddExpenseModal}
           type={expenseAction}
+          hideModal={hideModals}
           onHide={hideModals}
         />
       )}

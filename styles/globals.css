@@ -418,16 +418,9 @@ option:hover {
 }
 .userTable {
   padding: 0 0.75rem 0 0.75rem !important;
-  /* max-height: 20rem; */
-  /* overflow-y: auto; */
   max-width: 100%;
   overflow-x: auto;
 }
-/* .investmentTable{
-  max-width: 100%;
-  overflow-x: auto;
-} */
-
 .dashboardTitle {
   margin: 0.5rem 0 0.5rem 0;
 }
@@ -501,7 +494,7 @@ option:hover {
   align-items: center;
   justify-content: center;
   height: calc(20rem - 38px - 38px - 2.5rem);
-  overflow-y: overlay;
+  overflow-y: auto;
 }
 .block .incomesContainer {
   display: flex;
@@ -509,15 +502,6 @@ option:hover {
   justify-content: center;
   height: calc(20rem - 38px - 38px - 2.5rem);
 }
-/* .expenseLine{
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-} */
-/* .expenseItemCont{
-  width: 8rem;
-} */
 .incomeLine {
   width: 100%;
   display: flex;
@@ -529,7 +513,7 @@ option:hover {
   border-radius: 1rem;
   max-height: 52rem;
   overflow: auto;
-  overflow: overlay;
+  overflow: auto;
   margin: 2rem 0 2rem 0;
   padding: 2rem;
   display: flex;

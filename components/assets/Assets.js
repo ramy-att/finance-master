@@ -145,6 +145,7 @@ export const Assets = (props) => {
           defType={defType}
           show={showAddCashModal}
           type={assetAction}
+          hideModal={hideModal}
           onHide={hideModal}
         />
       )}
