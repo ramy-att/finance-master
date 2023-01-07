@@ -497,7 +497,6 @@ const UserTable = (props) => {
                 <td>${val.CategoryAmount}</td>
                 <td>
                   <div className="actionsTd">
-                    <Eye size={20} />
                     <Pencil
                       className="tableIcon"
                       onClick={() => {
@@ -552,7 +551,6 @@ const UserTable = (props) => {
           Object.entries(data).map(([key, val]) => {
             totalCash += parseFloat(val.Amount);
             counter++;
-            console.log(val);
             return (
               <tr key={`${key}--cash-row`}>
                 <td>{counter}</td>

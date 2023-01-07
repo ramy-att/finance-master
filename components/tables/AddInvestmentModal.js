@@ -86,7 +86,16 @@ const AddInvestmentModal = (props) => {
         const future = amount * Math.pow(1 + interest, n * duration);
         return future;
       };
-
+      const m =
+        payoutFreq == "Monthly"
+          ? 12
+          : payoutFreq == "Quarterly"
+          ? 4
+          : payoutFreq == "Semi-Annually"
+          ? 2
+          : payoutFreq == "Annually"
+          ? 1
+          : 0;
       if (
         (duration > 1 && payoutFreq != "Maturity") ||
         (duration == 1 &&
@@ -110,6 +119,7 @@ const AddInvestmentModal = (props) => {
         payoutFreq: payoutFreq,
         amount: amount,
         interest: interest,
+        payoutAmount: interestAmount / (m * duration),
         bank: bank,
         maturedAmount: maturedAmount,
         interestAmount: interestAmount,
@@ -156,6 +166,27 @@ const AddInvestmentModal = (props) => {
     }
     return data;
   };
+  const getIncome = async (src, amt, freq) => {
+    const endpoint = "/api/income";
+    const options = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        localId: userInfo.localId,
+        token: userInfo.idToken,
+        source: src,
+        amount: amt,
+        incomeFreq: freq,
+      }),
+    };
+    const response = await fetch(endpoint, options);
+    const result = await response.json();
+    if (!result.error) {
+      dispatch(authActions.updateIncomes(result));
+    }
+  };
   const formHandler = async (e) => {
     e.preventDefault();
     const data = getInvestment();
@@ -182,10 +213,13 @@ const AddInvestmentModal = (props) => {
     };
     const response = await fetch(endpoint, options);
     const result = await response.json();
+    investmentType.current.value == "GIC/CD"
+      ? getIncome("GIC/CD", data.payoutAmount, data.payoutFreq)
+      : investmentType.current.value == "Stocks"
+      ? getIncome("Dividents", data.divident, data.dividentFreq)
+      : null;
     if (!result.error) {
       dispatch(authActions.updateInvestments(result));
-      // incomeAmount.current.value = "";
-      // incomeSrc.current.value = "1";
     }
   };
   return (
@@ -320,6 +354,7 @@ const AddInvestmentModal = (props) => {
                 <Form.Label>Name/Symbol</Form.Label>
                 <Form.Control
                   ref={stockNameRef}
+                  placeholder="IBM"
                   defaultValue={
                     editing && investKey
                       ? investments[investKey].stockName
