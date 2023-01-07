@@ -1,12 +1,11 @@
-import { Col, Container } from "react-bootstrap";
-import { Row } from "react-bootstrap";
+import { useEffect, useState } from "react";
+import { Container } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
 import Block from "../Block/Block";
-import { useSelector } from "react-redux";
-import { useState, useEffect } from "react";
+import { authActions } from "../store";
 import AddInvestmentModal from "../tables/AddInvestmentModal";
 import { ChartSection } from "./ChartSection";
-import { useDispatch } from "react-redux";
-import { authActions } from "../store";
+import Chart from "chart.js/auto";
 
 const Investments = () => {
   const investments = useSelector((state) => state.userInvestments);

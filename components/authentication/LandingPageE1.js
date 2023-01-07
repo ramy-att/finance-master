@@ -1,6 +1,6 @@
 import Image from "next/image";
-import addUser from "../pictures/addUser.png";
 import Link from "next/link";
+import addUser from "../pictures/addUser.png";
 
 export const LandingPageE1 = () => {
   return (
@@ -12,3 +12,4 @@ export const LandingPageE1 = () => {
     </Link>
   );
 };
+

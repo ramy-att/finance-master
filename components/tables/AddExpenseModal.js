@@ -1,13 +1,10 @@
+import { useEffect, useRef, useState } from "react";
+import { Button, Form, FormControl, Table } from "react-bootstrap";
+import { PlusCircle } from "react-bootstrap-icons";
 import Modal from "react-bootstrap/Modal";
-import { FormControl, Table } from "react-bootstrap";
-import { Button } from "react-bootstrap";
-import { Form } from "react-bootstrap";
-import { useRef, useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { authActions } from "../store";
-import { useDispatch } from "react-redux";
 import ExpenseRow from "./ExpenseRow";
-import { PlusCircle, Pencil } from "react-bootstrap-icons";
 const AddExpenseModal = (props) => {
   // PROPS
   const { typeofaction, expensekey, hideModal } = props;
@@ -77,7 +74,6 @@ const AddExpenseModal = (props) => {
     e.preventDefault();
     const endpoint = "/api/expense";
     let options;
-    console.log(categoryTitleRef.current);
     const title =
       categoryTitleRef.current != null
         ? categoryTitleRef.current.value

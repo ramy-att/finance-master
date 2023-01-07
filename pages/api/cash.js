@@ -41,7 +41,6 @@ async function handler(req, res) {
     }
   } else if (req.method == "PATCH") {
     const body = req.body;
-    console.log(body);
     const url =
       "https://financier-2022-default-rtdb.firebaseio.com/users/" +
       body.localId +

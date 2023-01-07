@@ -1,9 +1,7 @@
-import { Container } from "react-bootstrap";
-import { Row } from "react-bootstrap";
-import { Col } from "react-bootstrap";
 import Image from "next/image";
-import logo from "../pictures/LogoWBg.png";
 import Link from "next/link";
+import { Col, Container, Row } from "react-bootstrap";
+import logo from "../pictures/LogoWBg.png";
 
 export const Footer = () => {
   return (

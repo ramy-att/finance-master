@@ -1,14 +1,14 @@
+import Image from "next/image";
+import { Accordion } from "react-bootstrap";
+import Carousel from "react-bootstrap/Carousel";
+import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
-import Carousel from "react-bootstrap/Carousel";
-import Image from "next/image";
 import c1 from "../pictures/1.png";
 import c2 from "../pictures/2.png";
 import { LandingPageE1 } from "./LandingPageE1";
 import { LandingPageE2 } from "./LandingPageE2";
 import { LandingPageE3 } from "./LandingPageE3";
-import { Accordion } from "react-bootstrap";
 
 export default function LogInPage() {
   return (

@@ -1,10 +1,8 @@
-import Modal from "react-bootstrap/Modal";
-import { Button } from "react-bootstrap";
-import { Form } from "react-bootstrap";
 import { useEffect, useRef, useState } from "react";
-import { useSelector } from "react-redux";
+import { Button, Form } from "react-bootstrap";
+import Modal from "react-bootstrap/Modal";
+import { useDispatch, useSelector } from "react-redux";
 import { authActions } from "../store";
-import { useDispatch } from "react-redux";
 
 const AddCashModal = (props) => {
   const {

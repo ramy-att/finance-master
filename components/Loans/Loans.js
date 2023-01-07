@@ -1,11 +1,11 @@
 import { useEffect, useRef, useState } from "react";
-import Container from "react-bootstrap/Container";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
-import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
-import LoanInfo from "./LoanInfo";
+import Col from "react-bootstrap/Col";
+import Container from "react-bootstrap/Container";
+import Form from "react-bootstrap/Form";
+import Row from "react-bootstrap/Row";
 import useLoanCalc from "../hooks/useLoanCalc";
+import LoanInfo from "./LoanInfo";
 
 const Loans = () => {
   const principal = useRef(null);

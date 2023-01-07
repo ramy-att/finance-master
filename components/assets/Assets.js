@@ -1,12 +1,11 @@
+import { useState } from "react";
+import { Container } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
 import Block from "../Block/Block";
-import { Col, Container } from "react-bootstrap";
-import { Row } from "react-bootstrap";
-import { useSelector } from "react-redux";
-import { useState, useEffect } from "react";
-import AddCashModal from "../tables/AddCashModal";
-import { useDispatch } from "react-redux";
 import { authActions } from "../store";
+import AddCashModal from "../tables/AddCashModal";
 import { ChartSection } from "./ChartSection";
+import Chart from "chart.js/auto";
 
 export const Assets = (props) => {
   const assets = useSelector((state) => state.userCash);

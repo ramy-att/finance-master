@@ -1,8 +1,7 @@
-import Table from "react-bootstrap/Table";
-import Chart from "chart.js/auto";
-import { useState, useEffect, useCallback, useRef } from "react";
-import { read, utils, writeFileXLSX, XLSX$Utils } from "xlsx";
+import { useCallback, useRef } from "react";
 import { Button } from "react-bootstrap";
+import Table from "react-bootstrap/Table";
+import { utils, writeFileXLSX } from "xlsx";
 
 const LoanInfo = (props) => {
   const { data } = props;
@@ -17,7 +16,6 @@ const LoanInfo = (props) => {
       alert("Enter your data first!");
     }
   }, [table]);
-  console.log(data);
   if (data) {
     return (
       <>

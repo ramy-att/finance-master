@@ -1,6 +1,6 @@
 import Image from "next/image";
-import budget from "../pictures/familybudgeting.png";
 import Link from "next/link";
+import budget from "../pictures/familybudgeting.png";
 
 export const LandingPageE2 = () => {
   return (

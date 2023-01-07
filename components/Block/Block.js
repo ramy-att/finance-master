@@ -1,11 +1,9 @@
 import Link from "next/link";
-import { useState } from "react";
-import { PlusLg, Trash, Pencil, BoxArrowUpRight } from "react-bootstrap-icons";
+import { BoxArrowUpRight, Pencil, PlusLg, Trash } from "react-bootstrap-icons";
 
 const Block = (props) => {
   const { state, type, title, onClick, editElm, idx, deleteElm, elements } =
     props;
-    console.log(elements)
   return (
     <div
       className={`${state == "addMore" && "addMoreIcon"} ${

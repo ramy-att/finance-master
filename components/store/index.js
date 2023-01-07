@@ -1,13 +1,8 @@
-import { createSlice, configureStore, combineReducers } from "@reduxjs/toolkit";
+import { configureStore, createSlice } from "@reduxjs/toolkit";
 import {
-  persistStore,
-  persistReducer,
-  FLUSH,
-  REHYDRATE,
-  PAUSE,
-  PERSIST,
-  PURGE,
-  REGISTER,
+  FLUSH, PAUSE,
+  PERSIST, persistReducer, PURGE,
+  REGISTER, REHYDRATE
 } from "redux-persist";
 import storage from "redux-persist/lib/storage"; // defaults to localStorage for web
 
@@ -47,7 +42,6 @@ const authenSlice = createSlice({
     updateLoans(state, action) {
       const payLoad = action.payload;
       const name = payLoad["name"];
-      console.log(name)
       state.userLoans = { ...state.userLoans, [name]: payLoad };
     },
     updateExpenses(state, action) {

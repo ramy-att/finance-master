@@ -1,6 +1,6 @@
 import Image from "next/image";
-import invest from "../pictures/familyInvests.png";
 import Link from "next/link";
+import invest from "../pictures/familyInvests.png";
 
 export const LandingPageE3 = () => {
   return (

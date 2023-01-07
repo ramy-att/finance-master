@@ -1,11 +1,9 @@
+import { useState } from "react";
+import { Container } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
 import Block from "../Block/Block";
-import { Col, Container } from "react-bootstrap";
-import { Row } from "react-bootstrap";
-import { useSelector } from "react-redux";
-import { useState, useEffect } from "react";
-import AddLoanModal from "../tables/AddLoanModal";
-import { useDispatch } from "react-redux";
 import { authActions } from "../store";
+import AddLoanModal from "../tables/AddLoanModal";
 
 export const Loans = (props) => {
   const loans = useSelector((state) => state.userLoans);
@@ -47,7 +45,6 @@ export const Loans = (props) => {
       <h1 className="budgetRowTitle">Loans</h1>
       <div class="budgetRow">
         {Object.entries(loans).map(([key, val]) => {
-          console.log(key);
           counter++;
           return (
             <Block
@@ -75,7 +72,6 @@ export const Loans = (props) => {
           type="loans"
         />
       </div>
-      {console.log(loansAction)}
       {showLoansModal && (
         <AddLoanModal
           typeofaction={loansAction}

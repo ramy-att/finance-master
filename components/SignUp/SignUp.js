@@ -1,11 +1,10 @@
-import { useState, useContext, useRef } from "react";
-import NavBar from "../Navbar/NavBar";
-import Container from "react-bootstrap/Container";
-import Row from "react-bootstrap/Row";
-import Button from "react-bootstrap/Button";
-import Form from "react-bootstrap/Form";
-import { Alert } from "react-bootstrap";
 import Link from "next/link";
+import { useRef, useState } from "react";
+import { Alert } from "react-bootstrap";
+import Button from "react-bootstrap/Button";
+import Container from "react-bootstrap/Container";
+import Form from "react-bootstrap/Form";
+import Row from "react-bootstrap/Row";
 function SignUp() {
   const email = useRef();
   const password = useRef();

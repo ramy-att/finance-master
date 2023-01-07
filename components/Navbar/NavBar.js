@@ -1,16 +1,15 @@
+import Image from "next/image";
+import Link from "next/link";
+import { useRouter } from "next/router";
 import { useState } from "react";
+import { Button } from "react-bootstrap";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
-import Image from "next/image";
+import { useDispatch, useSelector } from "react-redux";
 import logo from "../pictures/LogoWBg.png";
-import { useSelector } from "react-redux";
 import { authActions } from "../store";
-import { useDispatch } from "react-redux";
-import Link from "next/link";
-import { useRouter } from "next/router";
-import { Button } from "react-bootstrap";
 
 const NavBar = () => {
   const router = useRouter();

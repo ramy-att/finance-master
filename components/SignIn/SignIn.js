@@ -1,14 +1,13 @@
-import { useState, useRef } from "react";
-import { authActions } from "../store";
-import { useDispatch } from "react-redux";
-import Container from "react-bootstrap/Container";
-import Row from "react-bootstrap/Row";
-import Button from "react-bootstrap/Button";
-import Form from "react-bootstrap/Form";
 import Link from "next/link";
-import { Alert } from "react-bootstrap";
 import { useRouter } from "next/router";
-import Loading from "../Load/Loading";
+import { useRef, useState } from "react";
+import { Alert } from "react-bootstrap";
+import Button from "react-bootstrap/Button";
+import Container from "react-bootstrap/Container";
+import Form from "react-bootstrap/Form";
+import Row from "react-bootstrap/Row";
+import { useDispatch } from "react-redux";
+import { authActions } from "../store";
 
 function SignIn() {
   const email = useRef();

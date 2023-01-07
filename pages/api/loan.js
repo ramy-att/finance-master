@@ -21,7 +21,6 @@ async function handler(req, res) {
       });
     } else {
       const resultName = result.name;
-      console.log(resultName)
       return res.status(200).json({
         name: resultName,
         ...data,
@@ -50,7 +49,6 @@ async function handler(req, res) {
         error: result.error.message,
       });
     } else {
-      console.log(body.oldName);
       return res.status(200).json({
         name: body.oldName,
         ...data,

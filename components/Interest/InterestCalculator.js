@@ -1,15 +1,15 @@
+import { useCallback, useEffect, useRef, useState } from "react";
+import { Button } from "react-bootstrap";
+import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
-import { Button } from "react-bootstrap";
 import Table from "react-bootstrap/Table";
-import { useState, useEffect, useCallback, useRef } from "react";
+import { Line } from "react-chartjs-2";
+import Chart from "chart.js/auto";
+import { utils, writeFileXLSX } from "xlsx";
 import FutureAmount from "./FutureAmount";
 import PresentAmount from "./PresentAmount";
 import YearsAmount from "./YearsAmount";
-import { Line } from "react-chartjs-2";
-import Chart from "chart.js/auto";
-import { read, utils, writeFileXLSX, XLSX$Utils } from "xlsx";
 
 const InterestCalculator = () => {
   const [formType, setFormType] = useState("future");

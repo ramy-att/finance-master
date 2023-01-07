@@ -1,12 +1,9 @@
-import Modal from "react-bootstrap/Modal";
-import { Button } from "react-bootstrap";
-import { Form } from "react-bootstrap";
-import { Row } from "react-bootstrap";
 import { useEffect, useRef, useState } from "react";
-import { useSelector } from "react-redux";
-import { authActions } from "../store";
-import { useDispatch } from "react-redux";
+import { Button, Form, Row } from "react-bootstrap";
+import Modal from "react-bootstrap/Modal";
+import { useDispatch, useSelector } from "react-redux";
 import useLoanCalc from "../hooks/useLoanCalc";
+import { authActions } from "../store";
 
 const AddLoanModal = (props) => {
   const { typeofaction, loankey, hideModal } = props;

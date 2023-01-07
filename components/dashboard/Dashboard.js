@@ -1,11 +1,9 @@
-import { Container } from "react-bootstrap";
-import { Row } from "react-bootstrap";
-import { Col } from "react-bootstrap";
-import UserTable from "../tables/UserTable";
-import { useSelector } from "react-redux";
-import Summary from "./Summary";
 import { useEffect, useState } from "react";
+import { Col, Container, Row } from "react-bootstrap";
+import { useSelector } from "react-redux";
 import useGetAnnual from "../hooks/useGetAnnual";
+import UserTable from "../tables/UserTable";
+import Summary from "./Summary";
 const Dashboard = () => {
   const expenses = useSelector((state) => state.userExpenses);
   const incomes = useSelector((state) => state.userIncomes);
@@ -76,7 +74,6 @@ const Dashboard = () => {
     });
     setTotalAssets(totalAssets);
     Object.entries(loans).map(([key, val]) => {
-      console.log(loans);
       setTotalLoans(parseFloat(totalLoans) - parseFloat(val.totalPaid));
     });
   }, [incomes, expenses, investments, cash]);

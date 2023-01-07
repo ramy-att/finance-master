@@ -1,13 +1,12 @@
+import { useState } from "react";
+import { Container } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
 import Block from "../Block/Block";
-import { Col, Container } from "react-bootstrap";
-import { Row } from "react-bootstrap";
-import { useSelector } from "react-redux";
-import { useState, useEffect } from "react";
-import { ChartSection } from "./ChartSection";
-import AddIncomeModal from "../tables/AddIncomeModal";
-import AddExpenseModal from "../tables/AddExpenseModal";
-import { useDispatch } from "react-redux";
 import { authActions } from "../store";
+import AddExpenseModal from "../tables/AddExpenseModal";
+import AddIncomeModal from "../tables/AddIncomeModal";
+import { ChartSection } from "./ChartSection";
+import Chart from "chart.js/auto";
 
 export const Budget = (props) => {
   const expenses = useSelector((state) => state.userExpenses);

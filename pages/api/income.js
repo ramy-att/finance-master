@@ -29,7 +29,6 @@ async function handler(req, res) {
       });
     } else {
       const resultName = result.name;
-      console.log(result)
       return res.status(200).json({
         name: resultName,
         Category: incomeCategory,

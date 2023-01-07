@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const schedule = (owed, int, freq, payment, numberPayments) => {
   let balance = owed;

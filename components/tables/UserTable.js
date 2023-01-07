@@ -1,14 +1,13 @@
-import Table from "react-bootstrap/Table";
 import { useState } from "react";
-import AddIncomeModal from "./AddIncomeModal";
+import { Pencil, PlusCircle, Trash } from "react-bootstrap-icons";
+import Table from "react-bootstrap/Table";
+import { useDispatch, useSelector } from "react-redux";
+import { authActions } from "../store";
+import AddCashModal from "./AddCashModal";
 import AddExpenseModal from "./AddExpenseModal";
+import AddIncomeModal from "./AddIncomeModal";
 import AddInvestmentModal from "./AddInvestmentModal";
 import AddLoanModal from "./AddLoanModal";
-import AddCashModal from "./AddCashModal";
-import { Pencil, Trash, PlusCircle, Eye } from "react-bootstrap-icons";
-import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
-import { authActions } from "../store";
 
 const UserTable = (props) => {
   const { type, data } = props;
