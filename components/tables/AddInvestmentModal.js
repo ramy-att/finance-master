@@ -124,6 +124,12 @@ const AddInvestmentModal = (props) => {
         maturedAmount: maturedAmount,
         interestAmount: interestAmount,
       };
+      purchaseDateRef.current.value = "";
+      durationRef.current.value = "";
+      payoutFrequencyRef.current.value = "Maturity";
+      investmentAmountRef.current.value = "";
+      interestRef.current.value = "";
+      bankRef.current.value = "";
     } else if (investmentType.current.value == "Stocks") {
       // Stocks
       const purchaseDate = purchaseDateRef.current.value;
@@ -146,6 +152,16 @@ const AddInvestmentModal = (props) => {
         divident: divident,
         dividentFreq: dividentFreq,
       };
+      purchaseDateRef.current.value = "";
+      stockNameRef.current.value = "";
+      numberStocksRef.current.value = "";
+      stockPriceRef.current.value = "";
+      currentStockPriceRef.current.value = "";
+      dividentRef.current ? (dividentRef.current.value = "") : null;
+      dividentFreqRef.current != null
+        ? (dividentFreqRef.current.value = "1")
+        : null;
+      bankRef.current.value = "";
     } else {
       //CRYPTO
       const stockName = stockNameRef.current.value;
@@ -163,6 +179,12 @@ const AddInvestmentModal = (props) => {
         currentPrice: currentStockPrice,
         bank: bank,
       };
+      stockNameRef.current.value = "";
+      numberStocksRef.current.value = "";
+      purchaseDateRef.current.value = "";
+      stockPriceRef.current.value = "";
+      currentStockPriceRef.current.value = "";
+      bankRef.current.value = "";
     }
     return data;
   };

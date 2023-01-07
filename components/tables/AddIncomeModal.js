@@ -207,9 +207,11 @@ const AddIncomeModal = (props) => {
     const result = await response.json();
     if (!result.error) {
       dispatch(authActions.updateIncomes(result));
-      // incomeAmount.current.value = "";
-      incomeSrc.current.value = "Salary";
-      incomeFreq.current.value = "Daily";
+      incomeAmount.current != null ? (incomeAmount.current.value = "") : null;
+      incomeSrc.current != null
+        ? (incomeAmount.current.value = "Salary")
+        : null;
+      incomeFreq.current != null ? (incomeFreq.current.value = "Daily") : null;
     }
   };
 

@@ -18,7 +18,7 @@ const AddExpenseModal = (props) => {
   // STATES
   const [editing, setEditing] = useState(typeofaction == "edit");
   const [categoryTotal, setCategoryTotal] = useState(
-    editing ? expenses[expensekey].CategoryTotal : null
+    editing ? expenses[expensekey].CategoryTotal : 0
   );
   const [expensesToEdit, setExpensesToEdit] = useState([]);
   useEffect(() => {
@@ -117,6 +117,11 @@ const AddExpenseModal = (props) => {
     if (!result.error) {
       dispatch(authActions.updateExpenses(result));
       editing ? hideModal() : null;
+      setExpensesToEdit([]);
+      setCategoryTotal(0);
+      categoryTitleRef.current != null
+        ? (categoryTitleRef.current.value = "")
+        : null;
     }
   };
   return (

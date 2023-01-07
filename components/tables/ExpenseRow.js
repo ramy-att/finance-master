@@ -19,7 +19,7 @@ const ExpenseRow = (props) => {
       false,
       idx,
       expenseTitleRef.current.value,
-      expenseAmountRef.current.value,
+      expenseAmountRef.current.value || 0,
       expenseFreq.current.value
     );
   };

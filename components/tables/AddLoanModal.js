@@ -15,7 +15,11 @@ const AddLoanModal = (props) => {
   const loans = useSelector((state) => state.userLoans);
 
   const [submitted, setSubmitted] = useState(false);
+  const [editing, setEditing] = useState(typeofaction == "edit");
 
+  useEffect(() => {
+    setEditing(typeofaction == "edit");
+  }, [typeofaction]);
   const principalRef = useRef(null);
   const downPaymentRef = useRef(null);
   const interestRef = useRef(null);
@@ -68,6 +72,11 @@ const AddLoanModal = (props) => {
         editing ? hideModal() : null;
         dispatch(authActions.updateLoans(result));
         setSubmitted(false);
+        principalRef.current.value = "";
+        downPaymentRef.current.value = "";
+        interestRef.current.value = "";
+        durationRef.current.value = "";
+        freqRef.current.value = "";
       }
     }
   };

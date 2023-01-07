@@ -80,6 +80,13 @@ const AddCashModal = (props) => {
     if (!result.error) {
       dispatch(authActions.updateCash(result));
       editing ? hideModal() : null;
+      cashLocRef.current != null
+        ? (cashLocRef.current.value = "Chequing Account")
+        : null;
+      otherLocRef.current != null ? (otherLocRef.current.value = "") : null;
+      amountRef.current != null ? (amountRef.current.value = "") : null;
+      accNameRef.current != null ? (accNameRef.current.value = "") : null;
+      bankNameRef.current != null ? (bankNameRef.current.value = "") : null;
     }
   };
   return (
