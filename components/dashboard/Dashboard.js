@@ -76,7 +76,7 @@ const Dashboard = () => {
     });
     setTotalAssets(totalAssets);
     Object.entries(loans).map(([key, val]) => {
-      console.log(loans)
+      console.log(loans);
       setTotalLoans(parseFloat(totalLoans) - parseFloat(val.totalPaid));
     });
   }, [incomes, expenses, investments, cash]);
