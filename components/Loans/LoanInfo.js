@@ -61,13 +61,6 @@ const LoanInfo = (props) => {
             </tbody>
           </Table>
         </div>
-        {/* {showChart && chartData !== null && (
-        <Line
-          className="lineChartContainer"
-          options={options}
-          data={chartData}
-        />
-      )} */}
         <div className="loanSummary">
           <div className="loanItem">
             Loan Amount: $

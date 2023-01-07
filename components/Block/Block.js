@@ -52,7 +52,14 @@ const Block = (props) => {
               </h2>
               <div className="expensesContainer">
                 {Object.entries(elements).map(([key, val]) => {
-                  if (!(key == "name" || key == "type" || key == "bank" || val=="")) {
+                  if (
+                    !(
+                      key == "name" ||
+                      key == "type" ||
+                      key == "bank" ||
+                      val == ""
+                    )
+                  ) {
                     return (
                       <div className="incomeLine" key={`${key}--investment`}>
                         <span className="expenseItemCont">{key}</span>
@@ -87,7 +94,14 @@ const Block = (props) => {
             <>
               <div className="expensesContainer">
                 {Object.entries(elements).map(([key, val]) => {
-                  if (!(key == "name" || val == "" || key == "AccountName" || key=="returnSecureToken")) {
+                  if (
+                    !(
+                      key == "name" ||
+                      val == "" ||
+                      key == "AccountName" ||
+                      key == "returnSecureToken"
+                    )
+                  ) {
                     return (
                       <div className="incomeLine" key={`${key}--investment`}>
                         <span className="expenseItemCont">{key}</span>
@@ -105,7 +119,14 @@ const Block = (props) => {
             <>
               <div className="expensesContainer">
                 {Object.entries(elements).map(([key, val]) => {
-                  if (!(key == "name" || val == "" || key == "AccountName" || key=="returnSecureToken")) {
+                  if (
+                    !(
+                      key == "name" ||
+                      val == "" ||
+                      key == "AccountName" ||
+                      key == "returnSecureToken"
+                    )
+                  ) {
                     return (
                       <div className="incomeLine" key={`${key}--investment`}>
                         <span className="expenseItemCont">{key}</span>
@@ -123,7 +144,14 @@ const Block = (props) => {
             <>
               <div className="expensesContainer">
                 {Object.entries(elements).map(([key, val]) => {
-                  if (!(key == "name" || val == "" || key == "AccountName" || key=="returnSecureToken")) {
+                  if (
+                    !(
+                      key == "name" ||
+                      val == "" ||
+                      key == "AccountName" ||
+                      key == "returnSecureToken"
+                    )
+                  ) {
                     return (
                       <div className="incomeLine" key={`${key}--investment`}>
                         <span className="expenseItemCont">{key}</span>
@@ -196,7 +224,6 @@ const Block = (props) => {
               <Trash className="blockIcon" size={30} onClick={deleteElm} />
             </div>
           </div>
-          {/* <Button className="blockButton">Confirm</Button> */}
         </>
       )}
     </div>
