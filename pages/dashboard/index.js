@@ -11,7 +11,6 @@ export default function ResetPassPage() {
 
   // Check user exists
   useEffect(() => {
-    console.log(userInfo)
     if (!isAuth) {
       router.push("/signin");
     }

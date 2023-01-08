@@ -1,4 +1,4 @@
-const useGetAnnual = (freq, amount) => {
+export const useGetAnnual = (freq, amount) => {
   return freq == "Daily"
     ? parseFloat(amount) * 365
     : freq == "Weekly"

@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import { useSelector } from "react-redux";
-import useGetAnnual from "../hooks/useGetAnnual";
 import UserTable from "../tables/UserTable";
 import Summary from "./Summary";
-import { formatNumber } from "../utills/utils";
+import { formatNumber, getAnnual } from "../utills/utils";
 
 const Dashboard = () => {
   const expenses = useSelector((state) => state.userExpenses);
@@ -38,7 +37,7 @@ const Dashboard = () => {
     let totalAssets = 0;
     Object.entries(incomes).map(([key, val]) => {
       setTotalIncomes(
-        parseFloat(totalIncomes) + useGetAnnual(val.Freq, val.Amount)
+        parseFloat(totalIncomes) + getAnnual(val.Freq, val.Amount)
       );
     });
     Object.entries(expenses).map(([key, val]) => {
@@ -78,7 +77,7 @@ const Dashboard = () => {
     Object.entries(loans).map(([key, val]) => {
       setTotalLoans(parseFloat(totalLoans) - parseFloat(val.totalPaid));
     });
-  }, [incomes, expenses, investments, cash]);
+  }, [incomes, expenses, investments, cash, loans]);
 
   const investmentsDiff =
     totalInvestments.cryptoCurrent +

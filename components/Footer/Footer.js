@@ -25,6 +25,7 @@ export const Footer = () => {
                 <p className="footerLeft">
                   <span className="copyRight">© Copyright 2022</span>
                   <a
+                    rel="noreferrer"
                     href="https://www.linkedin.com/in/ramy-attalla/"
                     target="_blank"
                   >
@@ -63,6 +64,7 @@ export const Footer = () => {
               <h1>Resources</h1>
               <div className="footerSection">
                 <a
+                  rel="noreferrer"
                   target="_blank"
                   href="https://www.canada.ca/en/financial-consumer-agency/services/savings-investments/investing-basics.html#toc0"
                 >
@@ -74,6 +76,7 @@ export const Footer = () => {
                 </a>
                 <br />
                 <a
+                  rel="noreferrer"
                   target="_blank"
                   href="https://www.koho.ca/learn/what-is-the-fifty-thirty-twenty-budgeting-rule/"
                 >
@@ -85,6 +88,7 @@ export const Footer = () => {
                 </a>
                 <br />
                 <a
+                  rel="noreferrer"
                   target="_blank"
                   href="https://www.investopedia.com/terms/i/inflation.asp"
                 >
