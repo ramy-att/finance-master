@@ -433,7 +433,7 @@ option:hover {
   height: 100%;
 }
 .dashboardPage {
-  margin: 0 1rem 0 1rem;
+  margin: 0 1rem 1rem 1rem;
 }
 .actionsTd {
   display: flex;
@@ -512,7 +512,7 @@ option:hover {
 .budgetRow {
   background-color: var(--blue-gray-07);
   border-radius: 1rem;
-  max-height: 52rem;
+  max-height: 62rem;
   overflow: auto;
   overflow: auto;
   margin: 2rem 0 2rem 0;

@@ -8,7 +8,7 @@ import AddExpenseModal from "./AddExpenseModal";
 import AddIncomeModal from "./AddIncomeModal";
 import AddInvestmentModal from "./AddInvestmentModal";
 import AddLoanModal from "./AddLoanModal";
-
+import { formatNumber } from "../utills/utils";
 const UserTable = (props) => {
   const { type, data } = props;
   const [showAddModal, setShowAddModal] = useState(false);
@@ -183,7 +183,7 @@ const UserTable = (props) => {
                   <td>{counter}</td>
                   <td>{val.Freq}</td>
                   <td>{val.Category}</td>
-                  <td>${val.Amount}</td>
+                  <td>${(val.Amount)}</td>
                   <td>
                     <div className="actionsTd">
                       <Pencil
@@ -212,7 +212,7 @@ const UserTable = (props) => {
             <td>Annual Total</td>
             <td></td>
             <td></td>
-            <td>${totalAmount}</td>
+            <td>${formatNumber(totalAmount)}</td>
             <td></td>
           </tr>
         </tbody>
@@ -230,7 +230,7 @@ const UserTable = (props) => {
           return (
             <tr key={`${key}--gic-row`}>
               <td>{gicCounter}</td>
-              <td colSpan={2}>${val.amount}</td>
+              <td colSpan={2}>${formatNumber(val.amount)}</td>
               <td>{val.interest * 100}%</td>
               <td>
                 {val.duration} {val.duration > 1 ? "Years" : "Year"}
@@ -239,9 +239,8 @@ const UserTable = (props) => {
               <td>{val.maturityDate}</td>
               <td>{val.bank}</td>
               <td>{val.payoutFreq}</td>
-              <td>${val.interestAmount}</td>
-              <td colSpan={2}>${val.maturedAmount}</td>
-              {/* <td></td> */}
+              <td>${formatNumber(val.interestAmount)}</td>
+              <td colSpan={2}>${formatNumber(val.maturedAmount)}</td>
               <td colSpan={2}>
                 <div className="actionsTd">
                   <Pencil
@@ -284,22 +283,22 @@ const UserTable = (props) => {
               <td>{stocksCounter}</td>
               <td>{val.stockName}</td>
               <td>{val.numberStocks}</td>
-              <td>${val.stockPrice}</td>
+              <td>${formatNumber(val.stockPrice)}</td>
               <td>{val.purchaseDate}</td>
               <td>{val.bank}</td>
-              <td>${val.currentStockPrice}</td>
-              <td>${val.divident}</td>
-              <td>${parseFloat(val.stockPrice * val.numberStocks)}</td>
-              <td>${parseFloat(val.currentStockPrice * val.numberStocks)}</td>
+              <td>${formatNumber(val.currentStockPrice)}</td>
+              <td>${formatNumber(val.divident)}</td>
+              <td>${formatNumber(parseFloat(val.stockPrice * val.numberStocks))}</td>
+              <td>${formatNumber(parseFloat(val.currentStockPrice * val.numberStocks))}</td>
               <td>{val.dividentFreq}/Year</td>
               <td>
                 $
-                {parseFloat(val.currentStockPrice) - parseFloat(val.stockPrice)}
+                {formatNumber(parseFloat(val.currentStockPrice) - parseFloat(val.stockPrice))}
               </td>
               <td>
                 $
-                {parseFloat(val.currentStockPrice * val.numberStocks) -
-                  parseFloat(val.stockPrice * val.numberStocks)}
+                {formatNumber(parseFloat(val.currentStockPrice * val.numberStocks) -
+                  parseFloat(val.stockPrice * val.numberStocks))}
               </td>
               <td>
                 <div className="actionsTd">
@@ -340,19 +339,19 @@ const UserTable = (props) => {
               <td>{cryptoCounter}</td>
               <td colSpan={2}>{val.coinName}</td>
               <td>{val.numberCoins}</td>
-              <td>${val.coinPrice}</td>
+              <td>${formatNumber(val.coinPrice)}</td>
               <td></td>
-              <td>${val.currentPrice}</td>
-              <td>${val.coinPrice * val.numberCoins}</td>
-              <td>${val.currentPrice * val.numberCoins}</td>
+              <td>${formatNumber(val.currentPrice)}</td>
+              <td>${formatNumber(val.coinPrice * val.numberCoins)}</td>
+              <td>${formatNumber(val.currentPrice * val.numberCoins)}</td>
               <td>{val.bank}</td>
               <td>
-                ${parseFloat(val.currentPrice) - parseFloat(val.coinPrice)}
+                ${formatNumber(parseFloat(val.currentPrice) - parseFloat(val.coinPrice))}
               </td>
               <td>
                 $
-                {parseFloat(val.currentPrice * val.numberCoins) -
-                  parseFloat(val.coinPrice * val.numberCoins)}
+                {formatNumber(parseFloat(val.currentPrice * val.numberCoins) -
+                  parseFloat(val.coinPrice * val.numberCoins))}
               </td>
               <td colSpan={2}>
                 <div className="actionsTd">
@@ -403,7 +402,7 @@ const UserTable = (props) => {
         {gicCounter > 1 && (
           <tr>
             <td>Locked Total</td>
-            <td colSpan={13}>${gicAmount}</td>
+            <td colSpan={13}>${formatNumber(gicAmount)}</td>
           </tr>
         )}
         <tr>
@@ -436,11 +435,11 @@ const UserTable = (props) => {
             <td></td>
             <td></td>
             <td></td>
-            <td>${stocks.invested}</td>
-            <td>${stocks.current}</td>
-            <td>${stocks.dividents} (annual)</td>
+            <td>${formatNumber(stocks.invested)}</td>
+            <td>${formatNumber(stocks.current)}</td>
+            <td>${formatNumber(stocks.dividents)} (annual)</td>
             <td></td>
-            <td>${stocks.current - stocks.invested}</td>
+            <td>${formatNumber(stocks.current - stocks.invested)}</td>
             <td></td>
           </tr>
         )}
@@ -470,11 +469,11 @@ const UserTable = (props) => {
             <td></td>
             <td></td>
             <td></td>
-            <td>${crypto.invested}</td>
-            <td>${crypto.current}</td>
+            <td>${formatNumber(crypto.invested)}</td>
+            <td>${formatNumber(crypto.current)}</td>
             <td></td>
             <td></td>
-            <td>${crypto.current - crypto.invested}</td>
+            <td>${formatNumber(crypto.current - crypto.invested)}</td>
             <td colSpan={2}></td>
           </tr>
         )}
@@ -493,7 +492,7 @@ const UserTable = (props) => {
               <tr key={`${key}--expense-row`}>
                 <td>{expCatCounter}</td>
                 <td>{val.CategoryTitle}</td>
-                <td>${val.CategoryAmount}</td>
+                <td>${formatNumber(val.CategoryAmount)}</td>
                 <td>
                   <div className="actionsTd">
                     <Pencil
@@ -521,7 +520,7 @@ const UserTable = (props) => {
           <tr>
             <td>Total</td>
             <td></td>
-            <td>${totalExpenses}</td>
+            <td>${formatNumber(totalExpenses)}</td>
             <td></td>
           </tr>
         )}
@@ -556,7 +555,7 @@ const UserTable = (props) => {
                 <td>{val.Type}</td>
                 <td>{val.AccountName == "" ? val.Type : val.AccountName}</td>
                 <td>{val.Bank}</td>
-                <td>${val.Amount}</td>
+                <td>${formatNumber(val.Amount)}</td>
                 <td>
                   <div className="actionsTd">
                     <Pencil
@@ -586,7 +585,7 @@ const UserTable = (props) => {
             <td></td>
             <td></td>
             <td></td>
-            <td>${totalCash}</td>
+            <td>${formatNumber(totalCash)}</td>
             <td></td>
           </tr>
         )}
@@ -623,14 +622,14 @@ const UserTable = (props) => {
                 <tr key={`${key}--loan-row`}>
                   <td>{counter}</td>
                   <td>
-                    ${parseFloat(val.initialOwed) + parseFloat(val.downPayment)}
+                    ${formatNumber(parseFloat(val.initialOwed) + parseFloat(val.downPayment))}
                   </td>
-                  <td>${val.downPayment}</td>
-                  <td>${val.initialOwed}</td>
-                  <td>${val.totalInterest}</td>
-                  <td>${val.totalPaid}</td>
+                  <td>${formatNumber(val.downPayment)}</td>
+                  <td>${formatNumber(val.initialOwed)}</td>
+                  <td>${formatNumber(val.totalInterest)}</td>
+                  <td>${formatNumber(val.totalPaid)}</td>
                   <td>{val.frequency}</td>
-                  <td>${payment}</td>
+                  <td>${formatNumber(payment)}</td>
                   <td>
                     <div className="actionsTd">
                       <Pencil

@@ -13,9 +13,12 @@ import { useState, useEffect } from "react";
 
 function MyApp({ Component, pageProps }) {
   const [loading, setLoading] = useState(false);
+
   let persistor = persistStore(store);
   const router = useRouter();
-
+  setTimeout(()=>{
+    console.log("print")
+  },5000)
   useEffect(() => {
     router.events.on("routeChangeStart", () => {
       setLoading(true);

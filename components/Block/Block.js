@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { BoxArrowUpRight, Pencil, PlusLg, Trash } from "react-bootstrap-icons";
+import { formatNumber } from "../utills/utils";
 
 const Block = (props) => {
   const { state, type, title, onClick, editElm, idx, deleteElm, elements } =
@@ -30,7 +31,7 @@ const Block = (props) => {
                         <td className="expenseTitleCell">
                           {expense.ExpenseTitle}
                         </td>
-                        <td>${expense.ExpenseAmount}</td>
+                        <td>${formatNumber(expense.ExpenseAmount)}</td>
                         <td>{expense.ExpenseFreq}</td>
                       </tr>
                     );
@@ -41,7 +42,7 @@ const Block = (props) => {
           ) : type == "income" ? (
             <div className="incomesContainer">
               <h3 className="incomeLine">
-                <div>${elements.Amount}</div>
+                <div>${formatNumber(elements.Amount)}</div>
                 <div>{elements.Freq}</div>
               </h3>
             </div>
@@ -75,7 +76,7 @@ const Block = (props) => {
                           key == "totalCurrent" ||
                           key == "totalPurchase" ||
                           key == "maturedAmount"
-                            ? `$${val}`
+                            ? `$${formatNumber(val)}`
                             : key == "duration"
                             ? `${val} years`
                             : key == "interest"
@@ -105,9 +106,8 @@ const Block = (props) => {
                     return (
                       <div className="incomeLine" key={`${key}--investment`}>
                         <span className="expenseItemCont">{key}</span>
-                        {/* Add Freq Here */}
                         <span className="expenseItemCont">
-                          {key == "Amount" ? `$${val}` : val}
+                          {key == "Amount" ? `$${formatNumber(val)}` : val}
                         </span>
                       </div>
                     );
@@ -132,7 +132,7 @@ const Block = (props) => {
                         <span className="expenseItemCont">{key}</span>
                         {/* Add Freq Here */}
                         <span className="expenseItemCont">
-                          {key == "Amount" ? `$${val}` : val}
+                          {key == "Amount" ? `$${formatNumber(val)}` : val}
                         </span>
                       </div>
                     );
@@ -157,7 +157,7 @@ const Block = (props) => {
                         <span className="expenseItemCont">{key}</span>
                         {/* Add Freq Here */}
                         <span className="expenseItemCont">
-                          {key == "Amount" ? `$${val}` : val}
+                          {key == "Amount" ? `$${formatNumber(val)}` : val}
                         </span>
                       </div>
                     );
@@ -172,15 +172,15 @@ const Block = (props) => {
                   <div className="loanItemCont">
                     <div className="loanItem">
                       <span>Initital Owed:</span>$
-                      {parseFloat(elements.initialOwed) +
-                        parseFloat(elements.downPayment)}
+                      {formatNumber(parseFloat(elements.initialOwed) +
+                        parseFloat(elements.downPayment))}
                     </div>
                     <div className="loanItem">
-                      <span>Down Payment: </span>${elements.downPayment}
+                      <span>Down Payment: </span>${formatNumber(elements.downPayment)}
                     </div>
                     <div className="loanItem">
                       <span>Loaned Amount:</span>$
-                      {parseFloat(elements.initialOwed)}
+                      {formatNumber(parseFloat(elements.initialOwed))}
                     </div>
                     <div className="loanItem">
                       <span>Payment Freq:</span>
@@ -193,15 +193,15 @@ const Block = (props) => {
                       {elements.payments.length}
                     </div>
                     <div className="loanItem">
-                      <span>Total Interest:</span>${elements.totalInterest} (
+                      <span>Total Interest:</span>${formatNumber(elements.totalInterest)} (
                       {elements.interestRate * 100}%)
                     </div>
                     <div className="loanItem">
-                      <span>Total Paid:</span>${elements.totalPaid}
+                      <span>Total Paid:</span>${formatNumber(elements.totalPaid)}
                     </div>
                     <div className="loanItem">
                       <span>Payment Amount:</span>$
-                      {elements.payments[0].payment}
+                      {formatNumber(elements.payments[0].payment)}
                     </div>
                   </div>
                 </div>

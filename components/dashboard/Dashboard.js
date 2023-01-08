@@ -4,6 +4,8 @@ import { useSelector } from "react-redux";
 import useGetAnnual from "../hooks/useGetAnnual";
 import UserTable from "../tables/UserTable";
 import Summary from "./Summary";
+import { formatNumber } from "../utills/utils";
+
 const Dashboard = () => {
   const expenses = useSelector((state) => state.userExpenses);
   const incomes = useSelector((state) => state.userIncomes);
@@ -94,11 +96,11 @@ const Dashboard = () => {
             <Summary
               title="Annual Budget"
               data={[
-                { title: "In", amount: `$${totalIncomes}` },
-                { title: "Out", amount: `$${totalExpenses}` },
+                { title: "In", amount: `$${formatNumber(totalIncomes)}` },
+                { title: "Out", amount: `$${formatNumber(totalExpenses)}` },
                 {
                   title: "Difference",
-                  amount: `$${totalIncomes - totalExpenses}`,
+                  amount: `$${formatNumber(totalIncomes - totalExpenses)}`,
                 },
               ]}
             />
@@ -109,27 +111,33 @@ const Dashboard = () => {
               data={[
                 {
                   title: "GICs (Purchase / Maturity)",
-                  amount: `$${totalInvestments.gicPurchase} / $${totalInvestments.gicMaturity}`,
+                  amount: `$${formatNumber(
+                    totalInvestments.gicPurchase
+                  )} / $${formatNumber(totalInvestments.gicMaturity)}`,
                 },
                 {
                   title: "Market (Purchase / Current)",
-                  amount: `$${totalInvestments.stocksPurchase} / $${totalInvestments.stocksCurrent}`,
+                  amount: `$${formatNumber(
+                    totalInvestments.stocksPurchase
+                  )} / $${formatNumber(totalInvestments.stocksCurrent)}`,
                 },
                 {
                   title: "Crypto (Purchase / Current)",
-                  amount: `$${totalInvestments.cryptoPurchase} / $${totalInvestments.cryptoCurrent}`,
+                  amount: `$${formatNumber(
+                    totalInvestments.cryptoPurchase
+                  )} / $${formatNumber(totalInvestments.cryptoCurrent)}`,
                 },
                 {
                   title: "Total (Difference)",
-                  amount: `$${
+                  amount: `$${formatNumber(
                     totalInvestments.cryptoPurchase +
-                    totalInvestments.stocksPurchase +
-                    totalInvestments.gicPurchase
-                  } / $${
+                      totalInvestments.stocksPurchase +
+                      totalInvestments.gicPurchase
+                  )} / $${formatNumber(
                     totalInvestments.cryptoCurrent +
-                    totalInvestments.gicMaturity +
-                    totalInvestments.stocksCurrent
-                  } ($${investmentsDiff})`,
+                      totalInvestments.gicMaturity +
+                      totalInvestments.stocksCurrent
+                  )} ($${formatNumber(investmentsDiff)})`,
                 },
               ]}
             />
@@ -138,19 +146,25 @@ const Dashboard = () => {
             <Summary
               title="Net Worth"
               data={[
-                { title: "Assets", amount: `$${totalAssets}` },
+                { title: "Assets", amount: `$${formatNumber(totalAssets)}` },
                 {
                   title: "Investments Value (matured, current)",
-                  amount: `$${
+                  amount: `$${formatNumber(
                     totalInvestments.cryptoCurrent +
-                    totalInvestments.stocksCurrent +
-                    totalInvestments.gicMaturity
-                  }`,
+                      totalInvestments.stocksCurrent +
+                      totalInvestments.gicMaturity
+                  )}`,
                 },
-                { title: "Loans", amount: `$${totalLoans}` },
+                { title: "Loans", amount: `$${formatNumber(totalLoans)}` },
                 {
                   title: "Net Worth",
-                  amount: `$${totalLoans + investmentsDiff + totalAssets}`,
+                  amount: `$${formatNumber(
+                    totalLoans +
+                      totalInvestments.cryptoCurrent +
+                      totalInvestments.stocksCurrent +
+                      totalInvestments.gicMaturity +
+                      totalAssets
+                  )}`,
                 },
               ]}
             />

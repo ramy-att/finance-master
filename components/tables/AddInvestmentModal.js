@@ -187,6 +187,7 @@ const AddInvestmentModal = (props) => {
     return data;
   };
   const getIncome = async (src, amt, freq) => {
+    console.log("getIncome")
     const endpoint = "/api/income";
     const options = {
       method: "POST",
