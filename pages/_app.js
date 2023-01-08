@@ -16,9 +16,6 @@ function MyApp({ Component, pageProps }) {
 
   let persistor = persistStore(store);
   const router = useRouter();
-  setTimeout(()=>{
-    console.log("print")
-  },5000)
   useEffect(() => {
     router.events.on("routeChangeStart", () => {
       setLoading(true);

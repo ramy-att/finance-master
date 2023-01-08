@@ -1,7 +1,6 @@
 async function handler(req, res) {
   if (req.method == "POST") {
     const body = req.body;
-    console.log(body)
     const url =
       "https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=AIzaSyAOeJauXZyUAUKrlDjsPit1WghL8gP_Ipg";
     const response = await fetch(url, {
@@ -16,7 +15,6 @@ async function handler(req, res) {
     });
     const result = await response.json();
     // Some error occured
-    console.log(result)
     if (result && result.error && result.error.message) {
       return res.status(200).json({ error: result.error.message });
     } else {

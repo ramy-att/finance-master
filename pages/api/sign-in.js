@@ -120,7 +120,6 @@ async function handler(req, res) {
         );
         const cash = await getUserCash(result.localId, result.idToken);
         const loans = await getUserLoans(result.localId, result.idToken);
-          console.log(result)
         res.status(200).json({
           expenses: { ...expenses },
           incomes: incomes === null ? {} : incomes,

@@ -2,11 +2,6 @@ import SignUp from "../../components/SignUp/SignUp";
 import { useRef } from "react";
 
 export default function signUpPage() {
-  // const email= useRef('');
-  // const password= useRef('');
-  // const signupHandler= () =>{
-  //   console.log(email.current.value)
-  // }
   async function createUserAccount(user) {
     const email= user.email;
     const password= user.password;
