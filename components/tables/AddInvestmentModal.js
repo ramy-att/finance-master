@@ -236,7 +236,7 @@ const AddInvestmentModal = (props) => {
     investmentType.current.value == "GIC/CD" &&
     payoutFrequencyRef.current.value != "Maturity"
       ? getIncome("GIC/CD", data.payoutAmount, data.payoutFreq)
-      : investmentType.current.value == "Stocks"
+      : investmentType.current.value == "Stocks" && dividentRef.current.value!=0
       ? getIncome("Dividents", data.divident, data.dividentFreq)
       : null;
     if (!result.error) {

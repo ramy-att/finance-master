@@ -182,7 +182,13 @@ const AddIncomeModal = (props) => {
   };
   const addIncome = async (e) => {
     e.preventDefault();
-    const investmentAmount = await addInvestment();
+    let investmentAmount;
+    if (
+      incomeSrc.current.value == "GIC/CD" ||
+      incomeSrc.current.value == "Stocks"
+    ) {
+      investmentAmount = await addInvestment();
+    }
     const endpoint = "/api/income";
     const options = {
       method: "POST",
@@ -215,7 +221,13 @@ const AddIncomeModal = (props) => {
 
   const editIncome = async (e) => {
     e.preventDefault();
-    const investmentAmount = await addInvestment();
+    let investmentAmount;
+    if (
+      incomeSrc.current.value == "GIC/CD" ||
+      incomeSrc.current.value == "Stocks"
+    ) {
+      investmentAmount = await addInvestment();
+    }
     const endpoint = "/api/income";
     const options = {
       method: "PATCH",

@@ -290,7 +290,7 @@ const UserTable = (props) => {
               <td>${formatNumber(val.divident)}</td>
               <td>${formatNumber(parseFloat(val.stockPrice * val.numberStocks))}</td>
               <td>${formatNumber(parseFloat(val.currentStockPrice * val.numberStocks))}</td>
-              <td>{val.dividentFreq}/Year</td>
+              <td>{val.dividentFreq ? `${val.dividentFreq}/Year`: 'N.A'}</td>
               <td>
                 $
                 {formatNumber(parseFloat(val.currentStockPrice) - parseFloat(val.stockPrice))}
