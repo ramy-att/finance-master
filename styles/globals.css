@@ -117,7 +117,7 @@ option:hover {
 .signInContainer {
   display: flex;
   flex-direction: column;
-  width: 70%;
+  width: 80%;
   height: fit-content;
   overflow-y: auto;
   overflow-x: hidden;

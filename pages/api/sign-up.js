@@ -106,7 +106,7 @@ const handler = async (req, res) => {
       return res.status(200).json({ error: result.error.message });
     } else {
       // Sign up successful
-      createExpensesExample(result.localId, result.idToken);
+      const exp = await createExpensesExample(result.localId, result.idToken);
       verifyUser(result);
       res.status(200).json({
         idToken: result.idToken,
