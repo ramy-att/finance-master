@@ -368,7 +368,7 @@ option:hover {
 .InterestCalcLeft {
   border-radius: 1rem;
   background-color: var(--light-gray);
-  height: 33rem;
+  min-height: 33rem;
 }
 .annualResults {
   display: block;
