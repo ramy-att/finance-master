@@ -40,7 +40,6 @@ function SignUp() {
         setError("");
       }, "5000");
     } else {
-      console.log(result)
       setSuccess("Account Created! Verify Your Email Before Signing In!");
       setTimeout(() => {
         setSuccess("");
