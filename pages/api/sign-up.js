@@ -11,7 +11,7 @@ const verifyUser = async (userInfo) => {
     }),
   });
   const result = await response.json();
-  return { userVerification: "sent" };
+  return { userVerification: result.email ? "sent" : "error" };
 };
 const createExpensesExample = async (UID, token) => {
   const categories = [
@@ -107,12 +107,18 @@ const handler = async (req, res) => {
     } else {
       // Sign up successful
       const exp = await createExpensesExample(result.localId, result.idToken);
-      verifyUser(result);
-      res.status(200).json({
-        idToken: result.idToken,
-        email: result.email,
-        localId: result.localId,
-      });
+      const ver = await verifyUser(result);
+      if (ver.userVerification == "sent") {
+        res.status(200).json({
+          idToken: result.idToken,
+          email: result.email,
+          localId: result.localId,
+        });
+      } else {
+        res.status(500).json({
+          error: "Could not sent verification email",
+        });
+      }
     }
   }
 };
