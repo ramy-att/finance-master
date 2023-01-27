@@ -45,21 +45,11 @@ const NavBar = () => {
         <Navbar.Collapse id="responsive-navbar-nav">
           {isAuth && (
             <Nav className="me-auto">
-              <Link href="/dashboard">
-                Dashboard
-              </Link>
-              <Link href="/myBudget">
-                Budget
-              </Link>
-              <Link href="/myInvestments">
-                Investments
-              </Link>
-              <Link href="/myAssets">
-                Assets & Cash
-              </Link>
-              <Link href="/myLoans">
-                Loans
-              </Link>
+              <Link href="/dashboard">Dashboard</Link>
+              <Link href="/myBudget">Budget</Link>
+              <Link href="/myInvestments">Investments</Link>
+              <Link href="/myAssets">Assets & Cash</Link>
+              <Link href="/myLoans">Loans</Link>
               <NavDropdown
                 title="Tools"
                 show={show}
@@ -79,19 +69,13 @@ const NavBar = () => {
           )}
           {!isAuth && (
             <Nav className="me-auto">
-              <Link href="/interestCalculator">
-                Interest Calculator
-              </Link>
-              <Link href="/loanCalculator">
-                Loan Calculator
-              </Link>
+              <Link href="/interestCalculator">Interest Calculator</Link>
+              <Link href="/loanCalculator">Loan Calculator</Link>
             </Nav>
           )}
           {!isAuth && (
             <Nav>
-              <Link href="/signin">
-                Sign In
-              </Link>
+              <Link href="/signin">Sign In</Link>
               <Link eventKey={2} href="/signup">
                 Sign Up
               </Link>
@@ -99,9 +83,7 @@ const NavBar = () => {
           )}
           {isAuth && (
             <Nav>
-              <Link href="">
-                {userEmail}
-              </Link>
+              <Link href="">{userEmail}</Link>
               <Button className="signoutButton" onClick={signOut}>
                 Sign Out
               </Button>

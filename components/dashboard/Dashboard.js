@@ -26,6 +26,38 @@ const Dashboard = () => {
   const [totalLoans, setTotalLoans] = useState(0);
 
   useEffect(() => {
+    let inc = 0;
+    Object.entries(incomes).map(([key, val]) => {
+      inc += getAnnual(val.Freq, val.Amount);
+    });
+
+    setTotalIncomes(inc);
+  }, [incomes]);
+
+  useEffect(() => {
+    let exp = 0;
+    Object.entries(expenses).map(([key, val]) => {
+      val.CategoryAmount != 0 ? (exp += parseFloat(val.CategoryAmount)) : null;
+    });
+    setTotalExpenses(exp);
+  }, [expenses]);
+
+  useEffect(() => {
+    let csh = 0;
+    Object.entries(cash).map(([key, val]) => {
+      csh += parseFloat(val.Amount);
+    });
+    setTotalAssets(csh);
+  }, [cash]);
+
+  useEffect(() => {
+    let lns = 0;
+    Object.entries(loans).map(([key, val]) => {
+      lns -= parseFloat(val.totalPaid);
+    });
+    setTotalLoans(lns);
+  }, [loans]);
+  useEffect(() => {
     const invests = {
       gicPurchase: 0,
       gicMaturity: 0,
@@ -35,18 +67,6 @@ const Dashboard = () => {
       cryptoCurrent: 0,
     };
     let totalAssets = 0;
-    Object.entries(incomes).map(([key, val]) => {
-      setTotalIncomes(
-        parseFloat(totalIncomes) + getAnnual(val.Freq, val.Amount)
-      );
-    });
-    Object.entries(expenses).map(([key, val]) => {
-      val.CategoryAmount != 0
-        ? setTotalExpenses(
-            parseFloat(totalExpenses) + parseFloat(val.CategoryAmount)
-          )
-        : null;
-    });
     Object.entries(investments).map(([key, val]) => {
       if (val.type == "GIC/CD") {
         invests.gicMaturity =
@@ -70,14 +90,7 @@ const Dashboard = () => {
       }
       setTotalInvestments(invests);
     });
-    Object.entries(cash).map(([key, val]) => {
-      totalAssets += parseFloat(val.Amount);
-    });
-    setTotalAssets(totalAssets);
-    Object.entries(loans).map(([key, val]) => {
-      setTotalLoans(parseFloat(totalLoans) - parseFloat(val.totalPaid));
-    });
-  }, [incomes, expenses, investments, cash, loans]);
+  }, [investments]);
 
   const investmentsDiff =
     totalInvestments.cryptoCurrent +
